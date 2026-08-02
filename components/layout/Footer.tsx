@@ -39,8 +39,8 @@ const SOCIALS = [
 ];
 
 const CONTACT = [
-  { icon: Phone, value: "+91 00000 00000", href: "tel:+910000000000" },
-  { icon: Mail, value: "hello@medhaup.in", href: "mailto:hello@medhaup.in" },
+  { icon: Phone, value: "+91 8910840928", href: "tel:+918910840928" },
+  { icon: Mail, value: "contact@medhaup.com", href: "mailto:contact@medhaup.com" },
   { icon: MapPin, value: "Kolkata, West Bengal", href: undefined },
 ];
 
