@@ -3,13 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import {
-  ArrowRight,
-  Download,
-  Users,
-  Play,
-  CalendarCheck,
-} from "lucide-react";
+import { ArrowRight, Users, Play, CalendarCheck } from "lucide-react";
+import SyllabusDownloadButton from "@/components/ui/SyllabusDownloadButton";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -22,7 +17,6 @@ const fadeUp: Variants = {
 
 const STATS = [
   { icon: Users, value: "1,000+", label: "Students Taught" },
-  { icon: Play, value: "50K+", label: "YouTube Subscribers" },
   { icon: CalendarCheck, value: "3", label: "Years Running" },
 ];
 
@@ -75,7 +69,7 @@ export default function Hero() {
           >
             Crack{" "}
             <span className="relative inline-block text-orange">
-              ANM/GNM CET 2026
+              ANM/GNM CET 2027
               <svg
                 aria-hidden="true"
                 viewBox="0 0 240 12"
@@ -125,16 +119,7 @@ export default function Hero() {
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
             </Link>
-            <Link
-              href="/resources"
-              className="group flex w-full items-center justify-center gap-2 rounded-full border-2 border-navy/20 bg-white/60 px-7 py-3.5 font-semibold text-navy transition-all duration-200 hover:border-navy hover:bg-white sm:w-auto"
-            >
-              <Download
-                size={18}
-                className="transition-transform duration-200 group-hover:translate-y-0.5"
-              />
-              Download Syllabus
-            </Link>
+            <SyllabusDownloadButton />
           </motion.div>
 
           {/* Trust strip */}
