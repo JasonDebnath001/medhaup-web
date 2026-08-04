@@ -86,7 +86,7 @@ export default function Hero() {
                 />
               </svg>
             </span>{" "}
-            with MedhaUp
+            with medhaup
           </motion.h1>
 
           {/* Subheadline */}
