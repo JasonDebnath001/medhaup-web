@@ -127,7 +127,7 @@ export default function AboutPageContent() {
             />
             <div className="overflow-hidden rounded-[2rem] border border-navy/10 shadow-2xl shadow-navy/20">
               <Image
-                src="/arushi-about.png"
+                src="https://ik.imagekit.io/medhaup/WhatsApp%20Image%202026-08-01%20at%201.26.23%20AM%20(1).png"
                 alt="Arushi, founder and lead instructor of MedhaUp"
                 width={720}
                 height={860}
@@ -191,8 +191,7 @@ export default function AboutPageContent() {
               />
               <p className="font-heading font-semibold italic text-navy">
                 &ldquo;I don&apos;t teach chapters. I teach students — and every
-                student deserves to be taught in the language they think
-                in.&rdquo;
+                student deserves to be taught with quality.&rdquo;
               </p>
               <footer className="mt-2 text-sm text-navy/55">
                 — Arushi, Founder

@@ -17,8 +17,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EdTech Platform", // we'll update this with the real name later
-  description: "Learn smarter, grow faster.",
+  title: "medhaup", // we'll update this with the real name later
+  description: "Concept Clear. Score Up.",
 };
 
 export default function RootLayout({

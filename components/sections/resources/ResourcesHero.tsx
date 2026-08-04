@@ -6,7 +6,6 @@ import { Gift, LockOpen, IndianRupee } from "lucide-react";
 const PROMISES = [
   { icon: LockOpen, label: "No login required" },
   { icon: IndianRupee, label: "No payment, ever" },
-  { icon: Gift, label: "New files added regularly" },
 ];
 
 export default function ResourcesHero() {
@@ -42,7 +41,7 @@ export default function ResourcesHero() {
           transition={{ duration: 0.55, delay: 0.08 }}
           className="font-heading mt-5 text-4xl font-extrabold leading-tight tracking-tight text-navy sm:text-5xl"
         >
-          Free ANM/GNM CET <span className="text-orange">Resources</span>
+          Free ANM/GNM <span className="text-orange">Resources</span>
         </motion.h1>
 
         <motion.p

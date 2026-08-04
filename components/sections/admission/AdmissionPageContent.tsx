@@ -24,10 +24,10 @@ import { SITE } from "@/lib/site";
 import { CURRENT_BATCH } from "@/lib/batches";
 
 /* ← Same Web3Forms access key as the contact page */
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY = "e4e66ca4-46d3-42dc-97cb-af9fe61a4cd1";
 
 /* ← Add your real store links */
-const PLAY_STORE_URL = "#";
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.zdrkue.ctqxio&pcampaignid=web_share";
 const APP_STORE_URL = "#";
 
 const ADMISSION_WHATSAPP_URL = `https://wa.me/${

@@ -3,15 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Video,
-  Camera,
-  Send,
-  Phone,
-  Mail,
-  MapPin,
-} from "lucide-react";
+import { ArrowRight, Phone, Mail, MapPin } from "lucide-react";
+import { FaYoutube, FaInstagram, FaTelegram } from "react-icons/fa6";
 
 /* ---------------- Data — edit here ---------------- */
 
@@ -33,9 +26,9 @@ const RESOURCE_LINKS = [
 
 /* Placeholders — replace with real handles/numbers before launch */
 const SOCIALS = [
-  { label: "YouTube", href: "https://youtube.com/@medhaup", icon: Video },
-  { label: "Instagram", href: "https://instagram.com/medhaup", icon: Camera },
-  { label: "Telegram", href: "https://t.me/medhaup", icon: Send },
+  { label: "YouTube", href: "https://youtube.com/@medhaup", icon: FaYoutube },
+  { label: "Instagram", href: "https://instagram.com/medhaup", icon: FaInstagram },
+  { label: "Telegram", href: "https://t.me/medhaup", icon: FaTelegram },
 ];
 
 const CONTACT = [

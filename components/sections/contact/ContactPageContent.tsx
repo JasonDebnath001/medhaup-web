@@ -16,7 +16,7 @@ import {
 import { SITE } from "@/lib/site";
 
 /* ← Get your free access key at https://web3forms.com and paste it here */
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY = "fafed16a-f163-4081-bd76-650255cc93fc";
 
 const SUBJECTS = [
   "Admission query",

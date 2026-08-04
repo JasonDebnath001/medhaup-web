@@ -12,7 +12,7 @@ export const BATCHES: Batch[] = [
     name: "Voume 1.0 Batch",
     startDate: "15 August 2026",
     mode: "Online",
-    timing: "Mon–Sat · 7:00 – 8:30 PM",
+    timing: "Mon–Sat",
     seatsFilled: 18,
     seatsTotal: 30,
   },

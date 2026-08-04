@@ -34,12 +34,12 @@ export const RESOURCES: Resource[] = [
   {
     id: "syllabus-2026",
     category: "Syllabus",
-    title: "ANM/GNM CET Full Syllabus 2026",
+    title: "ANM/GNM Full Syllabus 2026",
     description:
       "The complete subject-wise syllabus in one PDF — know exactly what to study and what to skip.",
     language: "Bengali + English",
     fileSize: "1.2 MB",
-    fileUrl: "/resources/anm-gnm-syllabus-2026.pdf",
+    fileUrl: "/resources/anm-gnm-syllabus-2026-english.pdf",
     isNew: true,
   },
   {
