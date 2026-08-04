@@ -69,7 +69,7 @@ export default function Hero() {
           >
             Crack{" "}
             <span className="relative inline-block text-orange">
-              ANM/GNM CET 2027
+              ANM/GNM 2027
               <svg
                 aria-hidden="true"
                 viewBox="0 0 240 12"
@@ -166,7 +166,7 @@ export default function Hero() {
           <div className="overflow-hidden rounded-[2rem] border border-navy/10 shadow-2xl shadow-navy/20">
             <Image
               src="/arushi.png"
-              alt="MedhaUp instructor teaching an ANM/GNM CET class"
+              alt="MedhaUp instructor teaching an ANM/GNM class"
               width={880}
               height={1040}
               priority
