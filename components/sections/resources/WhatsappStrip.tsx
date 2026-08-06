@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { MessageCircle, BellRing, ArrowRight } from "lucide-react";
-
-/* Replace with your real channel invite link */
-const WHATSAPP_CHANNEL_URL = "https://whatsapp.com/channel/YOUR_CHANNEL_ID";
+import { useSite } from "@/components/provider/SiteProvider";
 
 export default function WhatsAppStrip() {
+  const SITE = useSite();
+  if (!SITE.whatsapp.channelUrl) return null; // no channel set yet → hide strip
+
   return (
     <section className="bg-white pb-16 sm:pb-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -39,8 +40,8 @@ export default function WhatsAppStrip() {
               </div>
             </div>
 
-            <a
-              href={WHATSAPP_CHANNEL_URL}
+            
+            <a  href={SITE.whatsapp.channelUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex shrink-0 items-center gap-2 rounded-full bg-[#25D366] px-7 py-3.5 font-semibold text-white shadow-lg shadow-black/20 transition-all duration-200 hover:brightness-110"

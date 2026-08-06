@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import Link from "next/link";
-import { BATCHES, type Batch } from "@/lib/batches";
+import type { Batch } from "@/lib/data";
 
 /* Badge auto-derived from fill % */
 function getBadge(filled: number, total: number) {
@@ -37,12 +37,6 @@ function getBadge(filled: number, total: number) {
     className: "bg-navy/8 text-navy",
     pulse: false,
   };
-}
-
-function scrollToAdmission() {
-  document
-    .getElementById("admission")
-    ?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function BatchCard({ batch }: { batch: Batch }) {
@@ -162,7 +156,7 @@ function BatchCard({ batch }: { batch: Batch }) {
   );
 }
 
-export default function OngoingBatch() {
+export default function OngoingBatch({ batches }: { batches: Batch[] }) {
   return (
     <section className="relative overflow-hidden bg-navy/[0.04] py-20 sm:py-24">
       {/* Dotted texture */}
@@ -198,10 +192,10 @@ export default function OngoingBatch() {
 
         {/* Batch cards — auto-adapts: 1 batch = single wide card, 2 = grid */}
         <div
-          className={clsx("grid gap-8", BATCHES.length > 1 && "lg:grid-cols-2")}
+          className={clsx("grid gap-8", batches.length > 1 && "lg:grid-cols-2")}
         >
-          {BATCHES.map((batch) => (
-            <BatchCard key={batch.name} batch={batch} />
+          {batches.map((batch) => (
+            <BatchCard key={batch.id} batch={batch} />
           ))}
         </div>
       </div>

@@ -12,7 +12,7 @@ import {
   FileText,
   type LucideIcon,
 } from "lucide-react";
-import { SUBJECT_SYLLABI } from "@/lib/syllabus";
+import { SUBJECT_SYLLABI, type SubjectSyllabus as SubjectSyllabusItem } from "@/lib/syllabus";
 
 /* Icon per subject — keyed by the id in lib/syllabus.ts so the
    data file stays plain (serializable) and the visuals live here. */
@@ -25,7 +25,13 @@ const SUBJECT_ICONS: Record<string, LucideIcon> = {
   "logical-reasoning": Puzzle,
 };
 
-export default function SubjectSyllabus() {
+type SubjectSyllabusProps = {
+  subjects?: SubjectSyllabusItem[];
+};
+
+export default function SubjectSyllabus({ subjects }: SubjectSyllabusProps) {
+  const items = subjects?.length ? subjects : SUBJECT_SYLLABI;
+
   return (
     <section
       id="subject-syllabus"
@@ -66,7 +72,7 @@ export default function SubjectSyllabus() {
 
         {/* ---------- Subject cards ---------- */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SUBJECT_SYLLABI.map((subject, i) => {
+          {items.map((subject, i) => {
             const Icon = SUBJECT_ICONS[subject.id] ?? FileText;
             return (
               <motion.article

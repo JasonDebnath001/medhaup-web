@@ -4,43 +4,44 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Mail, MapPin } from "lucide-react";
-import { FaYoutube, FaInstagram, FaTelegram } from "react-icons/fa6";
-
-/* ---------------- Data — edit here ---------------- */
+import { FaYoutube, FaInstagram, FaTelegram, FaWhatsapp } from "react-icons/fa6";
+import { useSite } from "@/components/provider/SiteProvider";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "ANM/GNM Course", href: "/course" },
-  { label: "Free Resources", href: "/resources" },
+  { label: "Store", href: "/store" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "Take Admission", href: "/admission" },
 ];
 
 const RESOURCE_LINKS = [
-  { label: "Download Syllabus", href: "/resources" },
-  { label: "Previous Year Papers", href: "/resources" },
-  { label: "Mock Tests", href: "/resources" },
-  { label: "Exam Pattern Guide", href: "/course" },
+  { label: "Free Resources", href: "/resources" },
+  { label: "Syllabus", href: "/syllabus" },
+  { label: "Previous Year Papers", href: "/pyq" },
+  { label: "Current Affairs", href: "/current-affairs" },
 ];
-
-/* Placeholders — replace with real handles/numbers before launch */
-const SOCIALS = [
-  { label: "YouTube", href: "https://youtube.com/@medhaup", icon: FaYoutube },
-  { label: "Instagram", href: "https://instagram.com/medhaup", icon: FaInstagram },
-  { label: "Telegram", href: "https://t.me/medhaup", icon: FaTelegram },
-];
-
-const CONTACT = [
-  { icon: Phone, value: "+91 8910840928", href: "tel:+918910840928" },
-  { icon: Mail, value: "contact@medhaup.com", href: "mailto:contact@medhaup.com" },
-  { icon: MapPin, value: "Kolkata, West Bengal", href: undefined },
-];
-
-/* ---------------- Component ---------------- */
 
 export default function Footer() {
+  const SITE = useSite();
   const year = new Date().getFullYear();
+
+  // Only render socials that have URLs set in the admin panel
+  const socials = [
+    { label: "YouTube", href: SITE.socials.youtube, icon: FaYoutube },
+    { label: "Instagram", href: SITE.socials.instagram, icon: FaInstagram },
+    { label: "Telegram", href: SITE.socials.telegram, icon: FaTelegram },
+    { label: "WhatsApp Channel", href: SITE.whatsapp.channelUrl, icon: FaWhatsapp },
+  ].filter((s) => s.href);
+
+  const contact = [
+    { icon: Phone, value: SITE.phoneDisplay, href: SITE.phoneHref },
+    { icon: Mail, value: SITE.email, href: SITE.emailHref },
+    { icon: MapPin, value: SITE.address, href: undefined },
+  ];
 
   return (
     <footer className="relative overflow-hidden bg-navy text-white">
@@ -86,33 +87,29 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <Link href="/" className="inline-block">
-            <Image
-              src="/logo.png"
-              alt="MedhaUp"
-              width={180}
-              height={52}
-              className=""
-            />
+            <Image src="/logo.png" alt="MedhaUp" width={180} height={52} />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             West Bengal&apos;s focused preparation platform for the WBJEE
             ANM/GNM CET — taught in Bengali and English.
           </p>
-          <ul className="mt-5 flex gap-3">
-            {SOCIALS.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/70 transition-all duration-200 hover:border-orange hover:bg-orange hover:text-white"
-                >
-                  <s.icon size={17} />
-                </a>
-              </li>
-            ))}
-          </ul>
+          {socials.length > 0 && (
+            <ul className="mt-5 flex gap-3">
+              {socials.map((s) => (
+                <li key={s.label}>
+                  
+                  <a  href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/70 transition-all duration-200 hover:border-orange hover:bg-orange hover:text-white"
+                  >
+                    <s.icon size={17} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Quick links */}
@@ -138,7 +135,7 @@ export default function Footer() {
         {/* Resources */}
         <nav aria-label="Footer resources">
           <h3 className="font-heading text-sm font-bold uppercase tracking-widest text-white/40">
-            Resources
+            Study Material
           </h3>
           <ul className="mt-4 space-y-2.5">
             {RESOURCE_LINKS.map((l) => (
@@ -161,14 +158,14 @@ export default function Footer() {
             Contact
           </h3>
           <ul className="mt-4 space-y-3.5">
-            {CONTACT.map((c) => (
+            {contact.map((c) => (
               <li key={c.value} className="flex items-center gap-3">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-white/5 text-orange">
                   <c.icon size={16} />
                 </span>
                 {c.href ? (
-                  <a
-                    href={c.href}
+                  
+                 <a   href={c.href}
                     className="text-sm text-white/70 transition-colors hover:text-orange"
                   >
                     {c.value}

@@ -13,7 +13,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { SITE } from "@/lib/site";
+import { useSite } from "@/components/provider/SiteProvider";
 
 /* ← Get your free access key at https://web3forms.com and paste it here */
 const WEB3FORMS_ACCESS_KEY = "fafed16a-f163-4081-bd76-650255cc93fc";
@@ -48,6 +48,7 @@ const FAQS = [
 type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContactPageContent() {
+  const SITE = useSite();
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -193,26 +194,29 @@ export default function ContactPageContent() {
                 </motion.a>
               ))}
 
-              {/* WhatsApp channel mini-strip */}
-              <motion.a
-                href={SITE.whatsapp.channelUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: 0.28 }}
-                className="group flex w-full items-start gap-3 rounded-2xl border border-dashed border-navy/20 p-4 transition-colors hover:border-orange/50 hover:bg-orange/5"
-              >
-                <BellRing className="mt-0.5 h-[18px] w-[18px] shrink-0 text-orange" />
-                <p className="min-w-0 text-sm leading-relaxed text-navy/70">
-                  Not ready to talk?{" "}
-                  <span className="font-semibold text-navy group-hover:text-orange">
-                    Follow our WhatsApp channel
-                  </span>{" "}
-                  for updates and free resources.
-                </p>
-              </motion.a>
+              {/* WhatsApp channel mini-strip — hidden until a channel URL
+                  is set in the admin panel */}
+              {SITE.whatsapp.channelUrl && (
+                <motion.a
+                  href={SITE.whatsapp.channelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: 0.28 }}
+                  className="group flex w-full items-start gap-3 rounded-2xl border border-dashed border-navy/20 p-4 transition-colors hover:border-orange/50 hover:bg-orange/5"
+                >
+                  <BellRing className="mt-0.5 h-[18px] w-[18px] shrink-0 text-orange" />
+                  <p className="min-w-0 text-sm leading-relaxed text-navy/70">
+                    Not ready to talk?{" "}
+                    <span className="font-semibold text-navy group-hover:text-orange">
+                      Follow our WhatsApp channel
+                    </span>{" "}
+                    for updates and free resources.
+                  </p>
+                </motion.a>
+              )}
             </div>
 
             {/* ---- Form ---- */}

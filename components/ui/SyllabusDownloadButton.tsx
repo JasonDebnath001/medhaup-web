@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, FileText, ChevronDown } from "lucide-react";
 import clsx from "clsx";
-import { SYLLABUS_DOWNLOADS } from "@/lib/syllabus";
+import type { SyllabusDownload } from "@/lib/data";
 
 type Props = {
+  /** Published syllabus PDFs — comes from the admin panel via the page */
+  downloads: SyllabusDownload[];
   /** Extra classes for the trigger button (width overrides etc.) */
   className?: string;
   /** Where the dropdown opens relative to the button */
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export default function SyllabusDownloadButton({
+  downloads,
   className,
   align = "left",
 }: Props) {
@@ -40,6 +43,9 @@ export default function SyllabusDownloadButton({
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
+
+  // Nothing published yet → render nothing
+  if (downloads.length === 0) return null;
 
   return (
     <div ref={rootRef} className={clsx("relative w-full sm:w-auto", className)}>
@@ -76,17 +82,15 @@ export default function SyllabusDownloadButton({
             transition={{ duration: 0.16, ease: "easeOut" }}
             className={clsx(
               "absolute top-full z-30 mt-2 w-full min-w-64 overflow-hidden rounded-2xl border border-navy/10 bg-white p-1.5 shadow-xl shadow-navy/10 sm:w-72",
-              align === "center"
-                ? "left-1/2 -translate-x-1/2"
-                : "left-0",
+              align === "center" ? "left-1/2 -translate-x-1/2" : "left-0",
             )}
           >
-            {SYLLABUS_DOWNLOADS.map((item) => (
-              <a
-                key={item.fileUrl}
+            {downloads.map((item) => (
+              
+            <a    key={item.id}
                 role="menuitem"
                 href={item.fileUrl}
-                download={item.fileName}
+                download={item.fileName || undefined}
                 onClick={() => setOpen(false)}
                 className="group/item flex items-center gap-3 rounded-xl px-3.5 py-3 transition-colors duration-150 hover:bg-cream"
               >

@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Download, Languages, HardDrive } from "lucide-react";
 import clsx from "clsx";
-import {
-  RESOURCES,
-  CATEGORIES,
-  type ResourceCategory,
-} from "@/lib/resources";
+import type { Resource } from "@/lib/data";
 
-const CATEGORY_COLORS: Record<ResourceCategory, string> = {
+const CATEGORY_LABELS: Record<string, string> = {
+  Syllabus: "Syllabus",
+  Papers: "Question Papers",
+  Notes: "Notes",
+  Mocks: "Mock Tests",
+  Guides: "Guides",
+};
+
+const CATEGORY_COLORS: Record<string, string> = {
   Syllabus: "bg-navy text-white",
   Papers: "bg-orange/15 text-orange-dark",
   Notes: "bg-navy/8 text-navy",
@@ -18,13 +22,24 @@ const CATEGORY_COLORS: Record<ResourceCategory, string> = {
   Guides: "bg-navy/8 text-navy",
 };
 
-export default function ResourceGrid() {
-  const [active, setActive] = useState<ResourceCategory | "All">("All");
+export default function ResourceGrid({ resources }: { resources: Resource[] }) {
+  const [active, setActive] = useState<string>("All");
+
+  // Only offer filters for categories that actually have published files
+  const categories = useMemo(() => {
+    const present = new Set(resources.map((r) => r.category));
+    return [
+      { label: "All", value: "All" },
+      ...Object.keys(CATEGORY_LABELS)
+        .filter((c) => present.has(c))
+        .map((c) => ({ label: CATEGORY_LABELS[c], value: c })),
+    ];
+  }, [resources]);
 
   const filtered =
     active === "All"
-      ? RESOURCES
-      : RESOURCES.filter((r) => r.category === active);
+      ? resources
+      : resources.filter((r) => r.category === active);
 
   return (
     <section className="bg-white py-16 sm:py-20">
@@ -35,7 +50,7 @@ export default function ResourceGrid() {
           aria-label="Filter resources by category"
           className="flex flex-wrap justify-center gap-2"
         >
-          {CATEGORIES.map((cat) => {
+          {categories.map((cat) => {
             const selected = active === cat.value;
             return (
               <button
@@ -44,7 +59,7 @@ export default function ResourceGrid() {
                 aria-selected={selected}
                 onClick={() => setActive(cat.value)}
                 className={clsx(
-                  "relative rounded-full px-4.5 py-2 text-sm font-semibold transition-colors duration-200 px-5",
+                  "relative rounded-full px-5 py-2 text-sm font-semibold transition-colors duration-200",
                   selected
                     ? "text-white"
                     : "text-navy/60 hover:bg-navy/5 hover:text-navy"
@@ -64,7 +79,10 @@ export default function ResourceGrid() {
         </div>
 
         {/* Cards */}
-        <motion.div layout className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          layout
+          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           <AnimatePresence mode="popLayout">
             {filtered.map((r) => (
               <motion.article
@@ -89,7 +107,7 @@ export default function ResourceGrid() {
                     <span
                       className={clsx(
                         "rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider",
-                        CATEGORY_COLORS[r.category]
+                        CATEGORY_COLORS[r.category] ?? "bg-navy/8 text-navy"
                       )}
                     >
                       {r.category}
@@ -109,12 +127,12 @@ export default function ResourceGrid() {
                     <Languages size={13} /> {r.language}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <HardDrive size={13} /> PDF · {r.fileSize}
+                    <HardDrive size={13} /> PDF{r.fileSize && <> · {r.fileSize}</>}
                   </span>
                 </div>
 
-                <a
-                  href={r.fileUrl}
+                
+                <a  href={r.fileUrl}
                   download
                   className="group/btn mt-5 flex items-center justify-center gap-2 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-orange"
                 >
@@ -129,7 +147,7 @@ export default function ResourceGrid() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Empty state */}
+        {/* Empty state (a filter with no items) */}
         {filtered.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
