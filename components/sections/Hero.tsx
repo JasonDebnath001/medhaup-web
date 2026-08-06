@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight, Users, Play, CalendarCheck } from "lucide-react";
+import { ArrowRight, Users, CalendarCheck } from "lucide-react";
 import SyllabusDownloadButton from "@/components/ui/SyllabusDownloadButton";
+import type { SyllabusDownload } from "@/lib/data";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -20,7 +21,11 @@ const STATS = [
   { icon: CalendarCheck, value: "3", label: "Years Running" },
 ];
 
-export default function Hero() {
+export default function Hero({
+  downloads,
+}: {
+  downloads: SyllabusDownload[];
+}) {
   return (
     <section className="relative overflow-hidden bg-cream pt-32 pb-20 sm:pt-40 sm:pb-28">
       {/* ---- Background layers ---- */}
@@ -119,7 +124,7 @@ export default function Hero() {
                 className="transition-transform duration-200 group-hover:translate-x-1"
               />
             </Link>
-            <SyllabusDownloadButton />
+            <SyllabusDownloadButton downloads={downloads} />
           </motion.div>
 
           {/* Trust strip */}
@@ -172,7 +177,7 @@ export default function Hero() {
               priority
               className="h-auto w-full object-cover"
             />
-          </div> 
+          </div>
         </motion.div>
       </div>
     </section>

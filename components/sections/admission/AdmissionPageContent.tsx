@@ -20,21 +20,16 @@ import {
   Rocket,
 } from "lucide-react";
 import clsx from "clsx";
-import { SITE } from "@/lib/site";
-import { CURRENT_BATCH } from "@/lib/batches";
+import { useSite } from "@/components/provider/SiteProvider";
+import type { Batch } from "@/lib/data";
 
 /* ← Same Web3Forms access key as the contact page */
 const WEB3FORMS_ACCESS_KEY = "e4e66ca4-46d3-42dc-97cb-af9fe61a4cd1";
 
 /* ← Add your real store links */
-const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.zdrkue.ctqxio&pcampaignid=web_share";
+const PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.zdrkue.ctqxio&pcampaignid=web_share";
 const APP_STORE_URL = "#";
-
-const ADMISSION_WHATSAPP_URL = `https://wa.me/${
-  SITE.whatsapp.number
-}?text=${encodeURIComponent(
-  `Hi, I want to take admission in ${CURRENT_BATCH.name} of the ANM/GNM course.`
-)}`;
 
 const FEES = {
   new: { label: "New Student", amount: "₹1,800" },
@@ -74,9 +69,32 @@ const FAQS = [
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export default function AdmissionPageContent() {
+export default function AdmissionPageContent({
+  batch,
+}: {
+  batch: Batch | null;
+}) {
+  const SITE = useSite();
   const [status, setStatus] = useState<Status>("idle");
   const [studentType, setStudentType] = useState<"new" | "old">("new");
+
+  /* Fallback keeps the page working even with no published batch —
+     the admin panel controls this via the Batches collection. */
+  const CURRENT_BATCH: Batch = batch ?? {
+    id: "",
+    name: "the upcoming batch",
+    startDate: "To be announced",
+    mode: "Online",
+    timing: "To be announced",
+    seatsFilled: 0,
+    seatsTotal: 30,
+  };
+
+  const ADMISSION_WHATSAPP_URL = `https://wa.me/${
+    SITE.whatsapp.number
+  }?text=${encodeURIComponent(
+    `Hi, I want to take admission in ${CURRENT_BATCH.name} of the ANM/GNM course.`,
+  )}`;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -215,9 +233,9 @@ export default function AdmissionPageContent() {
                   Admit yourself in the app
                 </h2>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/65">
-                  Download the MedhaUp app, choose your plan — new student,
-                  old student, or EMI — and pay securely inside the app.
-                  You&apos;re enrolled in minutes.
+                  Download the MedhaUp app, choose your plan — new student, old
+                  student, or EMI — and pay securely inside the app. You&apos;re
+                  enrolled in minutes.
                 </p>
 
                 <ol className="mt-6 space-y-3">
@@ -246,6 +264,7 @@ export default function AdmissionPageContent() {
                   <Download size={17} />
                   Google Play
                 </a>
+
                 <a
                   href={APP_STORE_URL}
                   target="_blank"
@@ -288,9 +307,10 @@ export default function AdmissionPageContent() {
                     Seat request received!
                   </p>
                   <p className="mt-1 text-sm text-navy/65">
-                    We&apos;ll contact you on WhatsApp or call within 24
-                    hours. Can&apos;t wait?
+                    We&apos;ll contact you on WhatsApp or call within 24 hours.
+                    Can&apos;t wait?
                   </p>
+
                   <a
                     href={ADMISSION_WHATSAPP_URL}
                     target="_blank"
@@ -360,7 +380,7 @@ export default function AdmissionPageContent() {
                             "flex cursor-pointer flex-col items-center rounded-xl border-2 p-3.5 text-center transition-all duration-200",
                             studentType === type
                               ? "border-orange bg-orange/5"
-                              : "border-navy/10 bg-white hover:border-navy/25"
+                              : "border-navy/10 bg-white hover:border-navy/25",
                           )}
                         >
                           <input
@@ -379,7 +399,7 @@ export default function AdmissionPageContent() {
                               "font-heading mt-1 text-lg font-extrabold",
                               studentType === type
                                 ? "text-orange"
-                                : "text-navy/50"
+                                : "text-navy/50",
                             )}
                           >
                             {FEES[type].amount}
@@ -414,8 +434,8 @@ export default function AdmissionPageContent() {
                   {status === "error" && (
                     <p className="flex items-start gap-2 rounded-xl bg-red-50 p-3 text-sm text-red-700">
                       <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                      Something went wrong. Try again, or message us directly
-                      on WhatsApp.
+                      Something went wrong. Try again, or message us directly on
+                      WhatsApp.
                     </p>
                   )}
 
@@ -494,23 +514,21 @@ export default function AdmissionPageContent() {
           </motion.h2>
 
           <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2">
-            {FAQS.map((faq, i) => {
-              return (
-                <motion.div
-                  key={faq.q}
-                  initial={{ opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.5, delay: i * 0.07 }}
-                  className="rounded-2xl border border-navy/10 bg-white p-5 sm:p-6"
-                >
-                  <h3 className="font-heading font-bold text-navy">{faq.q}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-navy/65">
-                    {faq.a}
-                  </p>
-                </motion.div>
-              );
-            })}
+            {FAQS.map((faq, i) => (
+              <motion.div
+                key={faq.q}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="rounded-2xl border border-navy/10 bg-white p-5 sm:p-6"
+              >
+                <h3 className="font-heading font-bold text-navy">{faq.q}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-navy/65">
+                  {faq.a}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
