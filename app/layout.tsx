@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import AnalyticsEvents from "@/components/provider/AnalyticsEvents";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -19,6 +21,8 @@ export const metadata: Metadata = {
   description: "Concept Clear. Score Up.",
 };
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -28,6 +32,12 @@ export default function RootLayout({
         className={`${jakarta.variable} ${inter.variable} font-sans antialiased`}
       >
         {children}
+        {GA_ID && (
+          <>
+            <GoogleAnalytics gaId={GA_ID} />
+            <AnalyticsEvents />
+          </>
+        )}
       </body>
     </html>
   );
