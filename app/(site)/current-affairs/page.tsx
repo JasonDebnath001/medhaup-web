@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Newspaper, Download, Sparkles, CalendarDays } from "lucide-react";
 import { getMonthlyCA, getDailyCA, getSiteSettings } from "@/lib/data";
 import ComingSoon from "@/components/ui/ComingSoon";
+import { formatDateShort } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -11,9 +12,6 @@ export const metadata: Metadata = {
   description:
     "Exam-focused current affairs for WBJEE ANM/GNM CET — free monthly compiled PDFs and daily GK updates with health and West Bengal focus.",
 };
-
-const fmt = (iso: string) =>
-  new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 
 export default async function CurrentAffairsPage() {
   const [monthly, daily, settings] = await Promise.all([
@@ -83,8 +81,9 @@ export default async function CurrentAffairsPage() {
                       {m.fileSize && <> · {m.fileSize}</>}
                     </p>
                   </div>
+
                   
-                 <a   href={m.fileUrl}
+                  <a  href={m.fileUrl}
                     download
                     className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-orange px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
                   >
@@ -112,7 +111,7 @@ export default async function CurrentAffairsPage() {
                 >
                   <div className="flex items-center gap-3 text-xs">
                     <span className="rounded-full bg-navy/5 px-2.5 py-1 font-semibold text-navy/70">
-                      {fmt(d.date)}
+                      {formatDateShort(d.date)}
                     </span>
                     <span className="rounded-full bg-orange/10 px-2.5 py-1 font-semibold text-orange">
                       {d.tag}
@@ -142,15 +141,15 @@ export default async function CurrentAffairsPage() {
               <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
                 One exam-relevant update every day on our channel — free.
               </p>
+
               
-                <a
-                  href={settings.channelUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
-                >
-                  Join the Channel
-                </a>
+             <a   href={settings.channelUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
+              >
+                Join the Channel
+              </a>
             </div>
           </div>
         </section>
