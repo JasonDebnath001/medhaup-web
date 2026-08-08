@@ -9,10 +9,24 @@ export function cn(...inputs: ClassValue[]) {
    (Vercel, UTC) and every visitor's browser show the same date.
    Handles both plain dates ("2026-08-08") and full timestamps.
 ----------------------------------------------------------------- */
-const asISTDate = (value: string) =>
-  /^\d{4}-\d{2}-\d{2}$/.test(value)
-    ? new Date(`${value}T00:00:00+05:30`) // plain date = that day in IST
-    : new Date(value);
+const asISTDate = (value: string) => {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-").map(Number);
+    const parsed = new Date(Date.UTC(year, month - 1, day));
+
+    if (
+      parsed.getUTCFullYear() !== year ||
+      parsed.getUTCMonth() !== month - 1 ||
+      parsed.getUTCDate() !== day
+    ) {
+      return new Date("Invalid Date");
+    }
+
+    return new Date(`${value}T00:00:00+05:30`); // plain date = that day in IST
+  }
+
+  return new Date(value);
+};
 
 export const formatDate = (value: string) => {
   const d = asISTDate(value);

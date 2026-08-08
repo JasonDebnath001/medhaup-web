@@ -55,6 +55,7 @@ export default function BlogsContent({ posts }: { posts: BlogPost[] }) {
                 <button
                   key={t}
                   onClick={() => setActive(t)}
+                  aria-pressed={active === t}
                   className={clsx(
                     "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
                     active === t
