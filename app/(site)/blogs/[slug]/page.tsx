@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, MessageCircle } from "lucide-react";
 import { getPostBySlug, getSiteSettings } from "@/lib/data";
 import { waChatUrl } from "@/lib/settings";
+import MarkdownContent from "@/components/ui/MarkdownContent";
+import { formatDate } from "@/lib/utils";
 
 export const revalidate = 60;
 
@@ -20,13 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const fmt = (iso: string) =>
-  new Date(iso).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const [post, settings] = await Promise.all([
@@ -34,9 +29,6 @@ export default async function BlogPostPage({ params }: Props) {
     getSiteSettings(),
   ]);
   if (!post) notFound();
-
-  // Content is stored as plain text; blank lines separate paragraphs
-  const paragraphs = post.content.split(/\n\s*\n/).filter((p) => p.trim());
 
   return (
     <main>
@@ -67,7 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
           </h1>
 
           <div className="mt-4 flex items-center gap-4 text-sm text-navy/55">
-            <span>{fmt(post.date)}</span>
+            <span>{formatDate(post.date)}</span>
             <span className="flex items-center gap-1">
               <Clock size={14} /> {post.readMins} min read
             </span>
@@ -86,15 +78,8 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
 
-          <div className="mt-10 space-y-5">
-            {paragraphs.map((para, i) => (
-              <p
-                key={i}
-                className="text-[15px] leading-relaxed text-navy/80 sm:text-base"
-              >
-                {para}
-              </p>
-            ))}
+          <div className="mt-10">
+            <MarkdownContent content={post.content} />
           </div>
 
           {/* CTA */}
@@ -106,6 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
               Message us on WhatsApp — Bengali or English, we reply the same
               day.
             </p>
+
             
             <a  href={waChatUrl(settings)}
               target="_blank"

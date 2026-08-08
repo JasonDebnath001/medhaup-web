@@ -139,7 +139,8 @@ export type Batch = {
 /* ---------- Fetchers (published rows only) ---------- */
 export const getProducts = () =>
   fetchPublished<Product>("products", "created_at");
-export const getPosts = () => fetchPublished<BlogPost>("blog_posts", "date");
+export const getPosts = () =>
+  fetchPublished<BlogPost>("blog_posts", "date", false);
 export const getPYQs = () => fetchPublished<PYQ>("pyqs", "year");
 export const getGallery = () =>
   fetchPublished<GalleryItem>("gallery_items", "created_at");
