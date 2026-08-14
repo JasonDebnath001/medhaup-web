@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isOfferLive, offerMsLeft } from "@/lib/offer";
+import { isOfferLive, offerMsLeft, OFFER } from "@/lib/offer";
 
 /** True only after mount AND inside the offer window. Re-checks every
     30s so an open tab drops the theme at Sunday midnight by itself.
@@ -9,11 +9,42 @@ import { isOfferLive, offerMsLeft } from "@/lib/offer";
 export function useOfferLive() {
   const [live, setLive] = useState(false);
   useEffect(() => {
-    const preview = new URLSearchParams(window.location.search).has("offer");
+    // Preview override only when query exactly equals `offer=preview`
+    // and only outside production.
+    const params = new URLSearchParams(window.location.search);
+    const preview = params.get("offer") === "preview" && process.env.NODE_ENV !== "production";
+
     const check = () => setLive(preview || isOfferLive());
     check();
-    const id = setInterval(check, 30_000);
-    return () => clearInterval(id);
+
+    // Fallback periodic check so long-open tabs update eventually.
+    const intervalId = window.setInterval(check, 30_000);
+
+    // Schedule a timeout at the next offer boundary (start or end)
+    // so the state flips exactly when the offer window opens/closes.
+    let timeoutId: number | null = null;
+    const scheduleNext = () => {
+      const now = Date.now();
+      const start = Date.parse(OFFER.start);
+      const end = Date.parse(OFFER.end);
+      let nextMs = Number.POSITIVE_INFINITY;
+      if (now < start) nextMs = start - now;
+      else if (now >= start && now < end) nextMs = end - now;
+
+      if (Number.isFinite(nextMs) && nextMs > 0) {
+        // small buffer to ensure we've crossed the boundary
+        timeoutId = window.setTimeout(() => {
+          check();
+          scheduleNext();
+        }, nextMs + 50);
+      }
+    };
+    scheduleNext();
+
+    return () => {
+      if (timeoutId !== null) clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
   }, []);
   return live;
 }

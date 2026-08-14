@@ -105,7 +105,7 @@ export default function Fees() {
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
             {live
-              ? `For the 79th Independence Day, every student pays just ₹${OFFER.price.toLocaleString(
+              ? `For the 80th Independence Day, every student pays just ₹${OFFER.price.toLocaleString(
                   "en-IN",
                 )} for the full 12 months — new and returning alike. ${OFFER.endsLabel}.`
               : "Transparent pricing, no hidden charges — the fee you see is the fee you pay for the full 12 months."}

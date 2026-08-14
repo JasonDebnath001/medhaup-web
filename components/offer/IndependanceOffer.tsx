@@ -203,7 +203,7 @@ export default function IndependenceOffer() {
         >
           <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm sm:gap-2.5 sm:px-5 sm:py-2 sm:text-xs sm:tracking-[0.2em]">
             <FlagIcon className="h-3 w-auto shrink-0 sm:h-3.5" />
-            <span className="truncate">79th Independence Day · 15–16 Aug</span>
+            <span className="truncate">80th Independence Day · 15–16 Aug</span>
           </span>
 
           <h2 className="font-heading mt-6 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white sm:mt-7 sm:text-5xl lg:text-6xl">
@@ -212,8 +212,8 @@ export default function IndependenceOffer() {
             <span className="text-orange">Freedom to learn.</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-6 sm:text-base">
-            79 years ago, we won the freedom to choose our own future. This
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-6 sm:text-base">
+            80 years ago, we won the freedom to choose our own future. This
             weekend, choose yours — the complete 12-month ANM/GNM course at one
             price for every student, new or returning.
           </p>
