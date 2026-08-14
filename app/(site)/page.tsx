@@ -6,6 +6,7 @@ import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import BlogHighlights from "@/components/sections/Bloghighlights";
+import IndependenceOffer from "@/components/offer/IndependanceOffer";
 import {
   getBatches,
   getPosts,
@@ -458,6 +459,7 @@ export default async function Home() {
         {/* ------------------------------------------------------------------ */}
 
         <Hero downloads={downloads} />
+        <IndependenceOffer />
 
         {/* No published batch → section disappears (admissions closed) */}
         {batches.length > 0 && <OngoingBatch batches={batches} />}

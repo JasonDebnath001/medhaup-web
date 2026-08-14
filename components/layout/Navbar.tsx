@@ -83,7 +83,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header className="fixed inset-x-0 top-[var(--offer-h,0px)] z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4">
       <nav
         aria-label="Main navigation"
         className={clsx(
@@ -211,7 +211,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="fixed inset-y-0 right-0 z-50 flex w-[78%] max-w-xs flex-col bg-white shadow-2xl md:hidden"
+              className="fixed top-[var(--offer-h,0px)] right-0 bottom-0 z-50 flex w-[78%] max-w-xs flex-col bg-white shadow-2xl md:hidden"
             >
               <div className="flex items-center justify-between border-b border-navy/10 px-5 py-4">
                 <span className="font-heading text-sm font-bold uppercase tracking-wider text-navy/50">
