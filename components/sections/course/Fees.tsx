@@ -11,6 +11,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import clsx from "clsx";
+import { OFFER } from "@/lib/offer";
+import { useOfferLive } from "@/components/offer/useOffer";
 
 /* ---------------- Data ---------------- */
 
@@ -45,6 +47,8 @@ const INCLUDED = [
 /* ---------------- Component ---------------- */
 
 export default function Fees() {
+  const live = useOfferLive();
+
   return (
     <section
       id="fees"
@@ -62,8 +66,17 @@ export default function Fees() {
       />
       <div
         aria-hidden="true"
-        className="absolute -left-32 top-10 h-80 w-80 rounded-full bg-orange/15 blur-3xl"
+        className={clsx(
+          "absolute -left-32 top-10 h-80 w-80 rounded-full blur-3xl transition-colors duration-700",
+          live ? "bg-[#FF9933]/20" : "bg-orange/15",
+        )}
       />
+      {live && (
+        <div
+          aria-hidden="true"
+          className="absolute -right-32 bottom-10 h-80 w-80 rounded-full bg-[#138808]/15 blur-3xl"
+        />
+      )}
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6">
         {/* Heading */}
@@ -75,15 +88,27 @@ export default function Fees() {
           className="mb-12 text-center"
         >
           <span className="inline-block rounded-full border border-orange/40 bg-orange/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-orange">
-            Course Fees
+            {live ? OFFER.badge : "Course Fees"}
           </span>
           <h2 className="font-heading mt-4 text-3xl font-extrabold text-white sm:text-4xl">
-            One year of preparation.{" "}
-            <span className="text-orange">Less than ₹5 a day.</span>
+            {live ? (
+              <>
+                One price for everyone.{" "}
+                <span className="text-orange">This weekend only.</span>
+              </>
+            ) : (
+              <>
+                One year of preparation.{" "}
+                <span className="text-orange">Less than ₹5 a day.</span>
+              </>
+            )}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Transparent pricing, no hidden charges — the fee you see is the fee
-            you pay for the full 12 months.
+            {live
+              ? `For the 79th Independence Day, every student pays just ₹${OFFER.price.toLocaleString(
+                  "en-IN",
+                )} for the full 12 months — new and returning alike. ${OFFER.endsLabel}.`
+              : "Transparent pricing, no hidden charges — the fee you see is the fee you pay for the full 12 months."}
           </p>
         </motion.div>
 
@@ -103,6 +128,18 @@ export default function Fees() {
                   : "border border-white/15 bg-white/5 backdrop-blur-sm",
               )}
             >
+              {/* Tricolor hairline on the discounted card during the offer */}
+              {live && plan.highlight && (
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-1.5 rounded-t-3xl"
+                  style={{
+                    background:
+                      "linear-gradient(to right, #FF9933 0 33.3%, #f1f1f1 33.3% 66.6%, #138808 66.6% 100%)",
+                  }}
+                />
+              )}
+
               {/* Tag */}
               <span
                 className={clsx(
@@ -139,13 +176,22 @@ export default function Fees() {
 
               {/* Price */}
               <div className="mt-6 flex items-end gap-3">
+                {live && plan.highlight && (
+                  <p className="font-heading pb-1 text-xl font-bold text-navy/35 line-through">
+                    ₹{plan.price.toLocaleString("en-IN")}
+                  </p>
+                )}
                 <p
                   className={clsx(
                     "font-heading text-5xl font-extrabold leading-none",
                     plan.highlight ? "text-navy" : "text-white",
                   )}
                 >
-                  ₹{plan.price.toLocaleString("en-IN")}
+                  ₹
+                  {(live && plan.highlight
+                    ? OFFER.price
+                    : plan.price
+                  ).toLocaleString("en-IN")}
                 </p>
                 <div className="pb-1">
                   <p
@@ -157,10 +203,19 @@ export default function Fees() {
                     / 12 months
                   </p>
                   <p className="text-xs font-bold text-orange">
-                    ≈ ₹{plan.monthly}/month
+                    {live && plan.highlight
+                      ? "≈ ₹125/month this weekend"
+                      : `≈ ₹${plan.monthly}/month`}
                   </p>
                 </div>
               </div>
+
+              {/* Note on the card that's already at the offer price */}
+              {live && !plan.highlight && (
+                <p className="mt-2 text-xs font-semibold text-orange">
+                  Same price for everyone this weekend
+                </p>
+              )}
 
               {/* EMI badge */}
               <div

@@ -6,6 +6,7 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Users, CalendarCheck } from "lucide-react";
 import SyllabusDownloadButton from "@/components/ui/SyllabusDownloadButton";
 import type { SyllabusDownload } from "@/lib/data";
+import { useOfferLive } from "@/components/offer/useOffer";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -26,6 +27,8 @@ export default function Hero({
 }: {
   downloads: SyllabusDownload[];
 }) {
+  const live = useOfferLive();
+
   return (
     <section className="relative overflow-hidden bg-cream pt-32 pb-20 sm:pt-40 sm:pb-28">
       {/* ---- Background layers ---- */}
@@ -39,14 +42,18 @@ export default function Hero({
           backgroundSize: "48px 48px",
         }}
       />
-      {/* Glow blobs */}
+      {/* Glow blobs — tricolor during the Independence Day weekend */}
       <div
         aria-hidden="true"
-        className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-orange/15 blur-3xl"
+        className={`absolute -top-24 -right-24 h-96 w-96 rounded-full blur-3xl transition-colors duration-700 ${
+          live ? "bg-[#FF9933]/20" : "bg-orange/15"
+        }`}
       />
       <div
         aria-hidden="true"
-        className="absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-navy/10 blur-3xl"
+        className={`absolute -bottom-32 -left-24 h-96 w-96 rounded-full blur-3xl transition-colors duration-700 ${
+          live ? "bg-[#138808]/15" : "bg-navy/10"
+        }`}
       />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">

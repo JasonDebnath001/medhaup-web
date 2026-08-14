@@ -83,7 +83,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header className="fixed inset-x-0 top-[var(--offer-h,0px)] z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4">
       <nav
         aria-label="Main navigation"
         className={clsx(
