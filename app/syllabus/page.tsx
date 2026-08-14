@@ -6,9 +6,9 @@ import ComingSoon from "@/components/ui/ComingSoon";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "ANM/GNM CET Syllabus 2027 — Subject-wise PDF Download | MedhaUp",
+  title: "ANM/GNM Syllabus 2027 — Subject-wise PDF Download | medhaup",
   description:
-    "Complete WBJEE ANM/GNM CET syllabus — subject-wise breakdown with question weightage. Download the full syllabus PDF free in Bengali or English.",
+    "Complete WBJEE ANM/GNM syllabus — subject-wise breakdown with question weightage. Download the full syllabus PDF free in Bengali or English.",
 };
 
 export default async function SyllabusPage() {
@@ -40,7 +40,7 @@ export default async function SyllabusPage() {
             Know <span className="text-orange">exactly</span> what to study
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-navy/70">
-            The complete ANM/GNM CET syllabus, subject by subject, with how many
+            The complete ANM/GNM syllabus, subject by subject, with how many
             questions each carries in the paper.
           </p>
 

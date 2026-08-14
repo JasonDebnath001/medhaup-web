@@ -87,11 +87,11 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <Link href="/" className="inline-block">
-            <Image src="/logo.png" alt="MedhaUp" width={180} height={52} />
+            <Image src="/logo.png" alt="medhaup" width={180} height={52} />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             West Bengal&apos;s focused preparation platform for the WBJEE
-            ANM/GNM CET — taught in Bengali and English.
+            ANM/GNM exam — taught in Bengali and English.
           </p>
           {socials.length > 0 && (
             <ul className="mt-5 flex gap-3">
@@ -183,7 +183,7 @@ export default function Footer() {
       <div className="relative border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-5 text-center sm:flex-row sm:px-6">
           <p className="text-xs text-white/45">
-            © {year} MedhaUp. All rights reserved.
+            © {year} medhaup. All rights reserved.
           </p>
           <p className="text-xs text-white/45">
             Made with{" "}

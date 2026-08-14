@@ -93,14 +93,14 @@ export const SUBJECT_SYLLABI: SubjectSyllabus[] = [
 export const SYLLABUS_DOWNLOADS: SyllabusDownload[] = [
   {
     label: "Download in English",
-    caption: "Full ANM/GNM CET syllabus · PDF",
+    caption: "Full ANM/GNM syllabus · PDF",
     fileUrl: "/resources/anm-gnm-syllabus-2026-english.pdf",
-    fileName: "MedhaUp-ANM-GNM-CET-Syllabus-2026-English.pdf",
+    fileName: "medhaup-ANM-GNM-Syllabus-2026-English.pdf",
   },
   {
     label: "বাংলায় ডাউনলোড করুন",
-    caption: "সম্পূর্ণ ANM/GNM CET সিলেবাস · PDF",
+    caption: "সম্পূর্ণ ANM/GNM সিলেবাস · PDF",
     fileUrl: "/resources/anm-gnm-syllabus-2026-bengali.pdf",
-    fileName: "MedhaUp-ANM-GNM-CET-Syllabus-2026-Bengali.pdf",
+    fileName: "medhaup-ANM-GNM-Syllabus-2026-Bengali.pdf",
   },
 ];

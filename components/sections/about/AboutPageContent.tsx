@@ -38,7 +38,7 @@ const VALUES = [
   {
     icon: Target,
     title: "One exam only",
-    desc: "We prepare students for the ANM/GNM CET. Nothing else. Every class, note and mock exists for this one paper.",
+    desc: "We prepare students for the ANM/GNM exam. Nothing else. Every class, note and mock exists for this one paper.",
   },
   {
     icon: Languages,
@@ -83,7 +83,7 @@ export default function AboutPageContent() {
             transition={{ duration: 0.5 }}
             className="inline-block rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-navy shadow-sm"
           >
-            About MedhaUp
+            About medhaup
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 22 }}
@@ -100,8 +100,8 @@ export default function AboutPageContent() {
             transition={{ duration: 0.55, delay: 0.16 }}
             className="mx-auto mt-4 max-w-xl text-navy/65 sm:text-lg"
           >
-            MedhaUp is a new platform with a single focus: the WBJEE ANM/GNM
-            CET. New name — but the teaching behind it is anything but new.
+            medhaup is a new platform with a single focus: the WBJEE ANM/GNM
+            exam. New name — but the teaching behind it is anything but new.
           </motion.p>
         </div>
       </section>
@@ -169,7 +169,7 @@ export default function AboutPageContent() {
                 student understands best.
               </p>
               <p>
-                MedhaUp began with a simple observation from those years in the
+                medhaup began with a simple observation from those years in the
                 classroom: the students aiming for nursing — often
                 Bengali-medium, often from families watching every rupee — were
                 the ones with the least support built for them. The coaching
@@ -177,7 +177,7 @@ export default function AboutPageContent() {
               </p>
               <p>
                 So she built what was missing: focused, bilingual,
-                honestly-priced preparation for the ANM/GNM CET — run by someone
+                honestly-priced preparation for the ANM/GNM exam — run by someone
                 who actually cares whether each student clears it.
               </p>
             </div>
@@ -312,7 +312,7 @@ export default function AboutPageContent() {
             <Sparkles size={20} className="shrink-0 text-orange" />
             <p className="text-sm text-navy/70 sm:text-base">
               <span className="font-bold text-navy">
-                Starting with ANM/GNM CET.
+                Starting with ANM/GNM.
               </span>{" "}
               More West Bengal exams are on the roadmap — one at a time, done
               properly.

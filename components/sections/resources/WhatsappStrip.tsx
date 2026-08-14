@@ -34,7 +34,7 @@ export default function WhatsAppStrip() {
                   <span className="text-orange">WhatsApp first</span>
                 </h2>
                 <p className="mx-auto mt-2 max-w-md text-sm text-white/65 md:mx-0">
-                  Join the free MedhaUp channel — get every new PDF, mock test
+                  Join the free medhaup channel — get every new PDF, mock test
                   and exam update the moment it&apos;s released.
                 </p>
               </div>

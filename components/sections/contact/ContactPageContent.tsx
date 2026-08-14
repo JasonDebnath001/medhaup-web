@@ -58,7 +58,7 @@ export default function ContactPageContent() {
     const form = e.currentTarget;
     const data = new FormData(form);
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
-    data.append("from_name", "MedhaUp Website Contact Form");
+    data.append("from_name", "medhaup Website Contact Form");
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {

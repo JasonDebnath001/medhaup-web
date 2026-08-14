@@ -61,7 +61,7 @@ export default function Hero({
             className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-orange" />
-            WBJEEB ANM/GNM CET PREPARATION
+            WBJEEB ANM/GNM PREPARATION
           </motion.div>
 
           {/* Headline */}
@@ -171,7 +171,7 @@ export default function Hero({
           <div className="overflow-hidden rounded-[2rem] border border-navy/10 shadow-2xl shadow-navy/20">
             <Image
               src="/arushi.png"
-              alt="MedhaUp instructor teaching an ANM/GNM class"
+              alt="medhaup instructor teaching an ANM/GNM class"
               width={880}
               height={1040}
               priority

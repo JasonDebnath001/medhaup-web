@@ -6,9 +6,9 @@ import ComingSoon from "@/components/ui/ComingSoon";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Blog — ANM/GNM CET Preparation Tips & Strategy | MedhaUp",
+  title: "Blog — ANM/GNM Preparation Tips & Strategy | MedhaUp",
   description:
-    "Study strategy, subject guides, exam updates and preparation tips for the WBJEE ANM/GNM CET — written by the MedhaUp faculty in simple language.",
+    "Study strategy, subject guides, exam updates and preparation tips for the WBJEE ANM/GNM exam — written by the MedhaUp faculty in simple language.",
 };
 
 export default async function BlogsPage() {

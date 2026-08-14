@@ -17,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MedhaUp — ANM/GNM CET Preparation",
+  title: "MedhaUp — ANM/GNM Preparation",
   description: "Concept Clear. Score Up.",
 };
 

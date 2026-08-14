@@ -16,7 +16,7 @@ export default function StoreContent({ products }: { products: Product[] }) {
 
   const buyOnWhatsApp = (p: Product) =>
     `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
-      `Hi, I want to buy "${p.title}" (₹${p.price}) from the MedhaUp store.`
+      `Hi, I want to buy "${p.title}" (₹${p.price}) from the medhaup store.`
     )}`;
 
   // Only show filter pills for categories that actually have products
@@ -35,7 +35,7 @@ export default function StoreContent({ products }: { products: Product[] }) {
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm">
             <ShoppingBag size={14} className="text-orange" />
-            MEDHAUP STORE
+            medhaup store
           </span>
           <h1 className="font-heading mt-6 text-3xl font-extrabold tracking-tight text-navy sm:text-5xl">
             Study material that&apos;s{" "}

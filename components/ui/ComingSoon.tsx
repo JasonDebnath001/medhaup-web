@@ -32,7 +32,7 @@ export default async function ComingSoon({ title, message }: Props) {
             <a
               href={waChatUrl(
                 settings,
-                `Hi, please let me know when "${title}" goes live on the MedhaUp website.`,
+                `Hi, please let me know when "${title}" goes live on the medhaup website.`,
               )}
               target="_blank"
               rel="noopener noreferrer"

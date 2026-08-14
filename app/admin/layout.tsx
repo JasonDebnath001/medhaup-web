@@ -63,7 +63,7 @@ export default function AdminLayout({
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-navy/10 bg-navy p-4">
         <p className="font-heading px-2 py-3 text-lg font-extrabold text-white">
-          MedhaUp <span className="text-orange">Admin</span>
+          medhaup <span className="text-orange">Admin</span>
         </p>
         <nav className="mt-2 flex-1 space-y-0.5 overflow-y-auto">
           <Link

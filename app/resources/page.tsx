@@ -10,9 +10,9 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title:
-    "Free ANM/GNM Resources — Syllabus PDF, Previous Year Papers, Mock Tests | MedhaUp",
+    "Free ANM/GNM Resources — Syllabus PDF, Previous Year Papers, Mock Tests | medhaup",
   description:
-    "Download free WBJEE ANM/GNM CET study material — full syllabus PDF, previous year question papers, chapter notes, and mock tests. No login, no payment.",
+    "Download free WBJEE ANM/GNM study material — full syllabus PDF, previous year question papers, chapter notes, and mock tests. No login, no payment.",
 };
 
 export default async function ResourcesPage() {

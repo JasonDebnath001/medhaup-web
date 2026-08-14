@@ -38,7 +38,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
     id: "topper-1",
     category: "Toppers",
     src: "/gallery/topper-1.jpg",
-    alt: "MedhaUp student who cleared ANM/GNM 2025",
+    alt: "medhaup student who cleared ANM/GNM 2025",
     caption: "Our 2025 rank holder",
     aspect: "tall",
   },

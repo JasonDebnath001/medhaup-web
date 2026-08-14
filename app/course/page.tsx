@@ -10,14 +10,14 @@ const SITE_URL = "https://medhaup.com";
 const COURSE_URL = `${SITE_URL}/course`;
 const OFFICIAL_EXAM_URL = "https://wbjeeb.nic.in/anm-gnm/";
 
-const SEO_TITLE = "ANM GNM 2027 Online Course | WBJEEB Coaching | MedhaUp";
+const SEO_TITLE = "ANM GNM 2027 Online Course | WBJEEB Coaching | medhaup";
 
 const SEO_DESCRIPTION =
-  "Prepare for WBJEEB ANM(R) & GNM 2027 with MedhaUp's 12-month online course: Bengali + English classes, recordings, mock tests, PYQs, notes and doubt support.";
+  "Prepare for WBJEEB ANM(R) & GNM 2027 with medhaup's 12-month online course: Bengali + English classes, recordings, mock tests, PYQs, notes and doubt support.";
 
 const FAQS = [
   {
-    question: "What is the MedhaUp ANM GNM 2027 online course?",
+    question: "What is the medhaup ANM GNM 2027 online course?",
     answer:
       "It is a 12-month online preparation program for students targeting the West Bengal ANM(R) & GNM entrance examination. The course combines live classes, class recordings, bilingual notes, mock tests, previous-year-question practice and doubt support in one program.",
   },
@@ -29,12 +29,12 @@ const FAQS = [
   {
     question: "Which subjects are covered in the ANM GNM course?",
     answer:
-      "The course covers Life Science, Physical Science, Mathematics, Basic English, General Knowledge and Logical Reasoning. Topic weightage and the exact examination structure can change, so MedhaUp recommends checking the latest official WBJEEB bulletin as well.",
+      "The course covers Life Science, Physical Science, Mathematics, Basic English, General Knowledge and Logical Reasoning. Topic weightage and the exact examination structure can change, so medhaup recommends checking the latest official WBJEEB bulletin as well.",
   },
   {
     question: "Are classes available in Bengali and English?",
     answer:
-      "Yes. MedhaUp teaches in Bengali and English so students can understand concepts comfortably while also practising the terminology used in the entrance examination.",
+      "Yes. medhaup teaches in Bengali and English so students can understand concepts comfortably while also practising the terminology used in the entrance examination.",
   },
   {
     question: "Will I get recordings if I miss a live class?",
@@ -47,14 +47,14 @@ const FAQS = [
       "Yes. The course includes mock-test practice, bilingual chapter-wise notes, PYQ solutions and regular revision support alongside the live classes.",
   },
   {
-    question: "What is the duration and fee of the MedhaUp ANM GNM course?",
+    question: "What is the duration and fee of the medhaup ANM GNM course?",
     answer:
-      "The course duration is 12 months. The listed full-course fee is ₹1,800 for new students and ₹1,500 for returning MedhaUp students, with EMI availability shown on the course page. Check the admission page for the current payable amount before enrolling.",
+      "The course duration is 12 months. The listed full-course fee is ₹1,800 for new students and ₹1,500 for returning medhaup students, with EMI availability shown on the course page. Check the admission page for the current payable amount before enrolling.",
   },
   {
-    question: "Is MedhaUp an official WBJEEB website?",
+    question: "Is medhaup an official WBJEEB website?",
     answer:
-      "No. MedhaUp is an independent education and exam-preparation platform. It is not the West Bengal Joint Entrance Examinations Board and does not replace official WBJEEB notices, bulletins, applications or counselling information.",
+      "No. medhaup is an independent education and exam-preparation platform. It is not the West Bengal Joint Entrance Examinations Board and does not replace official WBJEEB notices, bulletins, applications or counselling information.",
   },
   {
     question:
@@ -134,13 +134,13 @@ export const metadata: Metadata = {
     locale: "en_IN",
     alternateLocale: ["bn_IN"],
     url: COURSE_URL,
-    siteName: "MedhaUp",
+    siteName: "medhaup",
     title: SEO_TITLE,
     description: SEO_DESCRIPTION,
     images: [
       {
         url: `${SITE_URL}/logo.png`,
-        alt: "MedhaUp ANM GNM 2027 online course",
+        alt: "medhaup ANM GNM 2027 online course",
       },
     ],
   },
@@ -220,7 +220,7 @@ const structuredData = {
 
       provider: {
         "@type": "EducationalOrganization",
-        name: "MedhaUp",
+        name: "medhaup",
         url: SITE_URL,
       },
 
@@ -255,7 +255,7 @@ const structuredData = {
       hasCourseInstance: {
         "@type": "CourseInstance",
 
-        name: "MedhaUp ANM GNM 2027 Online Batch",
+        name: "medhaup ANM GNM 2027 Online Batch",
 
         courseMode: "Online",
 
@@ -272,7 +272,7 @@ const structuredData = {
           },
           {
             "@type": "Offer",
-            name: "Returning MedhaUp student full-course fee",
+            name: "Returning medhaup student full-course fee",
             price: "1500",
             priceCurrency: "INR",
             availability: "https://schema.org/InStock",
@@ -319,7 +319,7 @@ function CourseSeoContent() {
           </h2>
 
           <p className="mt-5 text-base leading-8 text-navy/70">
-            MedhaUp&apos;s ANM GNM 2027 online course is designed for students
+            medhaup&apos;s ANM GNM 2027 online course is designed for students
             preparing for the WBJEEB ANM(R) &amp; GNM entrance examination in
             West Bengal. The goal is to make preparation consistent: learn the
             concept in class, revise it from notes and recordings, practise
@@ -345,10 +345,10 @@ function CourseSeoContent() {
               Built around ANM(R) &amp; GNM entrance preparation
             </h3>
 
-            <p className="mt-3 text-sm leading-7 text-navy/65">
+              <p className="mt-3 text-sm leading-7 text-navy/65">
               Study the six core areas covered by the course instead of jumping
               between unrelated material. The syllabus section on this page
-              shows how MedhaUp organises Life Science, Physical Science,
+              shows how medhaup organises Life Science, Physical Science,
               Mathematics, English, General Knowledge and Logical Reasoning
               preparation.
             </p>
@@ -394,7 +394,7 @@ function CourseSeoContent() {
           </h3>
 
           <p className="mt-3 max-w-4xl text-sm leading-7 text-navy/70">
-            MedhaUp is an independent preparation platform, not WBJEEB. Exam
+            medhaup is an independent preparation platform, not WBJEEB. Exam
             dates, eligibility, application rules, paper structure and
             counselling requirements can change by year. For official notices
             and the information bulletin, always check the{" "}
@@ -417,7 +417,7 @@ function CourseSeoContent() {
             </p>
 
             <h2 className="font-heading mt-3 text-3xl font-extrabold text-navy">
-              ANM GNM study resources on MedhaUp
+              ANM GNM study resources on medhaup
             </h2>
 
             <p className="mt-3 text-navy/65">

@@ -6,9 +6,9 @@ import ComingSoon from "@/components/ui/ComingSoon";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Previous Year Question Papers (PYQ) — ANM/GNM CET | MedhaUp",
+  title: "Previous Year Question Papers (PYQ) — ANM/GNM | medhaup",
   description:
-    "Download WBJEE ANM/GNM CET previous year question papers with answer keys. Free PDF, no login required.",
+    "Download WBJEE ANM/GNM previous year question papers with answer keys. Free PDF, no login required.",
 };
 
 export default async function PYQPage() {

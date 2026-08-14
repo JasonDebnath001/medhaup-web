@@ -5,9 +5,9 @@ import AdmissionPageContent from "@/components/sections/admission/AdmissionPageC
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Take Admission — ANM/GNM CET Course | MedhaUp",
+  title: "Take Admission — ANM/GNM Course | MedhaUp",
   description:
-    "Enrol in MedhaUp's ANM/GNM CET course — admit yourself in the app or request a personal callback. Live classes in Bengali & English, EMI available.",
+    "Enrol in MedhaUp's ANM/GNM course — admit yourself in the app or request a personal callback. Live classes in Bengali & English, EMI available.",
 };
 
 export default async function AdmissionPage() {

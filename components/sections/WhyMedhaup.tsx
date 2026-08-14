@@ -73,10 +73,10 @@ export default function WhyMedhaUp() {
           className="mb-14 max-w-2xl"
         >
           <span className="inline-block rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-navy">
-            Why MedhaUp
+            Why medhaup
           </span>
           <h2 className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl">
-            Built only for <span className="text-orange">ANM/GNM CET</span> —
+            Built only for <span className="text-orange">ANM/GNM</span> —
             nothing else
           </h2>
           <p className="mt-4 text-navy/65">
@@ -129,7 +129,7 @@ export default function WhyMedhaUp() {
                 Exam Snapshot
               </p>
               <h3 className="font-heading mt-2 text-2xl font-extrabold">
-                WBJEE ANM/GNM CET at a glance
+                WBJEE ANM/GNM at a glance
               </h3>
 
               {/* Stat tiles */}

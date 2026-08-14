@@ -95,8 +95,8 @@ export default function Syllabus() {
             Six subjects. <span className="text-orange">One plan.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-navy/60">
-            The full WBJEE ANM/GNM CET syllabus, covered subject by subject over
-            12 months — weighted by how the paper actually scores.
+            The full WBJEE ANM/GNM syllabus, covered subject by subject over 12
+            months — weighted by how the paper actually scores.
           </p>
         </motion.div>
 

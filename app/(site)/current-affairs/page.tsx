@@ -8,9 +8,9 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title:
-    "Current Affairs for ANM/GNM CET — Monthly PDF & Daily Updates | MedhaUp",
+    "Current Affairs for ANM/GNM — Monthly PDF & Daily Updates | MedhaUp",
   description:
-    "Exam-focused current affairs for WBJEE ANM/GNM CET — free monthly compiled PDFs and daily GK updates with health and West Bengal focus.",
+    "Exam-focused current affairs for the WBJEE ANM/GNM exam — free monthly compiled PDFs and daily GK updates with health and West Bengal focus.",
 };
 
 export default async function CurrentAffairsPage() {

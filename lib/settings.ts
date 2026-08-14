@@ -54,7 +54,7 @@ export type SiteShape = {
 
 export function buildSite(s: SiteSettings): SiteShape {
   return {
-    name: "MedhaUp",
+    name: "medhaup",
     phone: s.phone,
     phoneDisplay: s.phoneDisplay,
     phoneHref: `tel:+${s.whatsappNumber}`,

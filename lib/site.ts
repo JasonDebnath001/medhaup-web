@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "MedhaUp",
+  name: "medhaup",
   phone: "8910840928",
   phoneDisplay: "+91 89108 40928",
   phoneHref: "tel:+918910840928",

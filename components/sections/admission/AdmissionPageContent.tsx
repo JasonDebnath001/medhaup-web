@@ -37,7 +37,7 @@ const FEES = {
 } as const;
 
 const APP_STEPS = [
-  { icon: Download, text: "Download the MedhaUp app" },
+  { icon: Download, text: "Download the medhaup app" },
   { icon: UserRound, text: "Create your account" },
   { icon: Rocket, text: "Pay in-app & start learning" },
 ];
@@ -103,7 +103,7 @@ export default function AdmissionPageContent({
     const form = e.currentTarget;
     const data = new FormData(form);
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
-    data.append("from_name", "MedhaUp Admission Request");
+    data.append("from_name", "medhaup Admission Request");
     data.append("form_type", "admission");
     data.append("batch", CURRENT_BATCH.name);
 
@@ -233,7 +233,7 @@ export default function AdmissionPageContent({
                   Admit yourself in the app
                 </h2>
                 <p className="mt-2.5 text-sm leading-relaxed text-white/65">
-                  Download the MedhaUp app, choose your plan — new student, old
+                  Download the medhaup app, choose your plan — new student, old
                   student, or EMI — and pay securely inside the app. You&apos;re
                   enrolled in minutes.
                 </p>

@@ -6,9 +6,9 @@ import GalleryContent from "@/components/sections/gallery/GalleryContent";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Gallery — Classes, Toppers & Events | MedhaUp",
+  title: "Gallery — Classes, Toppers & Events | medhaup",
   description:
-    "Inside MedhaUp — live classes, our ANM/GNM rank holders, and batch events across West Bengal.",
+    "Inside medhaup — live classes, our ANM/GNM rank holders, and batch events across West Bengal.",
 };
 
 export default async function GalleryPage() {

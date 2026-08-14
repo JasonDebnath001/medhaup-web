@@ -5,8 +5,10 @@ import Hero from "@/components/sections/Hero";
 import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
+import BlogHighlights from "@/components/sections/Bloghighlights";
 import {
   getBatches,
+  getPosts,
   getSubjects,
   getSyllabusDownloads,
 } from "@/lib/data";
@@ -18,10 +20,10 @@ import {
 const SITE_URL = "https://medhaup.com";
 
 const PAGE_TITLE =
-  "ANM GNM 2027 Preparation | WBJEEB Nursing CET | MedhaUp";
+  "ANM GNM 2027 Preparation | WBJEEB Nursing Exam | medhaup";
 
 const PAGE_DESCRIPTION =
-  "Prepare for WBJEEB ANM(R) & GNM CET 2027 with MedhaUp: Bengali & English classes, syllabus, PYQs, current affairs, practice and admission guidance.";
+  "Prepare for WBJEEB ANM(R) & GNM 2027 with medhaup: Bengali & English classes, syllabus, PYQs, current affairs, practice and admission guidance.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,17 +32,17 @@ export const metadata: Metadata = {
 
   description: PAGE_DESCRIPTION,
 
-  applicationName: "MedhaUp",
+  applicationName: "medhaup",
 
   authors: [
     {
-      name: "MedhaUp",
+      name: "medhaup",
       url: SITE_URL,
     },
   ],
 
-  creator: "MedhaUp",
-  publisher: "MedhaUp",
+  creator: "medhaup",
+  publisher: "medhaup",
 
   category: "Education",
 
@@ -51,8 +53,8 @@ export const metadata: Metadata = {
     "ANM GNM coaching",
     "ANM GNM online coaching",
     "ANM GNM West Bengal",
-    "ANM GNM CET",
-    "ANM GNM CET 2027",
+    "ANM GNM",
+    "ANM GNM 2027",
     "WBJEEB ANM GNM",
     "WBJEEB ANM GNM 2027",
     "WBJEEB ANM GNM preparation",
@@ -78,7 +80,7 @@ export const metadata: Metadata = {
     "ANM GNM English coaching",
     "nursing entrance coaching West Bengal",
     "nursing entrance preparation West Bengal",
-    "MedhaUp",
+    "medhaup",
     "Medha Up",
   ],
 
@@ -105,7 +107,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: SITE_URL,
-    siteName: "MedhaUp",
+    siteName: "medhaup",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
 
@@ -114,7 +116,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/arushi.png`,
         width: 880,
         height: 1040,
-        alt: "MedhaUp ANM GNM entrance exam preparation",
+        alt: "medhaup ANM GNM entrance exam preparation",
       },
     ],
   },
@@ -185,24 +187,24 @@ const SEO_LINKS = [
 
 const FAQS = [
   {
-    question: "What is MedhaUp?",
+    question: "What is medhaup?",
     answer:
-      "MedhaUp is an education platform focused on preparation for the WBJEEB ANM(R) & GNM Common Entrance Test in West Bengal. The preparation approach includes concept learning, subject-wise practice, syllabus guidance and exam-focused resources.",
+      "medhaup is an education platform focused on preparation for the WBJEEB ANM(R) & GNM Common Entrance Test in West Bengal. The preparation approach includes concept learning, subject-wise practice, syllabus guidance and exam-focused resources.",
   },
   {
-    question: "Which entrance exam does MedhaUp focus on?",
+    question: "Which entrance exam does medhaup focus on?",
     answer:
-      "MedhaUp focuses on the ANM(R) & GNM Common Entrance Test conducted by the West Bengal Joint Entrance Examinations Board for nursing admissions in West Bengal.",
+      "medhaup focuses on the ANM(R) & GNM Common Entrance Test conducted by the West Bengal Joint Entrance Examinations Board for nursing admissions in West Bengal.",
   },
   {
-    question: "Is MedhaUp preparing students for ANM GNM 2027?",
+    question: "Is medhaup preparing students for ANM GNM 2027?",
     answer:
-      "Yes. MedhaUp's current preparation program is designed for students targeting the 2027 ANM and GNM entrance examination cycle. Candidates should always verify official examination dates, eligibility and notifications directly from WBJEEB when the official 2027 bulletin is published.",
+      "Yes. medhaup's current preparation program is designed for students targeting the 2027 ANM and GNM entrance examination cycle. Candidates should always verify official examination dates, eligibility and notifications directly from WBJEEB when the official 2027 bulletin is published.",
   },
   {
-    question: "Are MedhaUp classes available in Bengali and English?",
+    question: "Are medhaup classes available in Bengali and English?",
     answer:
-      "Yes. MedhaUp explains concepts in Bengali and English so that students can understand the syllabus clearly while also becoming comfortable with the language used in the entrance examination.",
+      "Yes. medhaup explains concepts in Bengali and English so that students can understand the syllabus clearly while also becoming comfortable with the language used in the entrance examination.",
   },
   {
     question: "Which subjects are covered for ANM GNM preparation?",
@@ -212,7 +214,7 @@ const FAQS = [
   {
     question: "Can I get ANM GNM syllabus and previous year questions?",
     answer:
-      "Yes. MedhaUp provides dedicated syllabus, previous year question, current affairs and preparation-resource sections so students can organise their preparation from one place.",
+      "Yes. medhaup provides dedicated syllabus, previous year question, current affairs and preparation-resource sections so students can organise their preparation from one place.",
   },
 ];
 
@@ -232,7 +234,7 @@ const structuredData = {
       "@type": "EducationalOrganization",
       "@id": `${SITE_URL}/#organization`,
 
-      name: "MedhaUp",
+      name: "medhaup",
 
       alternateName: ["Medha Up", "medhaup"],
 
@@ -243,7 +245,7 @@ const structuredData = {
         "@id": `${SITE_URL}/#logo`,
         url: `${SITE_URL}/logo.png`,
         contentUrl: `${SITE_URL}/logo.png`,
-        caption: "MedhaUp",
+        caption: "medhaup",
       },
 
       image: {
@@ -252,7 +254,7 @@ const structuredData = {
       },
 
       description:
-        "MedhaUp provides focused preparation for the WBJEEB ANM(R) & GNM nursing entrance examination in West Bengal.",
+        "medhaup provides focused preparation for the WBJEEB ANM(R) & GNM nursing entrance examination in West Bengal.",
 
       areaServed: {
         "@type": "AdministrativeArea",
@@ -288,9 +290,9 @@ const structuredData = {
 
       url: SITE_URL,
 
-      name: "MedhaUp",
+      name: "medhaup",
 
-      alternateName: "MedhaUp ANM GNM Preparation",
+      alternateName: "medhaup ANM GNM Preparation",
 
       description: PAGE_DESCRIPTION,
 
@@ -313,7 +315,7 @@ const structuredData = {
 
       name: PAGE_TITLE,
 
-      headline: "WBJEEB ANM & GNM CET 2027 Preparation",
+      headline: "WBJEEB ANM & GNM 2027 Preparation",
 
       description: PAGE_DESCRIPTION,
 
@@ -348,7 +350,7 @@ const structuredData = {
       "@type": "Course",
       "@id": `${SITE_URL}/course#course`,
 
-      name: "WBJEEB ANM(R) & GNM CET 2027 Preparation",
+      name: "WBJEEB ANM(R) & GNM 2027 Preparation",
 
       alternateName: [
         "ANM GNM 2027 Preparation",
@@ -427,11 +429,15 @@ const structuredData = {
 export const revalidate = 60;
 
 export default async function Home() {
-  const [batches, subjects, downloads] = await Promise.all([
+  const [batches, subjects, downloads, posts] = await Promise.all([
     getBatches(),
     getSubjects(),
     getSyllabusDownloads(),
+    getPosts(),
   ]);
+
+  /* Latest three published posts for the homepage showcase */
+  const latestPosts = posts.slice(0, 3);
 
   return (
     <>
@@ -480,14 +486,14 @@ export default async function Home() {
                 id="anm-gnm-preparation-heading"
                 className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl"
               >
-                WBJEEB ANM &amp; GNM CET 2027 preparation for{" "}
+                WBJEEB ANM &amp; GNM 2027 preparation for{" "}
                 <span className="text-orange">
                   West Bengal nursing aspirants
                 </span>
               </h2>
 
               <p className="mt-5 text-base leading-8 text-navy/70">
-                MedhaUp is built for students preparing for the WBJEEB
+                medhaup is built for students preparing for the WBJEEB
                 ANM(R) &amp; GNM Common Entrance Test in West Bengal. Instead
                 of mixing nursing entrance preparation with unrelated
                 competitive exams, the learning experience focuses on the
@@ -555,7 +561,7 @@ export default async function Home() {
                 <p className="mt-4 leading-7 text-white/75">
                   Nursing entrance preparation becomes easier to organise when
                   the syllabus, previous questions, subject practice and
-                  revision resources follow the same exam goal. MedhaUp brings
+                  revision resources follow the same exam goal. medhaup brings
                   these parts together for students targeting ANM and GNM
                   admissions in West Bengal.
                 </p>
@@ -576,6 +582,12 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {/* ------------------------------------------------------------------ */}
+        {/* Latest Blog Posts Showcase                                         */}
+        {/* ------------------------------------------------------------------ */}
+
+        {latestPosts.length > 0 && <BlogHighlights posts={latestPosts} />}
 
         {/* ------------------------------------------------------------------ */}
         {/* SEO FAQ Section                                                     */}

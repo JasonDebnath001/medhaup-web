@@ -33,7 +33,7 @@ export default function BlogsContent({ posts }: { posts: BlogPost[] }) {
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm">
             <Newspaper size={14} className="text-orange" />
-            MEDHAUP BLOG
+            medhaup blog
           </span>
           <h1 className="font-heading mt-6 text-3xl font-extrabold tracking-tight text-navy sm:text-5xl">
             Prepare <span className="text-orange">smarter</span>, not just
@@ -41,7 +41,7 @@ export default function BlogsContent({ posts }: { posts: BlogPost[] }) {
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-navy/70">
             Study strategy, subject guides and exam updates for the ANM/GNM
-            CET — written by our faculty in simple language.
+            exam — written by our faculty in simple language.
           </p>
         </div>
       </section>

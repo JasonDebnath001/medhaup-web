@@ -76,6 +76,6 @@ export const PRODUCTS: Product[] = [
 
 export function buyOnWhatsApp(product: Product) {
   return `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
-    `Hi, I want to buy "${product.title}" (₹${product.price}) from the MedhaUp store.`,
+    `Hi, I want to buy "${product.title}" (₹${product.price}) from the medhaup store.`,
   )}`;
 }

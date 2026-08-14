@@ -25,7 +25,7 @@ export const BLOG_POSTS: BlogPost[] = [
     readMins: 6,
     tags: ["Exam Pattern", "Strategy"],
     content: [
-      "The WBJEEB ANM/GNM CET paper has 100 MCQs across two categories. Category I carries 85 questions of 1 mark each; Category II carries 15 questions of 2 marks each.",
+      "The WBJEEB ANM/GNM paper has 100 MCQs across two categories. Category I carries 85 questions of 1 mark each; Category II carries 15 questions of 2 marks each.",
       "Negative marking works differently in each category — ¼ mark deducted in Category I, ½ mark in Category II — which changes how aggressive you should be while attempting.",
       "Our recommended strategy: clear Category I first at speed, flag doubtful Category II questions, and only guess where you can eliminate two options.",
     ],

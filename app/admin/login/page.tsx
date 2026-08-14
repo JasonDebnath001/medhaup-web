@@ -38,7 +38,7 @@ export default function AdminLogin() {
           <Lock size={20} />
         </div>
         <h1 className="font-heading mt-4 text-center text-xl font-extrabold text-navy">
-          MedhaUp Admin
+          medhaup Admin
         </h1>
         <input
           type="email"
