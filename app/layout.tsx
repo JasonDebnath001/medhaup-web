@@ -1,7 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import AnalyticsEvents from "@/components/provider/AnalyticsEvents";
+import SiteChrome from "@/components/layout/SiteChrome";
+import { SiteProvider } from "@/components/provider/SiteProvider";
+import JsonLd from "@/components/seo/JsonLd";
+import { getSiteSettings } from "@/lib/data";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_KEYWORDS,
+  DEFAULT_TITLE,
+  SITE_NAME,
+  SITE_URL,
+  siteSchema,
+} from "@/lib/seo";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -17,21 +29,91 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MedhaUp — ANM/GNM Preparation",
-  description: "Concept Clear. Score Up.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "education",
+  keywords: DEFAULT_KEYWORDS,
+  manifest: "/manifest.webmanifest",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    alternateLocale: ["bn_IN"],
+    url: "/",
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "medhaup ANM GNM 2027 preparation",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: ["/opengraph-image"],
+  },
+  other: {
+    "geo.region": "IN-WB",
+    "geo.placename": "West Bengal",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#1a0c70",
+  colorScheme: "light",
 };
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
-export default function RootLayout({
+export const revalidate = 60;
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const settings = await getSiteSettings();
+
   return (
     <html lang="en">
       <body
         className={`${jakarta.variable} ${inter.variable} font-sans antialiased`}
       >
-        {children}
+        <JsonLd data={siteSchema} />
+        <SiteProvider settings={settings}>
+          <SiteChrome>{children}</SiteChrome>
+        </SiteProvider>
         {GA_ID && (
           <>
             <GoogleAnalytics gaId={GA_ID} />

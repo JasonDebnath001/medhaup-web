@@ -106,7 +106,7 @@ const RESOURCE_LINKS = [
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  title: SEO_TITLE,
+  title: { absolute: SEO_TITLE },
   description: SEO_DESCRIPTION,
 
   applicationName: "MedhaUp",
@@ -139,7 +139,9 @@ export const metadata: Metadata = {
     description: SEO_DESCRIPTION,
     images: [
       {
-        url: `${SITE_URL}/logo.png`,
+        url: `${SITE_URL}/opengraph-image`,
+        width: 1200,
+        height: 630,
         alt: "medhaup ANM GNM 2027 online course",
       },
     ],
@@ -149,7 +151,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SEO_TITLE,
     description: SEO_DESCRIPTION,
-    images: [`${SITE_URL}/logo.png`],
+    images: [`${SITE_URL}/opengraph-image`],
   },
 };
 

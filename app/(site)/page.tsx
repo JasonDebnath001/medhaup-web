@@ -6,7 +6,6 @@ import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import BlogHighlights from "@/components/sections/Bloghighlights";
-import IndependenceOffer from "@/components/offer/IndependanceOffer";
 import {
   getBatches,
   getPosts,
@@ -29,7 +28,7 @@ const PAGE_DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
-  title: PAGE_TITLE,
+  title: { absolute: PAGE_TITLE },
 
   description: PAGE_DESCRIPTION,
 
@@ -114,9 +113,9 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: `${SITE_URL}/arushi.png`,
-        width: 880,
-        height: 1040,
+        url: `${SITE_URL}/opengraph-image`,
+        width: 1200,
+        height: 630,
         alt: "medhaup ANM GNM entrance exam preparation",
       },
     ],
@@ -126,7 +125,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [`${SITE_URL}/arushi.png`],
+    images: [`${SITE_URL}/opengraph-image`],
   },
 
   referrer: "origin-when-cross-origin",
@@ -459,8 +458,6 @@ export default async function Home() {
         {/* ------------------------------------------------------------------ */}
 
         <Hero downloads={downloads} />
-        <IndependenceOffer />
-
         {/* No published batch → section disappears (admissions closed) */}
         {batches.length > 0 && <OngoingBatch batches={batches} />}
 

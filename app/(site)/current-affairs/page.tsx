@@ -1,17 +1,27 @@
-import type { Metadata } from "next";
 import { Newspaper, Download, Sparkles, CalendarDays } from "lucide-react";
 import { getMonthlyCA, getDailyCA, getSiteSettings } from "@/lib/data";
 import ComingSoon from "@/components/ui/ComingSoon";
 import { formatDateShort } from "@/lib/utils";
+import JsonLd from "@/components/seo/JsonLd";
+import { absoluteUrl, createPageMetadata, createPageSchema } from "@/lib/seo";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title:
-    "Current Affairs for ANM/GNM — Monthly PDF & Daily Updates | MedhaUp",
-  description:
-    "Exam-focused current affairs for the WBJEE ANM/GNM exam — free monthly compiled PDFs and daily GK updates with health and West Bengal focus.",
-};
+const title = "ANM/GNM Current Affairs: Daily Updates & PDFs";
+const description =
+  "Study exam-focused current affairs for WBJEEB ANM/GNM with free daily GK updates and monthly PDFs covering health, schemes and West Bengal news.";
+
+export const metadata = createPageMetadata({
+  title,
+  description,
+  path: "/current-affairs",
+  keywords: [
+    "ANM GNM current affairs 2027",
+    "ANM GNM current affairs PDF",
+    "nursing entrance current affairs",
+    "West Bengal current affairs for ANM GNM",
+  ],
+});
 
 export default async function CurrentAffairsPage() {
   const [monthly, daily, settings] = await Promise.all([
@@ -19,18 +29,66 @@ export default async function CurrentAffairsPage() {
     getDailyCA(),
     getSiteSettings(),
   ]);
+  const schema = createPageSchema({
+    type: "CollectionPage",
+    path: "/current-affairs",
+    name: `${title} | medhaup`,
+    description,
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Study Material", path: "/resources" },
+      { name: "Current Affairs", path: "/current-affairs" },
+    ],
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: monthly.length + daily.length,
+      itemListElement: [
+        ...monthly.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "LearningResource",
+            name: item.title,
+            description: item.description,
+            learningResourceType: "Current affairs PDF",
+            inLanguage: item.language,
+            isAccessibleForFree: true,
+            url: item.fileUrl.startsWith("http")
+              ? item.fileUrl
+              : absoluteUrl(item.fileUrl),
+          },
+        })),
+        ...daily.map((item, index) => ({
+          "@type": "ListItem",
+          position: monthly.length + index + 1,
+          item: {
+            "@type": "Article",
+            headline: item.headline,
+            description: item.detail,
+            datePublished: item.date,
+            articleSection: item.tag,
+            publisher: { "@id": "https://medhaup.com/#organization" },
+          },
+        })),
+      ],
+    },
+  });
 
   if (monthly.length === 0 && daily.length === 0) {
     return (
-      <ComingSoon
-        title="Current Affairs"
-        message="Daily updates and monthly compiled PDFs launch soon — message us on WhatsApp to get them first."
-      />
+      <>
+        <JsonLd data={schema} />
+        <ComingSoon
+          title="Current Affairs"
+          message="Daily updates and monthly compiled PDFs launch soon — message us on WhatsApp to get them first."
+        />
+      </>
     );
   }
 
   return (
     <main>
+      <JsonLd data={schema} />
       <section className="bg-cream pt-32 pb-12 sm:pt-40">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm">

@@ -1,30 +1,77 @@
-import type { Metadata } from "next";
 import { FileText, Download, KeyRound, Sparkles } from "lucide-react";
 import { getPYQs } from "@/lib/data";
 import ComingSoon from "@/components/ui/ComingSoon";
+import JsonLd from "@/components/seo/JsonLd";
+import { absoluteUrl, createPageMetadata, createPageSchema } from "@/lib/seo";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Previous Year Question Papers (PYQ) — ANM/GNM | medhaup",
-  description:
-    "Download WBJEE ANM/GNM previous year question papers with answer keys. Free PDF, no login required.",
-};
+const title = "ANM/GNM Previous Year Question Papers (PYQ)";
+const description =
+  "Download WBJEEB ANM/GNM previous year question papers and answer keys as free PDFs. Practise real papers without login or payment.";
+
+export const metadata = createPageMetadata({
+  title,
+  description,
+  path: "/pyq",
+  keywords: [
+    "ANM GNM previous year question paper",
+    "ANM GNM PYQ PDF",
+    "WBJEEB ANM GNM answer key",
+    "ANM GNM question paper download",
+  ],
+});
 
 export default async function PYQPage() {
   const papers = await getPYQs(); // already sorted by year, newest first
+  const schema = createPageSchema({
+    type: "CollectionPage",
+    path: "/pyq",
+    name: `${title} | medhaup`,
+    description,
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Study Material", path: "/resources" },
+      { name: "Previous Year Papers", path: "/pyq" },
+    ],
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: papers.length,
+      itemListElement: papers.map((paper, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "LearningResource",
+          name: paper.title,
+          description: paper.description,
+          dateCreated: `${paper.year}`,
+          learningResourceType: "Previous year question paper",
+          inLanguage: paper.language,
+          isAccessibleForFree: true,
+          url: paper.paperUrl.startsWith("http")
+            ? paper.paperUrl
+            : absoluteUrl(paper.paperUrl),
+          provider: { "@id": "https://medhaup.com/#organization" },
+        },
+      })),
+    },
+  });
 
   if (papers.length === 0) {
     return (
-      <ComingSoon
-        title="Previous Year Papers"
-        message="We're compiling the official WBJEEB papers with answer keys. Almost ready — message us on WhatsApp to get them the day they drop."
-      />
+      <>
+        <JsonLd data={schema} />
+        <ComingSoon
+          title="Previous Year Papers"
+          message="We're compiling the official WBJEEB papers with answer keys. Almost ready — message us on WhatsApp to get them the day they drop."
+        />
+      </>
     );
   }
 
   return (
     <main>
+      <JsonLd data={schema} />
       <section className="bg-cream pt-32 pb-12 sm:pt-40">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <span className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm">

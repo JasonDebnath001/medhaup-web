@@ -87,7 +87,12 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <Link href="/" className="inline-block">
-            <Image src="/logo.png" alt="medhaup" width={180} height={52} />
+            <Image
+              src="/logo.png"
+              alt="medhaup ANM GNM preparation"
+              width={180}
+              height={52}
+            />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             West Bengal&apos;s focused preparation platform for the WBJEE

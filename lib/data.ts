@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { supabaseServer } from "./supabase/server";
 import { SITE_DEFAULTS, type SiteSettings } from "./settings";
 
@@ -136,11 +137,18 @@ export type Batch = {
   seatsTotal: number;
 };
 
+const isValidPublicSlug = (slug: string) =>
+  slug.length > 0 &&
+  slug.length <= 160 &&
+  /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+
 /* ---------- Fetchers (published rows only) ---------- */
 export const getProducts = () =>
   fetchPublished<Product>("products", "created_at");
-export const getPosts = () =>
-  fetchPublished<BlogPost>("blog_posts", "date", false);
+export const getPosts = async () =>
+  (await fetchPublished<BlogPost>("blog_posts", "date", false)).filter(
+    (post) => isValidPublicSlug(post.slug),
+  );
 export const getPYQs = () => fetchPublished<PYQ>("pyqs", "year");
 export const getGallery = () =>
   fetchPublished<GalleryItem>("gallery_items", "created_at");
@@ -156,7 +164,9 @@ export const getSyllabusDownloads = () =>
   fetchPublished<SyllabusDownload>("syllabus_downloads", "created_at", true);
 export const getBatches = () => fetchPublished<Batch>("batches", "created_at");
 
-export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+export const getPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
+  if (!isValidPublicSlug(slug)) return null;
+
   const { data, error } = await supabaseServer()
     .from("blog_posts")
     .select("*")
@@ -168,7 +178,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     return null;
   }
   return data ? toCamel<BlogPost>(data) : null;
-}
+});
 
 /* ---------- Site settings, merged over safe defaults ---------- */
 export async function getSiteSettings(): Promise<SiteSettings> {
