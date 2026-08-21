@@ -40,8 +40,9 @@ const NAV_ITEMS: NavItem[] = [
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const mobileOpen = mobileOpenPath === pathname;
 
   // Shadow + frosted background once scrolled
   useEffect(() => {
@@ -51,16 +52,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
   // Escape key closes the mobile menu
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
+      if (e.key === "Escape") setMobileOpenPath(null);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -83,7 +79,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-[var(--offer-h,0px)] z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4">
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
       <nav
         aria-label="Main navigation"
         className={clsx(
@@ -97,7 +93,7 @@ export default function Navbar() {
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src="/logo.png"
-            alt="Logo"
+            alt="medhaup ANM GNM preparation"
             width={300}
             height={150}
             priority
@@ -181,7 +177,7 @@ export default function Navbar() {
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
-            onClick={() => setMobileOpen((v) => !v)}
+            onClick={() => setMobileOpenPath(mobileOpen ? null : pathname)}
             className="grid h-10 w-10 place-items-center rounded-full text-white transition-colors hover:bg-white/10 md:hidden"
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -198,7 +194,7 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
+              onClick={() => setMobileOpenPath(null)}
               className="fixed inset-0 z-40 bg-navy/30 backdrop-blur-sm md:hidden"
               aria-hidden="true"
             />
@@ -211,7 +207,7 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 320, damping: 34 }}
-              className="fixed top-[var(--offer-h,0px)] right-0 bottom-0 z-50 flex w-[78%] max-w-xs flex-col bg-white shadow-2xl md:hidden"
+              className="fixed top-0 right-0 bottom-0 z-50 flex w-[78%] max-w-xs flex-col bg-white shadow-2xl md:hidden"
             >
               <div className="flex items-center justify-between border-b border-navy/10 px-5 py-4">
                 <span className="font-heading text-sm font-bold uppercase tracking-wider text-navy/50">
@@ -220,7 +216,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   aria-label="Close menu"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => setMobileOpenPath(null)}
                   className="grid h-9 w-9 place-items-center rounded-full text-navy transition-colors hover:bg-navy/5"
                 >
                   <X size={20} />

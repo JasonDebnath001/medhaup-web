@@ -3,23 +3,48 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, MessageCircle } from "lucide-react";
-import { getPostBySlug, getSiteSettings } from "@/lib/data";
+import { getPostBySlug, getPosts, getSiteSettings } from "@/lib/data";
 import { waChatUrl } from "@/lib/settings";
 import MarkdownContent from "@/components/ui/MarkdownContent";
 import { formatDate } from "@/lib/utils";
+import JsonLd from "@/components/seo/JsonLd";
+import {
+  absoluteUrl,
+  createPageMetadata,
+  createPageSchema,
+} from "@/lib/seo";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ slug: string }> };
 
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: "Post not found | MedhaUp" };
-  return {
-    title: `${post.title} | MedhaUp Blog`,
+  if (!post) {
+    return {
+      title: "Article not found",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return createPageMetadata({
+    title: post.title,
     description: post.excerpt,
-  };
+    path: `/blogs/${slug}`,
+    keywords: post.tags,
+    image: `/blogs/${slug}/opengraph-image`,
+    imageAlt: post.title,
+    type: "article",
+    publishedTime: post.date,
+    modifiedTime: post.date,
+    tags: post.tags,
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -29,9 +54,44 @@ export default async function BlogPostPage({ params }: Props) {
     getSiteSettings(),
   ]);
   if (!post) notFound();
+  const articleUrl = absoluteUrl(`/blogs/${slug}`);
+  const schema = createPageSchema({
+    path: `/blogs/${slug}`,
+    name: `${post.title} | medhaup`,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.date,
+    image: `/blogs/${slug}/opengraph-image`,
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Blog", path: "/blogs" },
+      { name: post.title, path: `/blogs/${slug}` },
+    ],
+    mainEntity: { "@id": `${articleUrl}#article` },
+    extraEntities: [
+      {
+        "@type": "BlogPosting",
+        "@id": `${articleUrl}#article`,
+        mainEntityOfPage: { "@id": `${articleUrl}#webpage` },
+        url: articleUrl,
+        headline: post.title,
+        description: post.excerpt,
+        image: absoluteUrl(`/blogs/${slug}/opengraph-image`),
+        datePublished: post.date,
+        dateModified: post.date,
+        author: { "@id": "https://medhaup.com/#organization" },
+        publisher: { "@id": "https://medhaup.com/#organization" },
+        articleSection: post.tags,
+        keywords: post.tags.join(", "),
+        inLanguage: "en-IN",
+        isAccessibleForFree: true,
+      },
+    ],
+  });
 
   return (
     <main>
+      <JsonLd data={schema} />
       <article className="bg-cream pt-32 pb-16 sm:pt-40 sm:pb-24">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <Link

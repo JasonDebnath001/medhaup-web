@@ -1,12 +1,46 @@
 import ContactPageContent from "@/components/sections/contact/ContactPageContent";
-import type { Metadata } from "next";
+import JsonLd from "@/components/seo/JsonLd";
+import { createPageMetadata, createPageSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact medhaup — WhatsApp, Call or Message Us",
-  description:
-    "Questions about the ANM/GNM course, fees, or admission? Reach medhaup on WhatsApp, call +91 89108 40928 (10 AM – 6 PM), or send a message.",
-};
+const title = "Contact medhaup for ANM/GNM Admission Help";
+const description =
+  "Contact medhaup by WhatsApp, phone or email for ANM/GNM course, fee, batch timing and admission questions. Support is available in Bengali and English.";
+
+export const metadata = createPageMetadata({
+  title,
+  description,
+  path: "/contact",
+  keywords: [
+    "contact medhaup",
+    "ANM GNM admission help",
+    "ANM GNM course enquiry",
+  ],
+});
+
+const schema = createPageSchema({
+  type: "ContactPage",
+  path: "/contact",
+  name: `${title} | medhaup`,
+  description,
+  breadcrumbs: [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ],
+  mainEntity: {
+    "@type": "ContactPoint",
+    telephone: "+91-89108-40928",
+    email: "contact@medhaup.com",
+    contactType: "admissions and student support",
+    availableLanguage: ["Bengali", "English"],
+    areaServed: "IN-WB",
+  },
+});
 
 export default function ContactPage() {
-  return <ContactPageContent />;
+  return (
+    <>
+      <JsonLd data={schema} />
+      <ContactPageContent />
+    </>
+  );
 }

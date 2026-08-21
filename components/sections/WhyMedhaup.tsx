@@ -129,7 +129,7 @@ export default function WhyMedhaUp() {
                 Exam Snapshot
               </p>
               <h3 className="font-heading mt-2 text-2xl font-extrabold">
-                WBJEE ANM/GNM at a glance
+                WBJEEB ANM/GNM at a glance
               </h3>
 
               {/* Stat tiles */}

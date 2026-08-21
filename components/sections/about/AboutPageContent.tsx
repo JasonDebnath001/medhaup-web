@@ -100,7 +100,7 @@ export default function AboutPageContent() {
             transition={{ duration: 0.55, delay: 0.16 }}
             className="mx-auto mt-4 max-w-xl text-navy/65 sm:text-lg"
           >
-            medhaup is a new platform with a single focus: the WBJEE ANM/GNM
+            medhaup is a new platform with a single focus: the WBJEEB ANM/GNM
             exam. New name — but the teaching behind it is anything but new.
           </motion.p>
         </div>
