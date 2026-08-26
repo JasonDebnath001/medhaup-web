@@ -1,7 +1,7 @@
 export const rakhiCampaign = {
   id: "rakhi-2026",
   enabled: true,
-  title: "Rakhi Special Offer",
+  title: "Rakhi Offer",
   batchName: "নার্সিংলক্ষ্য 1.0",
   price: 1449,
   formattedPrice: "₹1,449",
@@ -10,7 +10,7 @@ export const rakhiCampaign = {
   endsAt: "2026-08-28T23:59:59.999+05:30",
   whatsappNumber: "918910840928",
   whatsappMessage:
-    "Hi medhaup, I want to take admission in নার্সিংলক্ষ্য 1.0 using the Rakhi Special Offer of ₹1,449. My coupon code is RAKHI2026.",
+    "Hi medhaup, I would like to enrol in নার্সিংলক্ষ্য 1.0 with the Rakhi offer of ₹1,449. Coupon code: RAKHI2026.",
 } as const;
 
 export type CampaignPhase = "upcoming" | "live" | "expired";

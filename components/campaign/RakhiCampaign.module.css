@@ -202,23 +202,6 @@
   line-height: 1.55;
   color: rgb(255 255 255/88%);
 }
-.support {
-  max-width: 535px;
-  margin-top: 12px;
-  color: rgb(255 255 255/58%);
-  font-size: 14px;
-  line-height: 1.7;
-}
-.emotionalCopy {
-  display: inline-block;
-  margin-top: 24px;
-  padding-top: 13px;
-  border-top: 1px solid rgb(250 111 45/48%);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.6;
-}
 .rakhiArtwork {
   position: relative;
   z-index: 2;
@@ -547,13 +530,6 @@
   .bengali {
     margin-top: 20px;
     font-size: 17px;
-  }
-  .support {
-    display: none;
-  }
-  .emotionalCopy {
-    margin-top: 18px;
-    font-size: 13px;
   }
   .rakhiArtwork {
     width: calc(100% + 40px);

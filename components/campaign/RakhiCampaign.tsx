@@ -43,7 +43,7 @@ function CampaignCountdown({
     <div className={styles.countdown}>
       <div className={styles.countdownHeader}>
         <span>
-          {phase === "live" ? "Offer ends in" : "Rakhi Gift Pass unlocks in"}
+          {phase === "live" ? "Offer ends in" : "Offer starts in"}
         </span>
         {phase === "live" && <span className={styles.live}>LIVE NOW</span>}
       </div>
@@ -122,7 +122,7 @@ function WhatsAppLink({
       <MessageCircle size={18} aria-hidden="true" />
       {phase === "live"
         ? `Claim ${rakhiCampaign.formattedPrice} Offer on WhatsApp`
-        : "Get Rakhi Offer Details"}
+        : "Get Offer Details"}
       <ArrowRight size={16} aria-hidden="true" />
     </a>
   );
@@ -137,8 +137,8 @@ export function CampaignAnnouncementBar({ phase }: { phase: CampaignPhase }) {
         <p className={styles.announcementCopy}>
           <strong>
             {phase === "live"
-              ? "RAKHI SPECIAL · TODAY ONLY"
-              : "RAKHI GIFT PASS · 28 AUGUST"}
+              ? "RAKHI OFFER · TODAY ONLY"
+              : "RAKHI OFFER · 28 AUGUST 2026"}
           </strong>
           <span>
             {rakhiCampaign.batchName} · {rakhiCampaign.formattedPrice}
@@ -197,7 +197,7 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
         >
           <span className={styles.eyebrow}>
             <span className={styles.eyebrowDot} />
-            RAKHI SPECIAL · 28 AUGUST ONLY
+            RAKHI OFFER · 28 AUGUST 2026
           </span>
         </motion.div>
 
@@ -293,14 +293,14 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
                 <circle r="39" fill="#FA6F2D" />
                 <circle r="29" fill="#021142" />
                 <text x="0" y="-2" textAnchor="middle" fill="#FFFFFF" fontSize="18" fontWeight="800">28</text>
-                <text x="0" y="13" textAnchor="middle" fill="#FA6F2D" fontSize="8" fontWeight="800" letterSpacing="1.5">AUG</text>
+                <text x="0" y="11" textAnchor="middle" fill="#FA6F2D" fontSize="8" fontWeight="800" letterSpacing="1.5">AUG</text>
+                <text x="0" y="21" textAnchor="middle" fill="#FFFFFF" fontSize="5.5" fontWeight="700" letterSpacing="1">2026</text>
                 {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
                   <circle key={angle} cx="0" cy="-33" r="3.2" transform={`rotate(${angle})`} fill="#FFFFFF" />
                 ))}
               </motion.g>
             </g>
           </svg>
-          <span>A THREAD OF CARE · A GIFT FOR HER DREAM</span>
         </motion.div>
 
         <div className={styles.contentGrid}>
@@ -312,22 +312,16 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
             transition={{ ...revealTransition, delay: reduceMotion ? 0 : 0.65 }}
           >
             <h2 id="rakhi-heading" className={styles.headline}>
-              This Rakhi, gift a step towards a <em>nursing career.</em>
+              Rakhi Special for <em>ANM/GNM 2027.</em>
             </h2>
             <p className={styles.bengali}>
               {rakhiCampaign.batchName}-এর জন্য একদিনের বিশেষ মূল্য
-            </p>
-            <p className={styles.support}>
-              ANM/GNM 2027 preparation-এর জন্য একটি বিশেষ একদিনের সুযোগ।
-            </p>
-            <p className={styles.emotionalCopy}>
-              একটি ছোট উপহার, একটি বড় স্বপ্নের পথে।
             </p>
           </motion.div>
 
           <motion.article
             className={styles.pass}
-            aria-label="medhaup Rakhi Gift Pass"
+            aria-label="medhaup Rakhi offer"
             initial={reduceMotion ? false : { opacity: 0, x: 38, rotate: 1.8 }}
             whileInView={{ opacity: 1, x: 0, rotate: 0 }}
             whileHover={reduceMotion ? undefined : { y: -7, rotate: -0.35 }}
@@ -335,7 +329,7 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
             transition={{ ...revealTransition, delay: reduceMotion ? 0 : 0.72 }}
           >
             <div className={styles.passIdentity}>
-              <span>MEDHAUP · RAKHI GIFT PASS</span>
+              <span>MEDHAUP · RAKHI OFFER</span>
               <span>2026 / 01</span>
             </div>
             <h3 className={styles.passBatch}>{rakhiCampaign.batchName}</h3>
@@ -345,8 +339,7 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
             <CampaignCountdown now={now} phase={phase} />
             <WhatsAppLink phase={phase} placement="gift_pass" />
             <p className={styles.passNote}>
-              Admission support directly on WhatsApp · Valid only on 28 August
-              2026
+              Offer valid on 28 August 2026 only
             </p>
           </motion.article>
         </div>
@@ -360,9 +353,9 @@ export function MobileCampaignCTA({ phase }: { phase: CampaignPhase }) {
   return (
     <aside className={styles.sticky} aria-label="Rakhi offer quick action">
       <p className={styles.stickyCopy}>
-        <strong>Rakhi {live ? "Offer" : "Gift Pass"}</strong>
+        <strong>Rakhi Offer</strong>
         <span>
-          {rakhiCampaign.formattedPrice} {live ? "Today Only" : "· 28 August"}
+          {rakhiCampaign.formattedPrice} {live ? "Today only" : "· 28 Aug 2026"}
         </span>
       </p>
       {live ? (
