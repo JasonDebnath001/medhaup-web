@@ -328,10 +328,6 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
             viewport={{ once: true, amount: 0.25 }}
             transition={{ ...revealTransition, delay: reduceMotion ? 0 : 0.72 }}
           >
-            <div className={styles.passIdentity}>
-              <span>MEDHAUP · RAKHI OFFER</span>
-              <span>2026 / 01</span>
-            </div>
             <h3 className={styles.passBatch}>{rakhiCampaign.batchName}</h3>
             <p className={styles.priceLabel}>ONE-DAY SPECIAL PRICE</p>
             <p className={styles.price}>{rakhiCampaign.formattedPrice}</p>
@@ -339,7 +335,7 @@ export function RakhiGiftPass({ initialNow }: { initialNow: number }) {
             <CampaignCountdown now={now} phase={phase} />
             <WhatsAppLink phase={phase} placement="gift_pass" />
             <p className={styles.passNote}>
-              Offer valid on 28 August 2026 only
+              Offer valid till 28 August 2026 only
             </p>
           </motion.article>
         </div>
