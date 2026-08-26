@@ -112,7 +112,9 @@ export default async function RootLayout({
       >
         <JsonLd data={siteSchema} />
         <SiteProvider settings={settings}>
-          <SiteChrome>{children}</SiteChrome>
+          {/* Request-time seed keeps the client clock hydration-stable. */}
+          {/* eslint-disable-next-line react-hooks/purity */}
+          <SiteChrome initialNow={Date.now()}>{children}</SiteChrome>
         </SiteProvider>
         {GA_ID && (
           <>

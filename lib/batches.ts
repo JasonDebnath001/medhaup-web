@@ -13,8 +13,8 @@ export const BATCHES: Batch[] = [
     startDate: "15 August 2026",
     mode: "Online",
     timing: "Mon–Sat",
-    seatsFilled: 18,
-    seatsTotal: 30,
+    seatsFilled: 30,
+    seatsTotal: 100,
   },
 ];
 

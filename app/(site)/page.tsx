@@ -6,6 +6,7 @@ import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import BlogHighlights from "@/components/sections/Bloghighlights";
+import { RakhiGiftPass } from "@/components/campaign/RakhiCampaign";
 import {
   getBatches,
   getPosts,
@@ -19,8 +20,7 @@ import {
 
 const SITE_URL = "https://medhaup.com";
 
-const PAGE_TITLE =
-  "ANM GNM 2027 Preparation | WBJEEB Nursing Exam | medhaup";
+const PAGE_TITLE = "ANM GNM 2027 Preparation | WBJEEB Nursing Exam | medhaup";
 
 const PAGE_DESCRIPTION =
   "Prepare for WBJEEB ANM(R) & GNM 2027 with medhaup: Bengali & English classes, syllabus, PYQs, current affairs, practice and admission guidance.";
@@ -352,10 +352,7 @@ const structuredData = {
 
       name: "WBJEEB ANM(R) & GNM 2027 Preparation",
 
-      alternateName: [
-        "ANM GNM 2027 Preparation",
-        "ANM GNM Entrance Coaching",
-      ],
+      alternateName: ["ANM GNM 2027 Preparation", "ANM GNM Entrance Coaching"],
 
       description:
         "Focused preparation for West Bengal's WBJEEB ANM(R) & GNM nursing entrance examination with Bengali and English concept classes, subject-wise preparation and exam-oriented practice.",
@@ -438,6 +435,11 @@ export default async function Home() {
 
   /* Latest three published posts for the homepage showcase */
   const latestPosts = posts.slice(0, 3);
+  const campaignBatches = batches.map((batch) => ({
+    ...batch,
+    seatsFilled: 30,
+    seatsTotal: 100,
+  }));
 
   return (
     <>
@@ -458,14 +460,17 @@ export default async function Home() {
         {/* ------------------------------------------------------------------ */}
 
         <Hero downloads={downloads} />
+        {/* Request-time seed keeps the client clock hydration-stable. */}
+        {/* eslint-disable-next-line react-hooks/purity */}
+        <RakhiGiftPass initialNow={Date.now()} />
         {/* No published batch → section disappears (admissions closed) */}
-        {batches.length > 0 && <OngoingBatch batches={batches} />}
+        {campaignBatches.length > 0 && (
+          <OngoingBatch batches={campaignBatches} />
+        )}
 
         <WhyMedhaUp />
 
-        {subjects.length > 0 && (
-          <SubjectSyllabus subjects={subjects} />
-        )}
+        {subjects.length > 0 && <SubjectSyllabus subjects={subjects} />}
 
         {/* ------------------------------------------------------------------ */}
         {/* Crawlable SEO + Internal Linking Section                           */}
@@ -492,21 +497,19 @@ export default async function Home() {
               </h2>
 
               <p className="mt-5 text-base leading-8 text-navy/70">
-                medhaup is built for students preparing for the WBJEEB
-                ANM(R) &amp; GNM Common Entrance Test in West Bengal. Instead
-                of mixing nursing entrance preparation with unrelated
-                competitive exams, the learning experience focuses on the
-                subjects, concepts and practice required by ANM and GNM
-                aspirants.
+                medhaup is built for students preparing for the WBJEEB ANM(R)
+                &amp; GNM Common Entrance Test in West Bengal. Instead of mixing
+                nursing entrance preparation with unrelated competitive exams,
+                the learning experience focuses on the subjects, concepts and
+                practice required by ANM and GNM aspirants.
               </p>
 
               <p className="mt-4 text-base leading-8 text-navy/70">
                 Students preparing for ANM GNM 2027 can study Life Science,
-                Physical Science, Mathematics, Basic English, General
-                Knowledge and Logical Reasoning, while using syllabus
-                resources, previous year questions, current affairs and
-                exam-focused study material to build a structured preparation
-                plan.
+                Physical Science, Mathematics, Basic English, General Knowledge
+                and Logical Reasoning, while using syllabus resources, previous
+                year questions, current affairs and exam-focused study material
+                to build a structured preparation plan.
               </p>
             </div>
 
@@ -514,10 +517,7 @@ export default async function Home() {
             {/* SEO Internal Links                                             */}
             {/* -------------------------------------------------------------- */}
 
-            <nav
-              aria-label="ANM GNM preparation resources"
-              className="mt-14"
-            >
+            <nav aria-label="ANM GNM preparation resources" className="mt-14">
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {SEO_LINKS.map((item) => (
                   <Link
@@ -607,8 +607,7 @@ export default async function Home() {
                 id="faq-heading"
                 className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl"
               >
-                ANM GNM preparation{" "}
-                <span className="text-orange">FAQs</span>
+                ANM GNM preparation <span className="text-orange">FAQs</span>
               </h2>
 
               <p className="mx-auto mt-4 max-w-2xl leading-7 text-navy/65">

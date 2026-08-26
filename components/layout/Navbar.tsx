@@ -37,7 +37,11 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  campaignVisible = false,
+}: {
+  campaignVisible?: boolean;
+}) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
@@ -79,7 +83,12 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <header
+      className={clsx(
+        "fixed inset-x-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4",
+        campaignVisible ? "top-10" : "top-0",
+      )}
+    >
       <nav
         aria-label="Main navigation"
         className={clsx(

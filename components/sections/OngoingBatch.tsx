@@ -158,7 +158,10 @@ function BatchCard({ batch }: { batch: Batch }) {
 
 export default function OngoingBatch({ batches }: { batches: Batch[] }) {
   return (
-    <section className="relative overflow-hidden bg-navy/[0.04] py-20 sm:py-24">
+    <section
+      id="ongoing-batch"
+      className="relative overflow-hidden bg-navy/[0.04] py-20 sm:py-24"
+    >
       {/* Dotted texture */}
       <div
         aria-hidden="true"
