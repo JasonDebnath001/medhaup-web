@@ -2,7 +2,6 @@ import JsonLd from "@/components/seo/JsonLd";
 import SuccessWall from "@/components/sections/success/SuccessWall";
 import { getSuccessPhotos } from "@/lib/data";
 import { createPageMetadata, createPageSchema } from "@/lib/seo";
-import { SUCCESS_STORIES } from "@/lib/successStories";
 
 const title = "Wall of Success — Student Achievements";
 const description =
@@ -23,8 +22,7 @@ export const metadata = createPageMetadata({
 export const revalidate = 0;
 
 export default async function WallOfSuccessPage() {
-  const uploadedPhotos = await getSuccessPhotos();
-  const stories = uploadedPhotos.length > 0 ? uploadedPhotos : SUCCESS_STORIES;
+  const stories = await getSuccessPhotos();
   const schema = createPageSchema({
     type: "CollectionPage",
     path: "/wall-of-success",

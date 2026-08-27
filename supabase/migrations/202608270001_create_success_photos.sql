@@ -1,3 +1,21 @@
+create table if not exists public.admins (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table public.admins enable row level security;
+
+drop policy if exists "admins can read their own membership" on public.admins;
+create policy "admins can read their own membership"
+  on public.admins
+  for select
+  to authenticated
+  using (user_id = auth.uid());
+
+revoke all on public.admins from anon;
+revoke all on public.admins from authenticated;
+grant select on public.admins to authenticated;
+
 create table if not exists public.success_photos (
   id uuid primary key default gen_random_uuid(),
   src text not null,

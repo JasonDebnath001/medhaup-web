@@ -217,16 +217,6 @@ export default function SuccessPhotosManager() {
     if (!confirm("Delete this success photo? This cannot be undone.")) return;
 
     setError("");
-    const { error: deleteError } = await supabase
-      .from(SUCCESS_TABLE)
-      .delete()
-      .eq("id", row.id);
-
-    if (deleteError) {
-      setError(deleteError.message);
-      return;
-    }
-
     const storagePath = storagePathFromPublicUrl(row.src);
     if (storagePath) {
       const { error: storageError } = await supabase.storage
@@ -234,9 +224,24 @@ export default function SuccessPhotosManager() {
         .remove([storagePath]);
       if (storageError) {
         setError(
-          `Photo record deleted, but storage cleanup failed: ${storageError.message}`,
+          `Storage deletion failed, so the photo record was kept. Retry the deletion: ${storageError.message}`,
         );
+        return;
       }
+    }
+
+    const { error: deleteError } = await supabase
+      .from(SUCCESS_TABLE)
+      .delete()
+      .eq("id", row.id);
+
+    if (deleteError) {
+      setError(
+        storagePath
+          ? `The stored photo was deleted, but its record could not be removed. Retry the deletion: ${deleteError.message}`
+          : deleteError.message,
+      );
+      return;
     }
 
     setRows((current) => current.filter((item) => item.id !== row.id));
