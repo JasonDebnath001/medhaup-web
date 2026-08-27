@@ -44,8 +44,39 @@ export default function CollectionManager({
   }, [collection.table, supabase]);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    let active = true;
+
+    supabase
+      .from(collection.table)
+      .select("*")
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (!active) return;
+        setRows(data ?? []);
+        setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [collection.table, supabase]);
+
+  useEffect(() => {
+    if (editing === null) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setEditing(null);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [editing]);
 
   /* ---------- helpers ---------- */
   const openNew = () => {
@@ -106,8 +137,10 @@ export default function CollectionManager({
     setUploading(null);
   };
 
- const slugify = (s: string) =>
-    s.toLowerCase().trim()
+  const slugify = (s: string) =>
+    s
+      .toLowerCase()
+      .trim()
       .replace(/[^a-z0-9\s-]/g, "")
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
@@ -124,7 +157,11 @@ export default function CollectionManager({
       working.slug = slugify(String(working.title));
     }
     for (const f of collection.fields) {
-      if (f.required && f.name !== "slug" && !String(working[f.name] ?? "").trim()) {
+      if (
+        f.required &&
+        f.name !== "slug" &&
+        !String(working[f.name] ?? "").trim()
+      ) {
         setError(`"${f.label}" is required.`);
         return;
       }
@@ -135,7 +172,10 @@ export default function CollectionManager({
       let v = working[f.name];
       if (f.type === "number") v = v === "" || v === null ? null : Number(v);
       if (f.type === "tags")
-        v = String(v).split(",").map((t: string) => t.trim()).filter(Boolean);
+        v = String(v)
+          .split(",")
+          .map((t: string) => t.trim())
+          .filter(Boolean);
       if (v === "")
         v =
           f.type === "text" || f.type === "textarea" || f.type === "paragraphs"
@@ -147,7 +187,10 @@ export default function CollectionManager({
     const q =
       editing === "new"
         ? supabase.from(collection.table).insert(payload)
-        : supabase.from(collection.table).update(payload).eq("id", (editing as Row).id);
+        : supabase
+            .from(collection.table)
+            .update(payload)
+            .eq("id", (editing as Row).id);
     const { error } = await q;
     setSaving(false);
     if (error) setError(error.message);
@@ -165,24 +208,26 @@ export default function CollectionManager({
     load();
   };
 
-/* Extract "bucket" + "path" from a Supabase public URL:
+  /* Extract "bucket" + "path" from a Supabase public URL:
      .../storage/v1/object/public/<bucket>/<path> */
   const parseStorageUrl = (url: string) => {
-    const m = String(url).match(/\/storage\/v1\/object\/public\/([^/]+)\/(.+)$/);
+    const m = String(url).match(
+      /\/storage\/v1\/object\/public\/([^/]+)\/(.+)$/,
+    );
     return m ? { bucket: m[1], path: decodeURIComponent(m[2]) } : null;
   };
 
   const remove = async (row: Row) => {
     if (
       !confirm(
-        `Delete this ${collection.singular.toLowerCase()}? Its uploaded files will also be deleted. This cannot be undone.`
+        `Delete this ${collection.singular.toLowerCase()}? Its uploaded files will also be deleted. This cannot be undone.`,
       )
     )
       return;
 
     // Clean up any storage files referenced by file/image fields
     const fileFields = collection.fields.filter(
-      (f) => f.type === "file" || f.type === "image"
+      (f) => f.type === "file" || f.type === "image",
     );
     for (const f of fileFields) {
       const parsed = row[f.name] ? parseStorageUrl(row[f.name]) : null;
@@ -198,7 +243,7 @@ export default function CollectionManager({
   /* ---------- render ---------- */
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="font-heading text-2xl font-extrabold text-navy">
             {collection.title}
@@ -210,9 +255,9 @@ export default function CollectionManager({
         </div>
         <button
           onClick={openNew}
-          className="flex items-center gap-2 rounded-xl bg-orange px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
+          className="flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-orange px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-dark sm:w-auto"
         >
-          <Plus size={16} /> Add {collection.singular}
+          <Plus size={16} aria-hidden="true" /> Add {collection.singular}
         </button>
       </div>
 
@@ -228,71 +273,135 @@ export default function CollectionManager({
             {collection.singular.toLowerCase()}.
           </p>
         ) : (
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-navy/10 bg-cream text-xs uppercase tracking-wide text-navy/50">
-              <tr>
-                <th className="px-4 py-3">Status</th>
-                {collection.listCols.map((c) => (
-                  <th key={c} className="px-4 py-3">
-                    {c.replace(/_/g, " ")}
-                  </th>
-                ))}
-                <th className="px-4 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-navy/5">
+          <>
+            <div className="divide-y divide-navy/8 lg:hidden">
               {rows.map((row) => (
-                <tr key={row.id} className="hover:bg-cream/60">
-                  <td className="px-4 py-3">
+                <article key={row.id} className="p-4">
+                  <div className="flex items-center justify-between gap-3">
                     <button
                       onClick={() => togglePublish(row)}
                       className={clsx(
-                        "flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors",
+                        "flex min-h-10 items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold transition-colors",
                         row.published
                           ? "bg-green-100 text-green-700 hover:bg-green-200"
                           : "bg-navy/8 text-navy/50 hover:bg-navy/15",
                       )}
                     >
-                      {row.published ? <Eye size={12} /> : <EyeOff size={12} />}
+                      {row.published ? (
+                        <Eye size={13} aria-hidden="true" />
+                      ) : (
+                        <EyeOff size={13} aria-hidden="true" />
+                      )}
                       {row.published ? "LIVE" : "DRAFT"}
                     </button>
-                  </td>
-                  {collection.listCols.map((c) => (
-                    <td
-                      key={c}
-                      className="max-w-56 truncate px-4 py-3 text-navy/80"
-                    >
-                      {String(row[c] ?? "—")}
-                    </td>
-                  ))}
-                  <td className="px-4 py-3">
-                    <div className="flex justify-end gap-1.5">
+                    <div className="flex gap-1">
                       <button
                         onClick={() => openEdit(row)}
-                        className="grid h-8 w-8 place-items-center rounded-lg text-navy/60 transition-colors hover:bg-navy/5 hover:text-navy"
+                        aria-label={`Edit ${collection.singular.toLowerCase()}`}
+                        className="grid h-11 w-11 place-items-center rounded-xl text-navy/60 transition-colors hover:bg-navy/5 hover:text-navy"
                       >
-                        <Pencil size={15} />
+                        <Pencil size={17} aria-hidden="true" />
                       </button>
                       <button
                         onClick={() => remove(row)}
-                        className="grid h-8 w-8 place-items-center rounded-lg text-navy/60 transition-colors hover:bg-red-50 hover:text-red-600"
+                        aria-label={`Delete ${collection.singular.toLowerCase()}`}
+                        className="grid h-11 w-11 place-items-center rounded-xl text-navy/60 transition-colors hover:bg-red-50 hover:text-red-600"
                       >
-                        <Trash2 size={15} />
+                        <Trash2 size={17} aria-hidden="true" />
                       </button>
                     </div>
-                  </td>
-                </tr>
+                  </div>
+                  <dl className="mt-3 divide-y divide-navy/5">
+                    {collection.listCols.map((column) => (
+                      <div
+                        key={column}
+                        className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] gap-3 py-2.5"
+                      >
+                        <dt className="text-xs font-semibold uppercase tracking-wide text-navy/45">
+                          {column.replace(/_/g, " ")}
+                        </dt>
+                        <dd className="break-words text-right text-sm text-navy/80">
+                          {String(row[column] ?? "â€”")}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </article>
               ))}
-            </tbody>
-          </table>
+            </div>
+
+            <table className="hidden w-full table-fixed text-left text-sm lg:table">
+              <thead className="border-b border-navy/10 bg-cream text-xs uppercase tracking-wide text-navy/50">
+                <tr>
+                  <th className="px-4 py-3">Status</th>
+                  {collection.listCols.map((c) => (
+                    <th key={c} className="px-4 py-3">
+                      {c.replace(/_/g, " ")}
+                    </th>
+                  ))}
+                  <th className="px-4 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-navy/5">
+                {rows.map((row) => (
+                  <tr key={row.id} className="hover:bg-cream/60">
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => togglePublish(row)}
+                        className={clsx(
+                          "flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors",
+                          row.published
+                            ? "bg-green-100 text-green-700 hover:bg-green-200"
+                            : "bg-navy/8 text-navy/50 hover:bg-navy/15",
+                        )}
+                      >
+                        {row.published ? (
+                          <Eye size={12} />
+                        ) : (
+                          <EyeOff size={12} />
+                        )}
+                        {row.published ? "LIVE" : "DRAFT"}
+                      </button>
+                    </td>
+                    {collection.listCols.map((c) => (
+                      <td
+                        key={c}
+                        className="max-w-56 truncate px-4 py-3 text-navy/80"
+                      >
+                        {String(row[c] ?? "—")}
+                      </td>
+                    ))}
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-1.5">
+                        <button
+                          onClick={() => openEdit(row)}
+                          aria-label={`Edit ${collection.singular.toLowerCase()}`}
+                          className="grid h-8 w-8 place-items-center rounded-lg text-navy/60 transition-colors hover:bg-navy/5 hover:text-navy"
+                        >
+                          <Pencil size={15} aria-hidden="true" />
+                        </button>
+                        <button
+                          onClick={() => remove(row)}
+                          aria-label={`Delete ${collection.singular.toLowerCase()}`}
+                          className="grid h-8 w-8 place-items-center rounded-lg text-navy/60 transition-colors hover:bg-red-50 hover:text-red-600"
+                        >
+                          <Trash2 size={15} aria-hidden="true" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
 
       {/* Editor drawer */}
       {editing !== null && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-navy/40 backdrop-blur-sm">
-          <div className="flex h-full w-full max-w-lg flex-col bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b border-navy/10 px-6 py-4">
+        <div className="fixed inset-0 z-50 flex justify-end overflow-hidden bg-navy/40 backdrop-blur-sm">
+          <div className="flex h-dvh w-full flex-col bg-white shadow-2xl sm:max-w-lg">
+            <div className="flex min-h-16 items-center justify-between border-b border-navy/10 px-4 py-3 sm:px-6 sm:py-4">
               <h2 className="font-heading font-bold text-navy">
                 {editing === "new"
                   ? `Add ${collection.singular}`
@@ -300,13 +409,14 @@ export default function CollectionManager({
               </h2>
               <button
                 onClick={() => setEditing(null)}
-                className="grid h-9 w-9 place-items-center rounded-full text-navy transition-colors hover:bg-navy/5"
+                aria-label="Close editor"
+                className="grid h-11 w-11 place-items-center rounded-full text-navy transition-colors hover:bg-navy/5"
               >
-                <X size={18} />
+                <X size={18} aria-hidden="true" />
               </button>
             </div>
 
-            <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5">
+            <div className="flex-1 space-y-5 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6">
               {collection.fields.map((f) => (
                 <div key={f.name}>
                   <label className="text-xs font-semibold uppercase tracking-wide text-navy/60">
@@ -327,7 +437,7 @@ export default function CollectionManager({
                       }
                       value={form[f.name] ?? ""}
                       onChange={(e) => set(f.name, e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-sm text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20"
+                      className="mt-1.5 min-h-11 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-base text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 sm:text-sm"
                     />
                   )}
 
@@ -336,7 +446,7 @@ export default function CollectionManager({
                       rows={f.type === "paragraphs" ? 10 : 3}
                       value={form[f.name] ?? ""}
                       onChange={(e) => set(f.name, e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-sm text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20"
+                      className="mt-1.5 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-base text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 sm:text-sm"
                     />
                   )}
 
@@ -344,7 +454,7 @@ export default function CollectionManager({
                     <input
                       value={form[f.name] ?? ""}
                       onChange={(e) => set(f.name, e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-sm text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20"
+                      className="mt-1.5 min-h-11 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-base text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 sm:text-sm"
                     />
                   )}
 
@@ -352,7 +462,7 @@ export default function CollectionManager({
                     <select
                       value={form[f.name] ?? f.options?.[0]}
                       onChange={(e) => set(f.name, e.target.value)}
-                      className="mt-1.5 w-full rounded-xl border border-navy/15 bg-white px-4 py-2.5 text-sm text-navy outline-none focus:border-orange"
+                      className="mt-1.5 min-h-11 w-full rounded-xl border border-navy/15 bg-white px-4 py-2.5 text-base text-navy outline-none focus:border-orange sm:text-sm"
                     >
                       {f.options?.map((o) => (
                         <option key={o} value={o}>
@@ -367,7 +477,7 @@ export default function CollectionManager({
                       type="button"
                       onClick={() => set(f.name, !form[f.name])}
                       className={clsx(
-                        "mt-1.5 flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-colors",
+                        "mt-1.5 flex min-h-11 w-full items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition-colors",
                         form[f.name]
                           ? "border-orange bg-orange/10 text-orange"
                           : "border-navy/15 text-navy/60",
@@ -391,7 +501,7 @@ export default function CollectionManager({
                     <div className="mt-1.5">
                       <label
                         className={clsx(
-                          "flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-sm font-medium transition-colors",
+                          "flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-center text-sm font-medium transition-colors",
                           form[f.name]
                             ? "border-green-300 bg-green-50 text-green-700"
                             : "border-navy/20 text-navy/60 hover:border-orange hover:text-orange",
@@ -439,15 +549,15 @@ export default function CollectionManager({
               ))}
             </div>
 
-            <div className="border-t border-navy/10 px-6 py-4">
+            <div className="border-t border-navy/10 px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6 sm:pb-4">
               {error && (
                 <p className="mb-3 text-sm font-medium text-red-600">{error}</p>
               )}
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={save}
                   disabled={saving || uploading !== null}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 font-semibold text-white transition-colors hover:bg-orange-dark disabled:opacity-60"
+                  className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 font-semibold text-white transition-colors hover:bg-orange-dark disabled:opacity-60"
                 >
                   {saving ? (
                     <Loader2 size={17} className="animate-spin" />
@@ -457,7 +567,7 @@ export default function CollectionManager({
                 </button>
                 <button
                   onClick={() => setEditing(null)}
-                  className="rounded-xl border border-navy/15 px-5 py-3 font-semibold text-navy transition-colors hover:bg-navy/5"
+                  className="min-h-12 rounded-xl border border-navy/15 px-4 py-3 font-semibold text-navy transition-colors hover:bg-navy/5"
                 >
                   Cancel
                 </button>

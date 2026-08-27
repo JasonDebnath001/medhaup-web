@@ -32,7 +32,14 @@ const NAV_ITEMS: NavItem[] = [
   },
   { label: "Store", href: "/store" },
   { label: "Blogs", href: "/blogs" },
-  { label: "Gallery", href: "/gallery" },
+  {
+    label: "Our Results",
+    href: "/wall-of-success",
+    children: [
+      { label: "Success Wall", href: "/wall-of-success" },
+      { label: "Gallery", href: "/gallery" },
+    ],
+  },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -260,12 +267,10 @@ export default function Navbar({
                         )}
                       </Link>
 
-                      {/* Children — indented sub-list. slice(1) skips
-                          "Free Resources" since the parent row already
-                          links to /resources. */}
+                      {/* Explicit child links keep every destination visible. */}
                       {item.children && (
                         <ul className="ml-4 mt-1 space-y-0.5 border-l-2 border-navy/10 pl-3">
-                          {item.children.slice(1).map((child) => (
+                          {item.children.map((child) => (
                             <li key={child.href}>
                               <Link
                                 href={child.href}

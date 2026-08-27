@@ -37,18 +37,17 @@ export default function AdminDashboard() {
         Dashboard
       </h1>
       <p className="mt-1 text-sm text-navy/60">
-        Sections with 0 published items show &quot;Coming Soon&quot; on the
-        website.
+        Manage the content currently published across the website.
       </p>
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 xl:grid-cols-3">
         {stats.map((s) => (
           <Link
             key={s.slug}
             href={`/admin/${s.slug}`}
-            className="rounded-2xl border border-navy/10 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            className="min-w-0 rounded-2xl border border-navy/10 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5"
           >
             <p className="text-sm font-semibold text-navy/60">{s.title}</p>
-            <p className="font-heading mt-2 text-3xl font-extrabold text-navy">
+            <p className="font-heading mt-2 break-words text-3xl font-extrabold text-navy">
               {s.published}
               <span className="text-base font-semibold text-navy/40">
                 {" "}
