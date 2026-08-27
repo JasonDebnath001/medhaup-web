@@ -93,6 +93,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ),
     },
     {
+      url: `${SITE_URL}/wall-of-success`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/about`,
       changeFrequency: "monthly",
       priority: 0.5,

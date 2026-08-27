@@ -28,6 +28,7 @@ export type Collection = {
   singular: string;
   listCols: string[]; // columns shown in the list table
   fields: Field[];
+  manager?: "success-photos";
 };
 
 const LANG = ["Bengali", "English", "Bengali + English"];
@@ -169,6 +170,15 @@ export const COLLECTIONS: Collection[] = [
         options: ["square", "tall", "wide"],
       },
     ],
+  },
+  {
+    slug: "success-photos",
+    table: "success_photos",
+    title: "Success Wall Photos",
+    singular: "Photo",
+    listCols: ["alt"],
+    fields: [],
+    manager: "success-photos",
   },
   {
     slug: "current-affairs-monthly",

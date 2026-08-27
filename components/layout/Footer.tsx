@@ -12,6 +12,7 @@ const QUICK_LINKS = [
   { label: "ANM/GNM Course", href: "/course" },
   { label: "Store", href: "/store" },
   { label: "Blogs", href: "/blogs" },
+  { label: "Success Wall", href: "/wall-of-success" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

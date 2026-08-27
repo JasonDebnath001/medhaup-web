@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { supabaseServer } from "./supabase/server";
 import { SITE_DEFAULTS, type SiteSettings } from "./settings";
+import type { SuccessAspect, SuccessStory } from "./successStories";
 
 export { waChatUrl } from "./settings";
 export type { SiteSettings };
@@ -12,13 +13,13 @@ const toCamel = <T>(row: Record<string, any>): T =>
     Object.entries(row).map(([k, v]) => [
       k.replace(/_([a-z])/g, (_, c) => c.toUpperCase()),
       v,
-    ])
+    ]),
   ) as T;
 
 async function fetchPublished<T>(
   table: string,
   orderBy: string,
-  ascending = false
+  ascending = false,
 ): Promise<T[]> {
   const { data, error } = await supabaseServer()
     .from(table)
@@ -146,12 +147,36 @@ const isValidPublicSlug = (slug: string) =>
 export const getProducts = () =>
   fetchPublished<Product>("products", "created_at");
 export const getPosts = async () =>
-  (await fetchPublished<BlogPost>("blog_posts", "date", false)).filter(
-    (post) => isValidPublicSlug(post.slug),
+  (await fetchPublished<BlogPost>("blog_posts", "date", false)).filter((post) =>
+    isValidPublicSlug(post.slug),
   );
 export const getPYQs = () => fetchPublished<PYQ>("pyqs", "year");
 export const getGallery = () =>
   fetchPublished<GalleryItem>("gallery_items", "created_at");
+export async function getSuccessPhotos(): Promise<SuccessStory[]> {
+  const { data, error } = await supabaseServer()
+    .from("success_photos")
+    .select("id, src, alt, aspect, created_at")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[data] success photos:", error.message);
+    return [];
+  }
+
+  return (data ?? []).map((row) => {
+    const aspect: SuccessAspect =
+      row.aspect === "wide" || row.aspect === "square" ? row.aspect : "tall";
+
+    return {
+      id: row.id,
+      image: row.src,
+      alt: row.alt || "Student success photo",
+      aspect,
+    };
+  });
+}
 export const getMonthlyCA = () =>
   fetchPublished<MonthlyCA>("current_affairs_monthly", "created_at");
 export const getDailyCA = () =>
@@ -164,21 +189,23 @@ export const getSyllabusDownloads = () =>
   fetchPublished<SyllabusDownload>("syllabus_downloads", "created_at", true);
 export const getBatches = () => fetchPublished<Batch>("batches", "created_at");
 
-export const getPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
-  if (!isValidPublicSlug(slug)) return null;
+export const getPostBySlug = cache(
+  async (slug: string): Promise<BlogPost | null> => {
+    if (!isValidPublicSlug(slug)) return null;
 
-  const { data, error } = await supabaseServer()
-    .from("blog_posts")
-    .select("*")
-    .eq("slug", slug)
-    .eq("published", true)
-    .maybeSingle();
-  if (error) {
-    console.error("[data] blog_posts by slug:", error.message);
-    return null;
-  }
-  return data ? toCamel<BlogPost>(data) : null;
-});
+    const { data, error } = await supabaseServer()
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .maybeSingle();
+    if (error) {
+      console.error("[data] blog_posts by slug:", error.message);
+      return null;
+    }
+    return data ? toCamel<BlogPost>(data) : null;
+  },
+);
 
 /* ---------- Site settings, merged over safe defaults ---------- */
 export async function getSiteSettings(): Promise<SiteSettings> {
