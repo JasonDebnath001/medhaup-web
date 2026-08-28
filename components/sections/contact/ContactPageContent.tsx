@@ -14,6 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useSite } from "@/components/provider/SiteProvider";
+import { trackGAEvent } from "@/lib/analytics";
 
 /* ← Get your free access key at https://web3forms.com and paste it here */
 const WEB3FORMS_ACCESS_KEY = "fafed16a-f163-4081-bd76-650255cc93fc";
@@ -67,6 +68,9 @@ export default function ContactPageContent() {
       });
       const json = await res.json();
       if (json.success) {
+        trackGAEvent("generate_lead", {
+          lead_type: "contact_form",
+        });
         setStatus("success");
         form.reset();
       } else {

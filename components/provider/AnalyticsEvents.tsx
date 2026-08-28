@@ -3,14 +3,13 @@
 /* ----------------------------------------------------------------
    GA4 custom-event tracking for the CTAs that actually matter.
 
-   One global click listener (event delegation) turns every
-   WhatsApp / phone / email tap and PDF download into a named GA4
-   event — no per-component wiring, and future CTAs are covered
-   automatically. Rendered once from the root layout, next to
-   <GoogleAnalytics />.
+   One global click listener (event delegation) turns important
+   links into named GA4 funnel events. Future CTAs using the same
+   destinations are covered automatically. Rendered once from the
+   root layout, next to <GoogleAnalytics />.
 ----------------------------------------------------------------- */
 import { useEffect } from "react";
-import { sendGAEvent } from "@next/third-parties/google";
+import { trackGAEvent } from "@/lib/analytics";
 
 const SAFE_LINK_CATEGORIES: Record<string, string> = {
   "/": "home",
@@ -29,7 +28,7 @@ const SAFE_LINK_CATEGORIES: Record<string, string> = {
 
 const SAFE_DOWNLOAD_FILE_CATEGORIES: Record<string, string> = {
   "syllabus.pdf": "syllabus",
-  "syllabus": "syllabus",
+  syllabus: "syllabus",
 };
 
 function getSafeLinkCategory(href: string) {
@@ -61,6 +60,17 @@ function getSafeDownloadCategory(href: string) {
   }
 }
 
+function getPlacement(anchor: HTMLAnchorElement) {
+  if (anchor.dataset.analyticsPlacement) {
+    return anchor.dataset.analyticsPlacement;
+  }
+
+  if (anchor.closest("header")) return "header";
+  if (anchor.closest("footer")) return "footer";
+  if (anchor.closest("aside")) return "aside";
+  return "main";
+}
+
 export default function AnalyticsEvents() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -72,6 +82,7 @@ export default function AnalyticsEvents() {
       const safeLinkCategory = getSafeLinkCategory(href);
       const common = {
         page: window.location.pathname,
+        placement: getPlacement(anchor),
         ...(safeLinkCategory ? { link_text: safeLinkCategory } : {}),
       };
 
@@ -89,21 +100,40 @@ export default function AnalyticsEvents() {
           parsedHref.hostname === "whatsapp.com" ||
           parsedHref.hostname.endsWith(".whatsapp.com"));
 
+      const isEnrollLink =
+        parsedHref !== undefined &&
+        parsedHref.origin === window.location.origin &&
+        parsedHref.pathname.replace(/\/$/, "") === "/admission";
+
+      const appStore =
+        parsedHref?.hostname === "play.google.com"
+          ? "google_play"
+          : parsedHref?.hostname === "apps.apple.com"
+            ? "apple_app_store"
+            : undefined;
+
       if (isWhatsappLink) {
-        sendGAEvent("event", "whatsapp_click", {
+        trackGAEvent("whatsapp_click", {
           ...common,
           kind: parsedHref?.pathname.includes("/channel/") ? "channel" : "chat",
         });
-      } else if (href.startsWith("tel:")) {
-        sendGAEvent("event", "phone_click", common);
-      } else if (href.startsWith("mailto:")) {
-        sendGAEvent("event", "email_click", common);
+      } else if (parsedHref?.protocol === "tel:") {
+        trackGAEvent("phone_click", common);
+      } else if (parsedHref?.protocol === "mailto:") {
+        trackGAEvent("email_click", common);
+      } else if (isEnrollLink) {
+        trackGAEvent("enroll_click", common);
+      } else if (appStore) {
+        trackGAEvent("app_download_click", {
+          ...common,
+          app_store: appStore,
+        });
       } else if (
         /\.pdf($|\?)/i.test(href) ||
         href.includes("/storage/v1/object/")
       ) {
         const file = getSafeDownloadCategory(href);
-        sendGAEvent("event", "file_download", {
+        trackGAEvent("file_download", {
           ...common,
           ...(file ? { file } : {}),
         });

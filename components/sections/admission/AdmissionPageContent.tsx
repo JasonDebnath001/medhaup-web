@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { useSite } from "@/components/provider/SiteProvider";
+import { trackGAEvent } from "@/lib/analytics";
 import type { Batch } from "@/lib/data";
 
 /* ← Same Web3Forms access key as the contact page */
@@ -29,7 +30,7 @@ const WEB3FORMS_ACCESS_KEY = "e4e66ca4-46d3-42dc-97cb-af9fe61a4cd1";
 /* ← Add your real store links */
 const PLAY_STORE_URL =
   "https://play.google.com/store/apps/details?id=com.zdrkue.ctqxio&pcampaignid=web_share";
-const APP_STORE_URL = "#";
+const APP_STORE_URL = process.env.NEXT_PUBLIC_APP_STORE_URL;
 
 const FEES = {
   new: { label: "New Student", amount: "₹1,800" },
@@ -114,6 +115,11 @@ export default function AdmissionPageContent({
       });
       const json = await res.json();
       if (json.success) {
+        trackGAEvent("generate_lead", {
+          lead_type: "admission_callback",
+          batch_name: CURRENT_BATCH.name,
+          student_type: studentType,
+        });
         setStatus("success");
         form.reset();
       } else {
@@ -265,15 +271,25 @@ export default function AdmissionPageContent({
                   Google Play
                 </a>
 
-                <a
-                  href={APP_STORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-white/25 px-5 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white/10"
-                >
-                  <Download size={17} />
-                  App Store
-                </a>
+                {APP_STORE_URL ? (
+                  <a
+                    href={APP_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full border-2 border-white/25 px-5 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white/10"
+                  >
+                    <Download size={17} />
+                    App Store
+                  </a>
+                ) : (
+                  <span
+                    aria-disabled="true"
+                    className="flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-full border-2 border-white/10 px-5 py-3.5 text-sm font-semibold text-white/45"
+                  >
+                    <Download size={17} />
+                    App Store · Coming soon
+                  </span>
+                )}
               </div>
             </motion.div>
 
