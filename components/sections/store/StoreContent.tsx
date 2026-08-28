@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, MessageCircle, BadgeCheck, Truck } from "lucide-react";
 import clsx from "clsx";
 import { useSite } from "@/components/provider/SiteProvider";
+import { trackBeginCheckout } from "@/lib/analytics";
 import type { Product } from "@/lib/data";
 
 const CATEGORY_ORDER = ["Books", "Printed Notes", "Test Series", "Combo"];
@@ -140,10 +141,26 @@ export default function StoreContent({ products }: { products: Product[] }) {
                     </div>
 
                     {p.inStock ? (
-                      
-                    <a    href={buyOnWhatsApp(p)}
+                      <a
+                        href={buyOnWhatsApp(p)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() =>
+                          trackBeginCheckout({
+                            checkout_type: "whatsapp_store",
+                            currency: "INR",
+                            value: p.price,
+                            items: [
+                              {
+                                item_id: p.id,
+                                item_name: p.title,
+                                item_category: p.category,
+                                price: p.price,
+                                quantity: 1,
+                              },
+                            ],
+                          })
+                        }
                         className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
                       >
                         <MessageCircle size={16} /> Order on WhatsApp
