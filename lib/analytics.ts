@@ -1,6 +1,7 @@
 "use client";
 
 import { sendGAEvent } from "@next/third-parties/google";
+import { getAttributionEventParams } from "@/lib/attribution";
 
 export type AnalyticsEventParams = Record<string, unknown>;
 
@@ -35,6 +36,7 @@ export function trackGAEvent(
 
   sendGAEvent("event", eventName, {
     page_path: window.location.pathname,
+    ...getAttributionEventParams(),
     ...params,
   });
 }

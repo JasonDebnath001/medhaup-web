@@ -1,16 +1,38 @@
 # GA4 conversion tracking
 
+## Campaign links (required)
+
+Every link published outside the website must include a lowercase, consistent
+`utm_source`, `utm_medium`, and `utm_campaign`. The admin panel includes a
+copy-ready builder at **Marketing Links**. For the `rakhi2026` admission campaign:
+
+| Channel   | URL parameters                                                    |
+| --------- | ----------------------------------------------------------------- |
+| Instagram | `utm_source=instagram&utm_medium=social&utm_campaign=rakhi2026`   |
+| Facebook  | `utm_source=facebook&utm_medium=social&utm_campaign=rakhi2026`    |
+| WhatsApp  | `utm_source=whatsapp&utm_medium=messaging&utm_campaign=rakhi2026` |
+| YouTube   | `utm_source=youtube&utm_medium=social&utm_campaign=rakhi2026`     |
+
+Use `utm_content` to distinguish placements within a channel, such as `bio`,
+`reel-01`, or `video-description`. Do not put UTMs on internal website links:
+that would replace the visitor's real acquisition source.
+
+The site retains the latest tagged visit for 90 days and does not overwrite it
+with later direct visits. Admission and contact submissions include the UTM
+fields in Web3Forms, and GA4 custom funnel events include the same values. A
+lead with `attribution_status=direct_or_untagged` arrived without usable tags.
+
 The website emits these funnel events when `NEXT_PUBLIC_GA_ID` is configured:
 
-| Event | Trigger |
-| --- | --- |
-| `whatsapp_click` | A visitor opens a WhatsApp chat or channel link |
-| `phone_click` | A visitor taps a `tel:` link |
-| `enroll_click` | A visitor clicks an internal link to `/admission` |
-| `app_download_click` | A visitor opens a real Google Play or Apple App Store listing |
-| `generate_lead` | An admission or contact form is accepted successfully |
-| `begin_checkout` | A visitor starts a product order through WhatsApp |
-| `purchase` | Available through `trackPurchase`; call only after verified payment |
+| Event                | Trigger                                                             |
+| -------------------- | ------------------------------------------------------------------- |
+| `whatsapp_click`     | A visitor opens a WhatsApp chat or channel link                     |
+| `phone_click`        | A visitor taps a `tel:` link                                        |
+| `enroll_click`       | A visitor clicks an internal link to `/admission`                   |
+| `app_download_click` | A visitor opens a real Google Play or Apple App Store listing       |
+| `generate_lead`      | An admission or contact form is accepted successfully               |
+| `begin_checkout`     | A visitor starts a product order through WhatsApp                   |
+| `purchase`           | Available through `trackPurchase`; call only after verified payment |
 
 ## GA4 setup required after deployment
 
@@ -31,6 +53,12 @@ this website. The app must use the same GA4/Firebase property and emit
 confirmed. A purchase should include a unique `transaction_id`, `currency`,
 `value`, and `items` so revenue is deduplicated and reported correctly.
 
-To analyze the custom parameters (`placement`, `lead_type`, `app_store`, and
-`checkout_type`) in standard GA4 reports, register them as event-scoped custom
-dimensions in the GA4 property.
+To analyze the custom parameters (`placement`, `lead_type`, `app_store`,
+`checkout_type`, `utm_source`, `utm_medium`, `utm_campaign`, and `utm_content`)
+in standard GA4 reports, register them as event-scoped custom dimensions in the
+GA4 property. Build an Exploration with `utm_source` or `utm_campaign` as the
+dimension and `generate_lead` as the event to compare admission enquiries.
+
+UTMs measure web leads and preserve the source in callback emails. Confirmed
+in-app admissions still require the app/payment flow to emit `purchase` into the
+same GA4/Firebase property; a website cannot infer a completed in-app payment.

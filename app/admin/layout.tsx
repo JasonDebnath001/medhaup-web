@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LogOut,
   LayoutDashboard,
+  Link2,
   Settings,
   Loader2,
   Menu,
@@ -62,6 +63,19 @@ function AdminNavigation({
             </Link>
           );
         })}
+        <Link
+          href="/admin/marketing-links"
+          onClick={onNavigate}
+          aria-current={
+            pathname === "/admin/marketing-links" ? "page" : undefined
+          }
+          className={clsx(
+            linkClass(pathname === "/admin/marketing-links"),
+            "gap-2.5",
+          )}
+        >
+          <Link2 size={17} aria-hidden="true" /> Marketing Links
+        </Link>
         <Link
           href="/admin/settings"
           onClick={onNavigate}
