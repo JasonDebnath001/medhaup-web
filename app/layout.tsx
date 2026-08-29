@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import AnalyticsEvents from "@/components/provider/AnalyticsEvents";
+import AttributionCapture from "@/components/provider/AttributionCapture";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { SiteProvider } from "@/components/provider/SiteProvider";
 import JsonLd from "@/components/seo/JsonLd";
@@ -116,6 +117,7 @@ export default async function RootLayout({
           {/* eslint-disable-next-line react-hooks/purity */}
           <SiteChrome initialNow={Date.now()}>{children}</SiteChrome>
         </SiteProvider>
+        <AttributionCapture />
         {GA_ID && (
           <>
             <GoogleAnalytics gaId={GA_ID} />

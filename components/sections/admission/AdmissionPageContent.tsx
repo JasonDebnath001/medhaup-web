@@ -22,6 +22,7 @@ import {
 import clsx from "clsx";
 import { useSite } from "@/components/provider/SiteProvider";
 import { trackGAEvent } from "@/lib/analytics";
+import { appendAttributionToFormData } from "@/lib/attribution";
 import type { Batch } from "@/lib/data";
 
 /* ← Same Web3Forms access key as the contact page */
@@ -107,6 +108,7 @@ export default function AdmissionPageContent({
     data.append("from_name", "medhaup Admission Request");
     data.append("form_type", "admission");
     data.append("batch", CURRENT_BATCH.name);
+    appendAttributionToFormData(data);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {

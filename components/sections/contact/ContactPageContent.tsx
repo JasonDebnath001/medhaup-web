@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useSite } from "@/components/provider/SiteProvider";
 import { trackGAEvent } from "@/lib/analytics";
+import { appendAttributionToFormData } from "@/lib/attribution";
 
 /* ← Get your free access key at https://web3forms.com and paste it here */
 const WEB3FORMS_ACCESS_KEY = "fafed16a-f163-4081-bd76-650255cc93fc";
@@ -60,6 +61,8 @@ export default function ContactPageContent() {
     const data = new FormData(form);
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
     data.append("from_name", "medhaup Website Contact Form");
+    data.append("form_type", "contact");
+    appendAttributionToFormData(data);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
