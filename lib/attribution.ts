@@ -9,6 +9,12 @@ export const UTM_KEYS = [
   "utm_term",
 ] as const;
 
+const REQUIRED_UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+] as const;
+
 export type UtmKey = (typeof UTM_KEYS)[number];
 
 export type MarketingAttribution = Partial<Record<UtmKey, string>> & {
@@ -43,7 +49,7 @@ function getUtmValues(searchParams: URLSearchParams) {
 }
 
 function hasUtmValues(values: Partial<Record<UtmKey, string>>) {
-  return UTM_KEYS.some((key) => Boolean(values[key]));
+  return REQUIRED_UTM_KEYS.every((key) => Boolean(values[key]));
 }
 
 function isStoredAttribution(value: unknown): value is MarketingAttribution {
