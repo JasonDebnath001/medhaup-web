@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import MedhaupAI from "@/components/ai/MedhaupAI";
 import {
   CampaignAnnouncementBar,
   MobileCampaignCTA,
@@ -12,9 +13,11 @@ import {
 export default function SiteChrome({
   children,
   initialNow,
+  aiEnabled,
 }: {
   children: React.ReactNode;
   initialNow: number;
+  aiEnabled: boolean;
 }) {
   const pathname = usePathname();
   const { phase } = useCampaignClock(initialNow);
@@ -28,6 +31,9 @@ export default function SiteChrome({
       <Navbar campaignVisible={campaignVisible} />
       {children}
       <Footer />
+      {aiEnabled && (
+        <MedhaupAI key={pathname} campaignVisible={campaignVisible} />
+      )}
       {campaignVisible && <MobileCampaignCTA phase={phase} />}
     </>
   );
