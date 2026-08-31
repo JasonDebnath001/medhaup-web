@@ -30,6 +30,7 @@ export const dynamic = "force-dynamic";
 const MAX_BODY_BYTES = 32_000;
 const MAX_HISTORY_MESSAGES = 8;
 const MAX_HISTORY_MESSAGE_CHARS = 1_600;
+const AI_UNAVAILABLE_MESSAGE = "AI is not available right now.";
 
 function errorResponse(
   requestId: string,
@@ -123,7 +124,7 @@ function publicProviderMessage(code: AIErrorCode) {
     return "medhaup AI took too long to respond. Please try again.";
   }
   if (code === "RATE_LIMITED") {
-    return "The AI service is busy right now. Please wait and try again.";
+    return AI_UNAVAILABLE_MESSAGE;
   }
   if (code === "NOT_CONFIGURED") {
     return "medhaup AI is not available right now. The rest of the site is still available.";
@@ -260,7 +261,7 @@ export async function POST(request: Request) {
     return errorResponse(
       requestId,
       "RATE_LIMITED",
-      "You have reached the AI question limit for now. Please try again later.",
+      AI_UNAVAILABLE_MESSAGE,
       429,
       rateLimit.retryAfterSeconds,
     );
