@@ -11,27 +11,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import clsx from "clsx";
+import { COURSE_PLANS as PLANS } from "@/lib/coursePricing";
 
 /* ---------------- Data ---------------- */
-
-const PLANS = [
-  {
-    name: "New Students",
-    tag: "Most Common",
-    price: 1800,
-    monthly: 150,
-    highlight: true,
-    note: "For students joining MedhaUp for the first time.",
-  },
-  {
-    name: "Old Students",
-    tag: "Returning Discount",
-    price: 1500,
-    monthly: 125,
-    highlight: false,
-    note: "For students who were part of a previous MedhaUp batch.",
-  },
-];
 
 const INCLUDED = [
   "12 months of live classes (Mon–Sat)",
@@ -145,8 +127,7 @@ export default function Fees() {
                     plan.highlight ? "text-navy" : "text-white",
                   )}
                 >
-                  ₹
-                  {plan.price.toLocaleString("en-IN")}
+                  ₹{plan.price.toLocaleString("en-IN")}
                 </p>
                 <div className="pb-1">
                   <p

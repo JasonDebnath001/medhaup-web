@@ -6,6 +6,8 @@ import AttributionCapture from "@/components/provider/AttributionCapture";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { SiteProvider } from "@/components/provider/SiteProvider";
 import JsonLd from "@/components/seo/JsonLd";
+import { getAIConfig } from "@/lib/ai/config";
+import { isPRLabsReady } from "@/lib/ai/prlabs";
 import { getSiteSettings } from "@/lib/data";
 import {
   DEFAULT_DESCRIPTION,
@@ -105,6 +107,10 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const settings = await getSiteSettings();
+  const aiConfig = getAIConfig();
+  const aiEnabled =
+    aiConfig.enabled &&
+    (isPRLabsReady(aiConfig) || process.env.NODE_ENV !== "production");
 
   return (
     <html lang="en">
@@ -115,7 +121,9 @@ export default async function RootLayout({
         <SiteProvider settings={settings}>
           {/* Request-time seed keeps the client clock hydration-stable. */}
           {/* eslint-disable-next-line react-hooks/purity */}
-          <SiteChrome initialNow={Date.now()}>{children}</SiteChrome>
+          <SiteChrome initialNow={Date.now()} aiEnabled={aiEnabled}>
+            {children}
+          </SiteChrome>
         </SiteProvider>
         <AttributionCapture />
         {GA_ID && (

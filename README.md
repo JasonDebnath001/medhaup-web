@@ -18,27 +18,27 @@ project.
 
 ## Platform capabilities
 
-| Area | Capabilities |
-| --- | --- |
-| Course and admissions | Course information, current-batch availability, app-download links, callback requests, and WhatsApp-assisted admissions |
-| Learning resources | Subject syllabi, full syllabus downloads, previous-year papers, current affairs, free resources, and educational articles |
-| Student trust | Gallery content and a dedicated wall of student-success photos |
-| Store | Supabase-managed products with WhatsApp checkout hand-off |
-| Content operations | Authenticated admin CMS with draft/publish controls, file uploads, site settings, and collection management |
-| Marketing | GA4 funnel events, 90-day last-non-direct UTM attribution, lead-source capture, and an internal campaign-link builder |
-| Search visibility | Route metadata, canonical URLs, Open Graph images, structured data, dynamic sitemap generation, robots rules, and a web app manifest |
+| Area                  | Capabilities                                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Course and admissions | Course information, current-batch availability, app-download links, callback requests, and WhatsApp-assisted admissions                                |
+| Learning resources    | Subject syllabi, full syllabus downloads, previous-year papers, current affairs, free resources, educational articles, and page-aware AI doubt support |
+| Student trust         | Gallery content and a dedicated wall of student-success photos                                                                                         |
+| Store                 | Supabase-managed products with WhatsApp checkout hand-off                                                                                              |
+| Content operations    | Authenticated admin CMS with draft/publish controls, file uploads, site settings, and collection management                                            |
+| Marketing             | GA4 funnel events, 90-day last-non-direct UTM attribution, lead-source capture, and an internal campaign-link builder                                  |
+| Search visibility     | Route metadata, canonical URLs, Open Graph images, structured data, dynamic sitemap generation, robots rules, and a web app manifest                   |
 
 ## System overview
 
-| Layer | Technology | Responsibility |
-| --- | --- | --- |
-| Web application | Next.js 16 App Router, React 19, TypeScript | Server-rendered pages, client interactions, routing, metadata, and revalidation |
-| Design system | Tailwind CSS 4, Framer Motion, Lucide React | Responsive presentation, motion, and interface icons |
-| Application data | Supabase Postgres | Published content, batches, products, site settings, and admin membership |
-| Authentication | Supabase Auth | Email/password sessions for the admin interface |
-| File storage | Supabase Storage | Public images and downloadable PDF resources |
-| Lead delivery | Web3Forms | Contact and admission form delivery |
-| Measurement | Google Analytics 4 | Funnel events and campaign attribution |
+| Layer            | Technology                                  | Responsibility                                                                  |
+| ---------------- | ------------------------------------------- | ------------------------------------------------------------------------------- |
+| Web application  | Next.js 16 App Router, React 19, TypeScript | Server-rendered pages, client interactions, routing, metadata, and revalidation |
+| Design system    | Tailwind CSS 4, Framer Motion, Lucide React | Responsive presentation, motion, and interface icons                            |
+| Application data | Supabase Postgres                           | Published content, batches, products, site settings, and admin membership       |
+| Authentication   | Supabase Auth                               | Email/password sessions for the admin interface                                 |
+| File storage     | Supabase Storage                            | Public images and downloadable PDF resources                                    |
+| Lead delivery    | Web3Forms                                   | Contact and admission form delivery                                             |
+| Measurement      | Google Analytics 4                          | Funnel events and campaign attribution                                          |
 
 Public content is loaded from Supabase on the server. Most content routes use a
 60-second revalidation window, while the success wall requests current data on
@@ -50,31 +50,31 @@ returns an empty result; content-driven pages then show their configured
 
 ### Public website
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Company homepage, course highlights, batches, campaign content, and calls to action |
-| `/course` | Detailed ANM/GNM course information |
-| `/admission` | App-based admission and callback request flow |
-| `/syllabus` | Subject breakdown and syllabus downloads |
-| `/pyq` | Previous-year question papers and answer keys |
-| `/resources` | Free study resources and downloadable material |
-| `/current-affairs` | Daily updates and monthly current-affairs PDFs |
-| `/blogs` and `/blogs/[slug]` | Educational article index and article pages |
-| `/store` | Books, notes, test series, and WhatsApp checkout |
-| `/gallery` | Classes, toppers, and event photography |
-| `/wall-of-success` | Published student-success photos |
-| `/about` | Company and educator information |
-| `/contact` | Contact channels, enquiry form, and common questions |
+| Route                        | Purpose                                                                             |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| `/`                          | Company homepage, course highlights, batches, campaign content, and calls to action |
+| `/course`                    | Detailed ANM/GNM course information                                                 |
+| `/admission`                 | App-based admission and callback request flow                                       |
+| `/syllabus`                  | Subject breakdown and syllabus downloads                                            |
+| `/pyq`                       | Previous-year question papers and answer keys                                       |
+| `/resources`                 | Free study resources and downloadable material                                      |
+| `/current-affairs`           | Daily updates and monthly current-affairs PDFs                                      |
+| `/blogs` and `/blogs/[slug]` | Educational article index and article pages                                         |
+| `/store`                     | Books, notes, test series, and WhatsApp checkout                                    |
+| `/gallery`                   | Classes, toppers, and event photography                                             |
+| `/wall-of-success`           | Published student-success photos                                                    |
+| `/about`                     | Company and educator information                                                    |
+| `/contact`                   | Contact channels, enquiry form, and common questions                                |
 
 ### Internal administration
 
-| Route | Purpose |
-| --- | --- |
-| `/admin/login` | Supabase email/password authentication |
-| `/admin` | Publishing dashboard and collection status |
-| `/admin/[collection]` | Create, edit, publish, unpublish, upload, and delete collection records |
-| `/admin/settings` | Company contact details and social-channel settings |
-| `/admin/marketing-links` | Standardized campaign URL generation |
+| Route                    | Purpose                                                                 |
+| ------------------------ | ----------------------------------------------------------------------- |
+| `/admin/login`           | Supabase email/password authentication                                  |
+| `/admin`                 | Publishing dashboard and collection status                              |
+| `/admin/[collection]`    | Create, edit, publish, unpublish, upload, and delete collection records |
+| `/admin/settings`        | Company contact details and social-channel settings                     |
+| `/admin/marketing-links` | Standardized campaign URL generation                                    |
 
 Admin and API paths are excluded from indexing through both robots rules and
 response headers.
@@ -129,6 +129,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 # Optional integrations
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_APP_STORE_URL=https://apps.apple.com/app/your-app
+
+# Server-only medhaup AI configuration
+AI_FEATURE_ENABLED=false
+PRLABS_RAPIDAPI_KEY=your-private-rapidapi-key
+PRLABS_RAPIDAPI_HOST=chatgpt-42.p.rapidapi.com
+PRLABS_CHAT_ENDPOINT=https://chatgpt-42.p.rapidapi.com/gpt4
 ```
 
 Start the development server:
@@ -141,17 +147,33 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment variables
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL used by public pages and the admin CMS |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Browser-safe Supabase anonymous key; access must be constrained by RLS |
-| `NEXT_PUBLIC_GA_ID` | No | Enables Google Analytics and the custom funnel-event layer |
-| `NEXT_PUBLIC_APP_STORE_URL` | No | Enables the Apple App Store action on the admission page |
+| Variable                        | Required | Purpose                                                                                           |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Yes      | Supabase project URL used by public pages and the admin CMS                                       |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes      | Browser-safe Supabase anonymous key; access must be constrained by RLS                            |
+| `NEXT_PUBLIC_GA_ID`             | No       | Enables Google Analytics and the custom funnel-event layer                                        |
+| `NEXT_PUBLIC_APP_STORE_URL`     | No       | Enables the Apple App Store action on the admission page                                          |
+| `AI_FEATURE_ENABLED`            | No       | Enables the page-aware AI UI when the provider key is configured; disabled by default             |
+| `PRLABS_RAPIDAPI_KEY`           | For AI   | Private RapidAPI credential used only by the server route                                         |
+| `PRLABS_RAPIDAPI_HOST`          | No       | PR Labs GPT-4o host; defaults to `chatgpt-42.p.rapidapi.com`                                       |
+| `PRLABS_CHAT_ENDPOINT`          | No       | PR Labs GPT-4o URL; defaults to `https://chatgpt-42.p.rapidapi.com/gpt4`                            |
+| `AI_REQUEST_TIMEOUT_MS`         | No       | Provider timeout in milliseconds; defaults to `15000`                                             |
+| `AI_MAX_MESSAGE_CHARS`          | No       | Maximum student-question length; defaults to `1200`                                               |
+| `AI_MAX_CONTEXT_CHARS`          | No       | Maximum trusted page-context length; defaults to `6500`                                           |
+| `AI_RATE_LIMIT_REQUESTS`        | No       | Requests allowed per server instance and window; defaults to `8`                                  |
+| `AI_RATE_LIMIT_WINDOW_MS`       | No       | Rate-limit window in milliseconds; defaults to 24 hours                                           |
 
 All `NEXT_PUBLIC_*` values are visible to browsers and are embedded at build
 time. Never place service-role keys, database passwords, or other private
 credentials in these variables. Environment files are ignored by Git and must
 not be committed.
+
+The PR Labs adapter uses the verified GPT-4o contract: `POST /gpt4`, a bounded
+`messages` body with `web_access: false`, and the response's `result` field. A
+custom bot and bot ID are not required. In production the AI trigger remains
+hidden unless both the feature flag and server-only RapidAPI key are configured.
+The in-memory AI rate limiter is per running server instance and resets when
+that instance restarts.
 
 The Google Play listing is configured in the admission experience. Web3Forms
 submission configuration is maintained separately in the admission and contact
@@ -265,13 +287,13 @@ npx tsc --noEmit
 npm run build
 ```
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the local Turbopack development server |
-| `npm run lint` | Run the repository ESLint rules |
-| `npx tsc --noEmit` | Perform strict TypeScript validation |
-| `npm run build` | Create the optimized production build |
-| `npm run start` | Serve a completed production build |
+| Command            | Purpose                                      |
+| ------------------ | -------------------------------------------- |
+| `npm run dev`      | Start the local Turbopack development server |
+| `npm run lint`     | Run the repository ESLint rules              |
+| `npx tsc --noEmit` | Perform strict TypeScript validation         |
+| `npm run build`    | Create the optimized production build        |
+| `npm run start`    | Serve a completed production build           |
 
 An automated unit or end-to-end test suite is not currently configured. Lint,
 type-check, build, and focused browser verification are the required baseline
