@@ -12,12 +12,12 @@ import type {
 } from "@/lib/ai/types";
 import AITrigger from "./AITrigger";
 import type { AIClientError } from "./AIErrorState";
-import { getAIPageDescriptor, type AIQuickPrompt } from "./page-config";
+import { getAIPageDescriptor } from "./page-config";
 
 const AIPanel = dynamic(() => import("./AIPanel"), { ssr: false });
 
 const MAX_MESSAGE_CHARS = 1_200;
-const CLIENT_TIMEOUT_MS = 22_000;
+const CLIENT_TIMEOUT_MS = 38_000;
 
 type LastAttempt = {
   message: string;
@@ -226,7 +226,6 @@ export default function MedhaupAI({
 
       {open ? (
         <AIPanel
-          descriptor={descriptor}
           messages={messages}
           language={language}
           input={input}
@@ -245,13 +244,6 @@ export default function MedhaupAI({
           }}
           onInputChange={setInput}
           onSubmit={(question) => void sendQuestion(question)}
-          onSuggestion={(suggestion: AIQuickPrompt) => {
-            trackGAEvent("ai_suggestion_click", {
-              suggestion_type: suggestion.id,
-              content_type: descriptor.contentType,
-            });
-            void sendQuestion(suggestion.prompt);
-          }}
           onRetry={() => {
             if (lastAttempt) {
               void sendQuestion(lastAttempt.message, {

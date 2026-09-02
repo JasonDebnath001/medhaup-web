@@ -7,8 +7,7 @@ export const PRLABS_CONTRACT_INSTALLED = true;
 export const VERIFIED_PRLABS_HOST = "chatgpt-42.p.rapidapi.com";
 export const VERIFIED_PRLABS_METHOD = "POST";
 export const VERIFIED_PRLABS_PATH = "/gpt4";
-export const VERIFIED_PRLABS_ENDPOINT =
-  `https://${VERIFIED_PRLABS_HOST}${VERIFIED_PRLABS_PATH}`;
+export const VERIFIED_PRLABS_ENDPOINT = `https://${VERIFIED_PRLABS_HOST}${VERIFIED_PRLABS_PATH}`;
 
 const MAX_PROVIDER_RESPONSE_CHARS = 64_000;
 
@@ -82,14 +81,19 @@ export function providerErrorFromStatus(
   retryAfterHeader?: string | null,
 ) {
   if (status === 401 || status === 403) {
-    return new AIProviderError("PROVIDER_AUTH", "Provider authentication failed.");
+    return new AIProviderError(
+      "PROVIDER_AUTH",
+      "Provider authentication failed.",
+    );
   }
   if (status === 429) {
     const parsedRetryAfter = Number.parseInt(retryAfterHeader ?? "", 10);
     return new AIProviderError(
       "RATE_LIMITED",
       "Provider rate limit reached.",
-      Number.isFinite(parsedRetryAfter) ? Math.max(parsedRetryAfter, 1) : undefined,
+      Number.isFinite(parsedRetryAfter)
+        ? Math.max(parsedRetryAfter, 1)
+        : undefined,
     );
   }
   return new AIProviderError(
@@ -110,7 +114,10 @@ export async function withProviderTimeout<T>(
       timeout = setTimeout(() => {
         controller.abort();
         reject(
-          new AIProviderError("PROVIDER_TIMEOUT", "Provider request timed out."),
+          new AIProviderError(
+            "PROVIDER_TIMEOUT",
+            "Provider request timed out.",
+          ),
         );
       }, timeoutMs);
       operation(controller.signal).then(resolve, reject);
@@ -148,7 +155,7 @@ export async function askPRLabs(
             content: serializePrompt(input),
           },
         ],
-        web_access: false,
+        web_access: true,
       }),
       cache: "no-store",
       signal,

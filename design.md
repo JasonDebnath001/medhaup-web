@@ -155,17 +155,12 @@ Structure:
 ```text
 ┌───────────────────────────────────┐
 │ medhaup AI                  [ × ] │
-│ Help with this page              │
+│ Student help from medhaup        │
 ├───────────────────────────────────┤
-│ Context chip                     │
-│ Biology • Cell & Organelles      │
-│                                   │
 │ Welcome / messages               │
 │                                   │
-│ Suggested actions                │
-│                                   │
 ├───────────────────────────────────┤
-│ [BN | EN | Mixed]                │
+│ Reply in  [Auto | বাংলা | EN]    │
 │ Ask a question...           [→]  │
 └───────────────────────────────────┘
 ```
@@ -220,81 +215,23 @@ Students are using medhaup AI, not buying infrastructure.
 
 ---
 
-# Context chip
+# Page context
 
-Purpose:
-make page-awareness visible and trustworthy.
-
-Examples:
-
-```text
-Reading: Cell & Cell Organelles
-```
-
-```text
-PYQ: Biology
-```
-
-```text
-Current Affairs • 29 Aug 2026
-```
-
-Style:
-- small cream/slate surface
-- navy text
-- subtle border
-- optional tiny page/document icon
-
-Avoid large banners.
+Page awareness remains part of the backend request, but the streamlined chat does not need to display a separate context card. Mention the page only when it materially helps the answer.
 
 ---
 
 # First-open state
 
-Do not start with a blank chat.
+Use a minimal welcome state rather than a blank or button-heavy screen.
 
 Example:
 
 ```text
-Ask about this page, find a medhaup resource,
-or get a simple explanation.
+Ask about exams, subjects, courses, or current updates.
 ```
 
-Then 2–3 contextual quick actions.
-
-### Blog
-
-```text
-[ Explain this simply ]
-[ Key exam points ]
-[ Related resources ]
-```
-
-### PYQ
-
-```text
-[ Explain the answer ]
-[ Why other options are wrong ]
-[ Similar question ]
-```
-
-### Syllabus
-
-```text
-[ Explain this topic ]
-[ Where should I start? ]
-[ Find related PYQs ]
-```
-
-### Current affairs
-
-```text
-[ Explain this news ]
-[ Why it matters for exams ]
-[ Quiz me ]
-```
-
-Avoid showing six or eight chips.
+Do not render pre-designed prompt buttons or suggestion chips.
 
 ---
 
@@ -510,7 +447,6 @@ Use Framer Motion only where it improves clarity.
 Allowed:
 - panel/sheet enter
 - message fade/slide of a few pixels
-- suggestion chip hover
 - trigger hover
 
 Avoid:
@@ -530,7 +466,6 @@ Respect reduced motion.
 - bottom sheet
 - near full width
 - no side panel
-- 2 quick actions per row only if labels fit; otherwise vertical
 - composer fixed/sticky within sheet
 
 ## 640–1024px
@@ -603,7 +538,6 @@ Use:
 ## Course
 Use:
 - global trigger
-- course-aware suggested questions
 
 ---
 

@@ -197,8 +197,7 @@ Do not optimize for raw chat volume if users are not reaching useful content.
 # B. Functional
 
 ## First open
-- contextual welcome appears
-- contextual suggestions match page type
+- simple welcome appears without pre-designed prompt buttons
 - no provider request is made merely by opening
 
 ## Submit

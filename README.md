@@ -157,7 +157,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `PRLABS_RAPIDAPI_KEY`           | For AI   | Private RapidAPI credential used only by the server route                                         |
 | `PRLABS_RAPIDAPI_HOST`          | No       | PR Labs GPT-4o host; defaults to `chatgpt-42.p.rapidapi.com`                                       |
 | `PRLABS_CHAT_ENDPOINT`          | No       | PR Labs GPT-4o URL; defaults to `https://chatgpt-42.p.rapidapi.com/gpt4`                            |
-| `AI_REQUEST_TIMEOUT_MS`         | No       | Provider timeout in milliseconds; defaults to `15000`                                             |
+| `AI_REQUEST_TIMEOUT_MS`         | No       | Provider timeout in milliseconds; defaults to `30000` for web-backed answers                      |
 | `AI_MAX_MESSAGE_CHARS`          | No       | Maximum student-question length; defaults to `1200`                                               |
 | `AI_MAX_CONTEXT_CHARS`          | No       | Maximum trusted page-context length; defaults to `6500`                                           |
 | `AI_RATE_LIMIT_REQUESTS`        | No       | Requests allowed per server instance and window; defaults to `8`                                  |
@@ -169,8 +169,10 @@ credentials in these variables. Environment files are ignored by Git and must
 not be committed.
 
 The PR Labs adapter uses the verified GPT-4o contract: `POST /gpt4`, a bounded
-`messages` body with `web_access: false`, and the response's `result` field. A
-custom bot and bot ID are not required. In production the AI trigger remains
+`messages` body with `web_access: true`, and the response's `result` field. Web
+results are used for current public information, while medhaup-specific claims
+remain grounded in trusted server context. A custom bot and bot ID are not
+required. In production the AI trigger remains
 hidden unless both the feature flag and server-only RapidAPI key are configured.
 The in-memory AI rate limiter is per running server instance and resets when
 that instance restarts.

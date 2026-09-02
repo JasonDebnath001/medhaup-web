@@ -94,7 +94,7 @@ export const aiConfig = {
   endpoint: process.env.PRLABS_CHAT_ENDPOINT,
   botId: process.env.PRLABS_BOT_ID,
   model: process.env.PRLABS_MODEL,
-  timeoutMs: Number(process.env.AI_REQUEST_TIMEOUT_MS ?? 15000),
+  timeoutMs: Number(process.env.AI_REQUEST_TIMEOUT_MS ?? 30000),
   maxMessageChars: Number(process.env.AI_MAX_MESSAGE_CHARS ?? 2000),
 };
 ```
@@ -256,9 +256,9 @@ Use an explicit provider timeout.
 
 Recommended starting point:
 
-`15000 ms`
+`30000 ms` when web access is enabled
 
-If the provider commonly exceeds this, measure first before increasing it.
+Web-backed responses can take longer than model-only answers. Keep the client timeout above the server timeout, and measure timeout rates before increasing either further.
 
 User-facing timeout message:
 

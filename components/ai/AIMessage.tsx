@@ -1,12 +1,13 @@
 import ReactMarkdown from "react-markdown";
 import type { AIChatMessage } from "@/lib/ai/types";
 import AILogo from "./AILogo";
+import styles from "./AIChatEffects.module.css";
 
 export default function AIMessage({ message }: { message: AIChatMessage }) {
   if (message.role === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[86%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-navy px-4 py-3 text-sm leading-6 text-white shadow-sm">
+        <div className="max-w-[86%] whitespace-pre-wrap rounded-2xl rounded-br-md bg-navy px-3.5 py-2.5 text-sm leading-6 text-white">
           {message.content}
         </div>
       </div>
@@ -16,11 +17,13 @@ export default function AIMessage({ message }: { message: AIChatMessage }) {
   return (
     <div className="flex items-start gap-2.5">
       <AILogo
-        size={28}
+        size={24}
         decorative
-        className="mt-0.5 size-7 shrink-0 ring-1 ring-navy/10"
+        className="mt-0.5 size-6 shrink-0 ring-1 ring-navy/10"
       />
-      <div className="max-w-[calc(100%-2.375rem)] rounded-2xl rounded-tl-md border border-navy/8 bg-white px-4 py-3 text-sm leading-6 text-slate-700 shadow-sm">
+      <div
+        className={`${styles.reply} max-w-[calc(100%-2.125rem)] pt-0.5 text-sm leading-6 text-slate-700`}
+      >
         <ReactMarkdown
           skipHtml
           components={{

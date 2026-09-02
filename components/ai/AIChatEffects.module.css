@@ -1,0 +1,153 @@
+.loading {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  animation: loading-enter 240ms ease-out both;
+}
+
+.thinkingBubble {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid rgb(26 12 112 / 8%);
+  border-radius: 999px;
+  background: #f8fafc;
+  padding: 0.5rem 0.875rem;
+}
+
+.thinkingText {
+  background: linear-gradient(90deg, #64748b 20%, #fe7b30 48%, #64748b 76%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 0.75rem;
+  font-weight: 650;
+  animation: thinking-shimmer 1.8s linear infinite;
+}
+
+.dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.dot {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: #fe7b30;
+  animation: thinking-dot 1.05s ease-in-out infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.reply {
+  text-wrap: pretty;
+}
+
+.reply strong {
+  text-decoration-color: rgb(254 123 48 / 32%);
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.reply li::marker {
+  color: #fe7b30;
+}
+
+.reply > * {
+  opacity: 0;
+  transform: translateY(5px);
+  animation: reply-line-enter 360ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.reply > :nth-child(2) {
+  animation-delay: 55ms;
+}
+
+.reply > :nth-child(3) {
+  animation-delay: 110ms;
+}
+
+.reply > :nth-child(4) {
+  animation-delay: 165ms;
+}
+
+.reply > :nth-child(5) {
+  animation-delay: 220ms;
+}
+
+.reply > :nth-child(n + 6) {
+  animation-delay: 275ms;
+}
+
+@keyframes loading-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes thinking-shimmer {
+  from {
+    background-position: 110% 0;
+  }
+
+  to {
+    background-position: -110% 0;
+  }
+}
+
+@keyframes thinking-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0) scale(0.82);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1);
+  }
+}
+
+@keyframes reply-line-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading,
+  .dot,
+  .reply > * {
+    animation: none;
+  }
+
+  .reply > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .thinkingText {
+    animation: none;
+    background: none;
+    color: #64748b;
+  }
+}

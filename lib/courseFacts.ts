@@ -42,6 +42,7 @@ export const COURSE_SUBJECTS = [
 export function getTrustedCourseFacts() {
   return [
     "medhaup's current listed program is a 12-month, 100% online preparation course for the WBJEEB ANM(R) and GNM Common Entrance Test in West Bengal, targeting the 2027 cycle.",
+    "medhaup currently offers only WBJEEB ANM(R) and GNM entrance preparation. It does not currently offer NEET, JEE, or courses for other entrance examinations. The assistant may still answer general questions about those exams while making this course distinction clear when relevant.",
     "Teaching and learning support are available in Bengali and English.",
     getTrustedCoursePricingContext(),
     "One enrolment includes live interactive classes, recordings of every class, bilingual chapter-wise notes, exam-pattern mock tests, previous-year-question solutions, and doubt support throughout the course.",

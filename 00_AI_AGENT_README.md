@@ -74,8 +74,8 @@ Any coding agent MUST obey that instruction.
 
 Build these four capabilities:
 
-### 1. Page-aware doubt solver
-The assistant receives the current page context and answers questions at ANM/GNM preparation level.
+### 1. Page-aware student assistant
+The assistant receives the current page context but can answer student questions beyond that page and beyond ANM/GNM from general knowledge. It always represents medhaup, keeps medhaup-specific claims grounded in trusted data, and distinguishes exams that medhaup explains from courses that medhaup actually offers.
 
 Examples:
 
@@ -83,6 +83,8 @@ Examples:
 - syllabus page → chapter/topic help
 - current affairs page → explain the current item
 - course page → explain course/batch details without inventing claims
+- NEET question → provide a useful general answer and clarify that medhaup does not currently offer a NEET course
+- current-information question → search the web, prefer an official primary source, and state when the information was current
 
 ### 2. medhaup content search
 When a student asks for resources, the assistant should prefer medhaup's own published content and return useful internal links.
@@ -119,7 +121,6 @@ Default to the user's message language where practical.
 
 Do not add these in the first implementation unless the product owner explicitly expands scope:
 
-- open-ended internet search
 - counselling seat prediction
 - choice-filling recommendation engine
 - rank-to-college probability prediction
@@ -244,7 +245,7 @@ PRLABS_RAPIDAPI_HOST=
 PRLABS_CHAT_ENDPOINT=
 PRLABS_BOT_ID=
 PRLABS_MODEL=
-AI_REQUEST_TIMEOUT_MS=15000
+AI_REQUEST_TIMEOUT_MS=30000
 AI_MAX_MESSAGE_CHARS=2000
 AI_FREE_DAILY_LIMIT=5
 ```
