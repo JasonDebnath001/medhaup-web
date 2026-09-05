@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { getCampaignNow } from "@/lib/campaignServer";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import AnalyticsEvents from "@/components/provider/AnalyticsEvents";
@@ -106,6 +107,8 @@ export const revalidate = 60;
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // Evaluate the weekend at request time, without waiting for an ISR rebuild.
+  const campaignNow = await getCampaignNow();
   const settings = await getSiteSettings();
   const aiConfig = getAIConfig();
   const aiEnabled =
@@ -119,9 +122,7 @@ export default async function RootLayout({
       >
         <JsonLd data={siteSchema} />
         <SiteProvider settings={settings}>
-          {/* Request-time seed keeps the client clock hydration-stable. */}
-          {/* eslint-disable-next-line react-hooks/purity */}
-          <SiteChrome initialNow={Date.now()} aiEnabled={aiEnabled}>
+          <SiteChrome initialNow={campaignNow} aiEnabled={aiEnabled}>
             {children}
           </SiteChrome>
         </SiteProvider>

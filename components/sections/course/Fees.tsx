@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { COURSE_PLANS as PLANS } from "@/lib/coursePricing";
+import { TeachersDayOffer } from "@/components/campaign/TeachersDayCampaign";
+import { useTeachersDayCampaign } from "@/components/campaign/CampaignProvider";
 
 /* ---------------- Data ---------------- */
 
@@ -27,6 +29,8 @@ const INCLUDED = [
 /* ---------------- Component ---------------- */
 
 export default function Fees() {
+  const { phase } = useTeachersDayCampaign();
+  const offerLive = phase === "live";
   return (
     <section
       id="fees"
@@ -57,19 +61,23 @@ export default function Fees() {
           className="mb-12 text-center"
         >
           <span className="inline-block rounded-full border border-orange/40 bg-orange/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-orange">
-            Course Fees
+            {offerLive ? "Regular course fees" : "Course Fees"}
           </span>
           <h2 className="font-heading mt-4 text-3xl font-extrabold text-white sm:text-4xl">
             One year of preparation.{" "}
             <span className="text-orange">Less than ₹5 a day.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Transparent pricing, no hidden charges — the fee you see is the fee
-            you pay for the full 12 months.
+            {offerLive
+              ? "This weekend, get the special batch price of ₹1,300 through WhatsApp. Regular 12-month plans are listed below."
+              : "Transparent pricing, no hidden charges — the fee you see is the fee you pay for the full 12 months."}
           </p>
         </motion.div>
 
         {/* Plan cards */}
+        <div className="mb-12">
+          <TeachersDayOffer compact />
+        </div>
         <div className="grid gap-6 md:grid-cols-2">
           {PLANS.map((plan, i) => (
             <motion.article

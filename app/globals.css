@@ -19,3 +19,18 @@ body {
   --color-orange-dark: #e5691f;
   --color-cream: #faf9f7;
 }
+
+.teachers-day-theme {
+  --campaign-bar-height: 44px;
+  padding-top: var(--campaign-bar-height);
+  overflow-x: clip;
+}
+.teachers-day-theme [id] {
+  scroll-margin-top: 150px;
+}
+@media (max-width: 767px) {
+  .teachers-day-theme {
+    --campaign-bar-height: 60px;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+}

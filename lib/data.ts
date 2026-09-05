@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { CURRENT_BATCH, CURRENT_BATCH_ID } from "./batches";
 import { supabaseServer } from "./supabase/server";
 import { SITE_DEFAULTS, type SiteSettings } from "./settings";
 import type { SuccessAspect, SuccessStory } from "./successStories";
@@ -187,7 +188,18 @@ export const getSubjects = () =>
   fetchPublished<SubjectSyllabus>("syllabus_subjects", "questions");
 export const getSyllabusDownloads = () =>
   fetchPublished<SyllabusDownload>("syllabus_downloads", "created_at", true);
-export const getBatches = () => fetchPublished<Batch>("batches", "created_at");
+export const getBatches = async () => {
+  const batches = await fetchPublished<Batch>("batches", "created_at");
+  return batches.map((batch) =>
+    batch.id === CURRENT_BATCH_ID
+      ? {
+          ...batch,
+          seatsFilled: CURRENT_BATCH.seatsFilled,
+          seatsTotal: CURRENT_BATCH.seatsTotal,
+        }
+      : batch,
+  );
+};
 
 export const getPostBySlug = cache(
   async (slug: string): Promise<BlogPost | null> => {

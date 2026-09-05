@@ -6,8 +6,12 @@ import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import BlogHighlights from "@/components/sections/Bloghighlights";
-import { RakhiGiftPass } from "@/components/campaign/RakhiCampaign";
-import { getCampaignPhase, rakhiCampaign } from "@/lib/rakhiCampaign";
+import { TeachersDayOffer } from "@/components/campaign/TeachersDayCampaign";
+import { getCampaignNow } from "@/lib/campaignServer";
+import {
+  getTeachersDayOfferSchema,
+  withTeachersDayMetadata,
+} from "@/lib/campaignSeo";
 import {
   getBatches,
   getPosts,
@@ -25,12 +29,6 @@ const PAGE_TITLE = "ANM GNM 2027 Preparation | WBJEEB Nursing Exam | medhaup";
 
 const PAGE_DESCRIPTION =
   "Prepare for WBJEEB ANM(R) & GNM 2027 with medhaup: Bengali & English classes, syllabus, PYQs, current affairs, practice and admission guidance.";
-
-const CAMPAIGN_PAGE_TITLE =
-  "Rakhi Special: ANM GNM 2027 Batch at ₹1,449 | medhaup";
-
-const CAMPAIGN_PAGE_DESCRIPTION =
-  "Join medhaup's নার্সিংলক্ষ্য 1.0 ANM/GNM 2027 batch for ₹1,449 on 28 August 2026. Use Rakhi coupon RAKHI2026 and enquire on WhatsApp.";
 
 const BASE_KEYWORDS = [
   "ANM GNM 2027",
@@ -150,43 +148,8 @@ const BASE_METADATA: Metadata = {
   },
 };
 
-export function generateMetadata(): Metadata {
-  const campaignActive = getCampaignPhase(Date.now()) !== "expired";
-  if (!campaignActive) return BASE_METADATA;
-
-  return {
-    ...BASE_METADATA,
-    title: { absolute: CAMPAIGN_PAGE_TITLE },
-    description: CAMPAIGN_PAGE_DESCRIPTION,
-    keywords: [
-      ...BASE_KEYWORDS,
-      "Rakhi offer ANM GNM 2027",
-      "ANM GNM batch offer",
-      "নার্সিংলক্ষ্য 1.0",
-      "medhaup Rakhi offer",
-      "RAKHI2026",
-    ],
-    openGraph: {
-      ...BASE_METADATA.openGraph,
-      title: CAMPAIGN_PAGE_TITLE,
-      description: CAMPAIGN_PAGE_DESCRIPTION,
-      images: [
-        {
-          url: `${SITE_URL}/opengraph-image`,
-          width: 1200,
-          height: 630,
-          alt: "medhaup Rakhi offer for the ANM GNM 2027 batch at ₹1,449",
-        },
-      ],
-    },
-    twitter: {
-      ...BASE_METADATA.twitter,
-      card: "summary_large_image",
-      title: CAMPAIGN_PAGE_TITLE,
-      description: CAMPAIGN_PAGE_DESCRIPTION,
-      images: [`${SITE_URL}/opengraph-image`],
-    },
-  };
+export async function generateMetadata(): Promise<Metadata> {
+  return withTeachersDayMetadata(BASE_METADATA, await getCampaignNow());
 }
 
 /* -------------------------------------------------------------------------- */
@@ -466,30 +429,6 @@ const structuredData = {
   ],
 };
 
-const rakhiOfferSchema = {
-  "@type": "Offer",
-  "@id": `${SITE_URL}/#${rakhiCampaign.id}-offer`,
-  name: `${rakhiCampaign.title} for ${rakhiCampaign.batchName}`,
-  description: CAMPAIGN_PAGE_DESCRIPTION,
-  url: `${SITE_URL}/#rakhi-gift-pass`,
-  price: String(rakhiCampaign.price),
-  priceCurrency: "INR",
-  validFrom: rakhiCampaign.startsAt,
-  priceValidUntil: rakhiCampaign.endsAt,
-  availability: "https://schema.org/LimitedAvailability",
-  category: "Education",
-  seller: {
-    "@id": `${SITE_URL}/#organization`,
-  },
-  itemOffered: {
-    "@id": `${SITE_URL}/course#course`,
-  },
-  eligibleRegion: {
-    "@type": "Country",
-    name: "India",
-  },
-};
-
 /* -------------------------------------------------------------------------- */
 /*                                  PAGE                                      */
 /* -------------------------------------------------------------------------- */
@@ -497,6 +436,7 @@ const rakhiOfferSchema = {
 export const revalidate = 60;
 
 export default async function Home() {
+  const now = await getCampaignNow();
   const [batches, subjects, downloads, posts] = await Promise.all([
     getBatches(),
     getSubjects(),
@@ -506,20 +446,15 @@ export default async function Home() {
 
   /* Latest three published posts for the homepage showcase */
   const latestPosts = posts.slice(0, 3);
-  const campaignBatches = batches.map((batch) => ({
-    ...batch,
-    seatsFilled: 30,
-    seatsTotal: 100,
-  }));
-  /* eslint-disable-next-line react-hooks/purity */
-  const renderNow = Date.now();
-  const campaignActive = getCampaignPhase(renderNow) !== "expired";
-  const pageStructuredData = campaignActive
-    ? {
-        ...structuredData,
-        "@graph": [...structuredData["@graph"], rakhiOfferSchema],
-      }
-    : structuredData;
+  const offer = getTeachersDayOfferSchema(now);
+  const pageStructuredData = {
+    ...structuredData,
+    "@graph": structuredData["@graph"].map((entity) =>
+      entity["@type"] === "Course" && offer
+        ? { ...entity, offers: offer }
+        : entity,
+    ),
+  };
 
   return (
     <>
@@ -541,11 +476,9 @@ export default async function Home() {
 
         <Hero downloads={downloads} />
         {/* Request-time seed keeps the client clock hydration-stable. */}
-        <RakhiGiftPass initialNow={renderNow} />
+        <TeachersDayOffer />
         {/* No published batch → section disappears (admissions closed) */}
-        {campaignBatches.length > 0 && (
-          <OngoingBatch batches={campaignBatches} />
-        )}
+        {batches.length > 0 && <OngoingBatch batches={batches} />}
 
         <WhyMedhaUp />
 

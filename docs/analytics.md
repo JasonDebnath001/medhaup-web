@@ -4,14 +4,14 @@
 
 Every link published outside the website must include a lowercase, consistent
 `utm_source`, `utm_medium`, and `utm_campaign`. The admin panel includes a
-copy-ready builder at **Marketing Links**. For the `rakhi2026` admission campaign:
+copy-ready builder at **Marketing Links**. For the `teachers-day-2026` admission campaign:
 
 | Channel   | URL parameters                                                    |
 | --------- | ----------------------------------------------------------------- |
-| Instagram | `utm_source=instagram&utm_medium=social&utm_campaign=rakhi2026`   |
-| Facebook  | `utm_source=facebook&utm_medium=social&utm_campaign=rakhi2026`    |
-| WhatsApp  | `utm_source=whatsapp&utm_medium=messaging&utm_campaign=rakhi2026` |
-| YouTube   | `utm_source=youtube&utm_medium=social&utm_campaign=rakhi2026`     |
+| Instagram | `utm_source=instagram&utm_medium=social&utm_campaign=teachers-day-2026`   |
+| Facebook  | `utm_source=facebook&utm_medium=social&utm_campaign=teachers-day-2026`    |
+| WhatsApp  | `utm_source=whatsapp&utm_medium=messaging&utm_campaign=teachers-day-2026` |
+| YouTube   | `utm_source=youtube&utm_medium=social&utm_campaign=teachers-day-2026`     |
 
 Use `utm_content` to distinguish placements within a channel, such as `bio`,
 `reel-01`, or `video-description`. Do not put UTMs on internal website links:

@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import { getCampaignNow } from "@/lib/campaignServer";
+import {
+  getTeachersDayOfferSchema,
+  withTeachersDayMetadata,
+} from "@/lib/campaignSeo";
 import Link from "next/link";
 import CourseHero from "@/components/sections/course/CourseHero";
 import WhatsInside from "@/components/sections/course/WhatsInside";
@@ -103,7 +108,7 @@ const RESOURCE_LINKS = [
   },
 ] as const;
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: { absolute: SEO_TITLE },
@@ -347,7 +352,7 @@ function CourseSeoContent() {
               Built around ANM(R) &amp; GNM entrance preparation
             </h3>
 
-              <p className="mt-3 text-sm leading-7 text-navy/65">
+            <p className="mt-3 text-sm leading-7 text-navy/65">
               Study the six core areas covered by the course instead of jumping
               between unrelated material. The syllabus section on this page
               shows how medhaup organises Life Science, Physical Science,
@@ -511,13 +516,30 @@ function CourseFaq() {
   );
 }
 
-export default function CoursePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  return withTeachersDayMetadata(
+    baseMetadata,
+    await getCampaignNow(),
+    "ANM GNM Course",
+  );
+}
+
+export default async function CoursePage() {
+  const offer = getTeachersDayOfferSchema(await getCampaignNow());
+  const pageSchema = {
+    ...structuredData,
+    "@graph": structuredData["@graph"].map((entity) =>
+      entity["@type"] === "Course" && offer
+        ? { ...entity, offers: offer }
+        : entity,
+    ),
+  };
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(pageSchema).replace(/</g, "\\u003c"),
         }}
       />
 

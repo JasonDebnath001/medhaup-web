@@ -1,0 +1,382 @@
+.announcement {
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--campaign-bar-height);
+  z-index: 60;
+  background: var(--color-orange);
+  color: var(--color-navy);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--color-navy) 11%, transparent);
+}
+.announcementInner {
+  max-width: 1152px;
+  height: 100%;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.announcementInner p {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 14px;
+  font-size: 12px;
+}
+.announcementInner strong {
+  font-size: 13px;
+}
+.announcementInner a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+.section {
+  padding: 72px 24px 88px;
+  background: var(--color-cream);
+  scroll-margin-top: 150px;
+}
+.shell {
+  max-width: 1104px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: 72px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-navy);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.copy h2 {
+  margin: 24px 0;
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: clamp(36px, 4.4vw, 58px);
+  line-height: 1.13;
+  font-weight: 800;
+  letter-spacing: -2px;
+  color: var(--color-navy);
+}
+.copy h2 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: var(--color-orange);
+}
+.intro {
+  max-width: 460px;
+  font-size: 15px;
+  line-height: 1.85;
+  color: color-mix(in srgb, var(--color-navy) 70%, transparent);
+}
+.bengali {
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--color-navy);
+}
+.dedication {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--color-navy) 15%, transparent);
+  margin-top: 32px;
+  padding-top: 24px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--color-navy) 70%, transparent);
+}
+.dedication svg {
+  flex-shrink: 0;
+  color: var(--color-orange);
+}
+.offerCard {
+  position: relative;
+  padding: 30px;
+  border-radius: 8px 8px 28px 8px;
+  background-color: var(--color-navy);
+  background-image: radial-gradient(#ffffff12 0.6px, transparent 0.6px);
+  background-size: 8px 8px;
+  color: #fff;
+  box-shadow:
+    10px 10px 0 color-mix(in srgb, var(--color-orange) 20%, var(--color-cream)),
+    0 24px 60px color-mix(in srgb, var(--color-navy) 12.5%, transparent);
+  border: 1px solid #ffffff24;
+}
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-orange);
+  letter-spacing: 1.8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+.offerCard h3 {
+  font-size: 27px;
+  font-weight: 600;
+  margin-top: 18px;
+}
+.courseLabel {
+  font-size: 12px;
+  margin-top: 4px;
+  color: rgb(255 255 255 / 75%);
+}
+.priceBlock {
+  margin-top: 24px;
+}
+.priceBlock > span {
+  font-size: 9px;
+  letter-spacing: 1.7px;
+  color: rgb(255 255 255 / 75%);
+}
+.priceBlock p {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: clamp(54px, 5vw, 72px);
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 1.25;
+}
+.priceBlock p span {
+  color: var(--color-orange);
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.weekend {
+  color: var(--color-orange);
+  margin: 4px 0 20px;
+  font-size: 18px;
+}
+.deadline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #ffffff26;
+  padding-top: 18px;
+  font-size: 11px;
+  line-height: 1.9;
+  color: rgb(255 255 255 / 75%);
+}
+.deadline strong {
+  font-weight: 500;
+  color: #fff;
+}
+.countdown {
+  margin: 22px 0;
+}
+.countdown > span {
+  font-size: 10px;
+  color: rgb(255 255 255 / 75%);
+}
+.timeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-top: 8px;
+}
+.timeGrid > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ffffff30;
+  border-radius: 7px;
+  background: #ffffff07;
+  padding: 9px 4px;
+}
+.timeGrid strong {
+  font-size: 25px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.timeGrid span {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: rgb(255 255 255 / 75%);
+}
+.whatsapp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  padding: 15px 16px;
+  border-radius: 7px;
+  background: var(--color-orange);
+  color: var(--color-navy);
+  font-size: 13px;
+  font-weight: 800;
+  transition:
+    background 150ms ease,
+    transform 150ms ease;
+}
+.whatsapp:hover,
+.stickyButton:hover {
+  background: var(--color-orange-dark);
+  transform: translateY(-2px);
+}
+.whatsapp:focus-visible,
+.announcement a:focus-visible,
+.stickyButton:focus-visible {
+  outline: 3px solid var(--color-orange);
+  outline-offset: 4px;
+}
+.contact {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: rgb(255 255 255 / 75%);
+}
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 9px;
+  font-size: 13px;
+  color: var(--color-orange);
+}
+.compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 30px;
+  margin: 24px auto;
+  max-width: 1104px;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 15%, transparent);
+  border-radius: 16px;
+  background: var(--color-cream);
+  color: var(--color-navy);
+}
+.compact h2 {
+  font-family: var(--font-jakarta), sans-serif;
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 800;
+  margin-top: 9px;
+}
+.compact p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 5px;
+}
+.compact .whatsapp {
+  flex-shrink: 0;
+}
+.sticky {
+  display: none;
+}
+@media (max-width: 767px) {
+  .announcementInner {
+    padding-inline: 16px;
+    gap: 9px;
+    justify-content: space-between;
+  }
+  .announcementIcon {
+    display: none;
+  }
+  .announcementInner p {
+    display: block;
+    font-size: 10px;
+    line-height: 1.8;
+  }
+  .announcementInner strong {
+    display: block;
+    font-size: 12px;
+  }
+  .announcementInner a {
+    font-size: 11px;
+    margin-left: 0;
+  }
+  .section {
+    padding: 48px 20px 60px;
+  }
+  .shell {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    max-width: 520px;
+  }
+  .copy h2 {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+  .offerCard {
+    padding: 25px;
+    margin-right: 8px;
+  }
+  .compact {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px;
+  }
+  .sticky {
+    display: flex;
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 40;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--color-navy);
+    color: #fff;
+    border-top: 1px solid
+      color-mix(in srgb, var(--color-orange) 33%, transparent);
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 -5px 25px
+      color-mix(in srgb, var(--color-navy) 15%, transparent);
+  }
+  .sticky p {
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .sticky strong {
+    display: block;
+    font-size: 11px;
+  }
+  .sticky p span {
+    color: rgb(255 255 255 / 85%);
+  }
+  .stickyButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: var(--color-orange);
+    color: var(--color-navy);
+    border-radius: 6px;
+    padding: 12px 10px;
+    font-size: 10px;
+    font-weight: 800;
+  }
+  .stickyButton svg {
+    width: 13px;
+  }
+  .stickyButton svg:last-child {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp,
+  .stickyButton {
+    transition: none;
+    transform: none;
+  }
+}

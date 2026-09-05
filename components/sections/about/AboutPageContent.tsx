@@ -48,7 +48,7 @@ const VALUES = [
   {
     icon: IndianRupee,
     title: "Affordable by design",
-    desc: "₹1,800 for 12 months isn't a discount or an offer. It's the price, on purpose.",
+    desc: "Our regular new-student fee is ₹1,800 for 12 months. Any current special batch price is shown in our admission offers.",
   },
   {
     icon: ShieldCheck,

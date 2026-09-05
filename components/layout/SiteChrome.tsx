@@ -7,8 +7,11 @@ import MedhaupAI from "@/components/ai/MedhaupAI";
 import {
   CampaignAnnouncementBar,
   MobileCampaignCTA,
-  useCampaignClock,
-} from "@/components/campaign/RakhiCampaign";
+} from "@/components/campaign/TeachersDayCampaign";
+import {
+  CampaignProvider,
+  useTeachersDayCampaign,
+} from "@/components/campaign/CampaignProvider";
 
 export default function SiteChrome({
   children,
@@ -19,22 +22,36 @@ export default function SiteChrome({
   initialNow: number;
   aiEnabled: boolean;
 }) {
+  return (
+    <CampaignProvider initialNow={initialNow}>
+      <PublicChrome aiEnabled={aiEnabled}>{children}</PublicChrome>
+    </CampaignProvider>
+  );
+}
+
+function PublicChrome({
+  children,
+  aiEnabled,
+}: {
+  children: React.ReactNode;
+  aiEnabled: boolean;
+}) {
   const pathname = usePathname();
-  const { phase } = useCampaignClock(initialNow);
+  const { phase } = useTeachersDayCampaign();
 
   if (pathname.startsWith("/admin")) return <>{children}</>;
-  const campaignVisible = phase !== "expired";
+  const campaignVisible = phase === "live";
 
   return (
-    <>
-      {campaignVisible && <CampaignAnnouncementBar phase={phase} />}
+    <div className={campaignVisible ? "teachers-day-theme" : undefined}>
+      {campaignVisible && <CampaignAnnouncementBar />}
       <Navbar campaignVisible={campaignVisible} />
       {children}
       <Footer />
       {aiEnabled && (
         <MedhaupAI key={pathname} campaignVisible={campaignVisible} />
       )}
-      {campaignVisible && <MobileCampaignCTA phase={phase} />}
-    </>
+      {campaignVisible && <MobileCampaignCTA />}
+    </div>
   );
 }

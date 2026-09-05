@@ -24,6 +24,13 @@ import { useSite } from "@/components/provider/SiteProvider";
 import { trackGAEvent } from "@/lib/analytics";
 import { appendAttributionToFormData } from "@/lib/attribution";
 import type { Batch } from "@/lib/data";
+import { TeachersDayOffer } from "@/components/campaign/TeachersDayCampaign";
+import { useTeachersDayCampaign } from "@/components/campaign/CampaignProvider";
+import {
+  getCampaignPhase,
+  teachersDayCampaign,
+  teachersDayWhatsAppUrl,
+} from "@/lib/teachersDayCampaign";
 
 /* ← Same Web3Forms access key as the contact page */
 const WEB3FORMS_ACCESS_KEY = "e4e66ca4-46d3-42dc-97cb-af9fe61a4cd1";
@@ -77,6 +84,8 @@ export default function AdmissionPageContent({
   batch: Batch | null;
 }) {
   const SITE = useSite();
+  const { now, phase } = useTeachersDayCampaign();
+  const offerLive = phase === "live";
   const [status, setStatus] = useState<Status>("idle");
   const [studentType, setStudentType] = useState<"new" | "old">("new");
 
@@ -92,11 +101,11 @@ export default function AdmissionPageContent({
     seatsTotal: 30,
   };
 
-  const ADMISSION_WHATSAPP_URL = `https://wa.me/${
-    SITE.whatsapp.number
-  }?text=${encodeURIComponent(
-    `Hi, I want to take admission in ${CURRENT_BATCH.name} of the ANM/GNM course.`,
-  )}`;
+  const ADMISSION_WHATSAPP_URL = offerLive
+    ? teachersDayWhatsAppUrl
+    : `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
+        `Hi, I want to take admission in ${CURRENT_BATCH.name} of the ANM/GNM course.`,
+      )}`;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -108,6 +117,11 @@ export default function AdmissionPageContent({
     data.append("from_name", "medhaup Admission Request");
     data.append("form_type", "admission");
     data.append("batch", CURRENT_BATCH.name);
+    if (getCampaignPhase(now) === "live") {
+      data.append("requested_offer", teachersDayCampaign.id);
+      data.append("special_batch_price", String(teachersDayCampaign.price));
+      data.append("offer_valid_through", teachersDayCampaign.validThrough);
+    }
     appendAttributionToFormData(data);
 
     try {
@@ -139,7 +153,9 @@ export default function AdmissionPageContent({
     {
       icon: IndianRupee,
       label: "Fee",
-      value: "₹1,800 new · ₹1,500 old · EMI",
+      value: offerLive
+        ? "₹1,300 · Teachers’ Day special"
+        : "₹1,800 new · ₹1,500 old · EMI",
     },
   ];
 
@@ -214,6 +230,9 @@ export default function AdmissionPageContent({
       </section>
 
       {/* ============ TWO PATHS ============ */}
+      <div className="px-4 sm:px-6">
+        <TeachersDayOffer compact />
+      </div>
       <section className="bg-white py-14 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-10">
@@ -420,13 +439,17 @@ export default function AdmissionPageContent({
                                 : "text-navy/50",
                             )}
                           >
-                            {FEES[type].amount}
+                            {offerLive
+                              ? teachersDayCampaign.formattedPrice
+                              : FEES[type].amount}
                           </span>
                         </label>
                       ))}
                     </div>
                     <p className="mt-1.5 text-xs text-navy/50">
-                      Full 12-month fee · EMI options available
+                      {offerLive
+                        ? "Teachers’ Day special · Confirm admission on WhatsApp by Sunday, 6 September, 11:59 p.m. IST."
+                        : "Full 12-month fee · EMI options available"}
                     </p>
                   </div>
 

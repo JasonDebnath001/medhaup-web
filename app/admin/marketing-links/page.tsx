@@ -13,11 +13,11 @@ const DESTINATIONS = [
   { label: "Home page", value: "/" },
   { label: "Course page", value: "/course" },
   { label: "Contact page", value: "/contact" },
-  { label: "Rakhi offer", value: "/#rakhi-gift-pass" },
+  { label: "Teachers’ Day offer", value: "/#teachers-day-offer" },
 ] as const;
 
 export default function MarketingLinksPage() {
-  const [campaign, setCampaign] = useState("rakhi2026");
+  const [campaign, setCampaign] = useState("teachers-day-2026");
   const [content, setContent] = useState("");
   const [destination, setDestination] = useState<string>("/admission");
   const [copiedSource, setCopiedSource] = useState<string>();
@@ -68,7 +68,7 @@ export default function MarketingLinksPage() {
             <input
               value={campaign}
               onChange={(event) => setCampaign(event.target.value)}
-              placeholder="rakhi2026"
+              placeholder="teachers-day-2026"
               className="mt-1.5 w-full rounded-xl border border-navy/15 bg-white px-3.5 py-3 text-sm text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20"
             />
           </label>
