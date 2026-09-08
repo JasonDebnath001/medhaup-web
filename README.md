@@ -132,9 +132,8 @@ NEXT_PUBLIC_APP_STORE_URL=https://apps.apple.com/app/your-app
 
 # Server-only medhaup AI configuration
 AI_FEATURE_ENABLED=false
-PRLABS_RAPIDAPI_KEY=your-private-rapidapi-key
-PRLABS_RAPIDAPI_HOST=chatgpt-42.p.rapidapi.com
-PRLABS_CHAT_ENDPOINT=https://chatgpt-42.p.rapidapi.com/gpt4
+GEMINI_API_KEY=your-private-google-ai-studio-key
+GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 
 Start the development server:
@@ -147,35 +146,76 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Environment variables
 
-| Variable                        | Required | Purpose                                                                                           |
-| ------------------------------- | -------- | ------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`      | Yes      | Supabase project URL used by public pages and the admin CMS                                       |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes      | Browser-safe Supabase anonymous key; access must be constrained by RLS                            |
-| `NEXT_PUBLIC_GA_ID`             | No       | Enables Google Analytics and the custom funnel-event layer                                        |
-| `NEXT_PUBLIC_APP_STORE_URL`     | No       | Enables the Apple App Store action on the admission page                                          |
-| `AI_FEATURE_ENABLED`            | No       | Enables the page-aware AI UI when the provider key is configured; disabled by default             |
-| `PRLABS_RAPIDAPI_KEY`           | For AI   | Private RapidAPI credential used only by the server route                                         |
-| `PRLABS_RAPIDAPI_HOST`          | No       | PR Labs GPT-4o host; defaults to `chatgpt-42.p.rapidapi.com`                                       |
-| `PRLABS_CHAT_ENDPOINT`          | No       | PR Labs GPT-4o URL; defaults to `https://chatgpt-42.p.rapidapi.com/gpt4`                            |
-| `AI_REQUEST_TIMEOUT_MS`         | No       | Provider timeout in milliseconds; defaults to `30000` for web-backed answers                      |
-| `AI_MAX_MESSAGE_CHARS`          | No       | Maximum student-question length; defaults to `1200`                                               |
-| `AI_MAX_CONTEXT_CHARS`          | No       | Maximum trusted page-context length; defaults to `6500`                                           |
-| `AI_RATE_LIMIT_REQUESTS`        | No       | Requests allowed per server instance and window; defaults to `8`                                  |
-| `AI_RATE_LIMIT_WINDOW_MS`       | No       | Rate-limit window in milliseconds; defaults to 24 hours                                           |
+| Variable                        | Required | Purpose                                                                                     |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Yes      | Supabase project URL used by public pages and the admin CMS                                 |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes      | Browser-safe Supabase anonymous key; access must be constrained by RLS                      |
+| `NEXT_PUBLIC_GA_ID`             | No       | Enables Google Analytics and the custom funnel-event layer                                  |
+| `NEXT_PUBLIC_APP_STORE_URL`     | No       | Enables the Apple App Store action on the admission page                                    |
+| `AI_FEATURE_ENABLED`            | No       | Enables the page-aware AI UI when the provider key is configured; disabled by default       |
+| `GEMINI_API_KEY`                | For AI   | Private Google AI Studio API key, used only on the server; never prefix with `NEXT_PUBLIC_` |
+| `GEMINI_MODEL`                  | No       | Gemini model ID; defaults to `gemini-3.5-flash-lite`                                         |
+| `TAVILY_API_KEY`                | For search | Private Tavily API key; ordinary chat works without it; never prefix with `NEXT_PUBLIC_` |
+| `AI_MAX_OUTPUT_TOKENS`          | No       | Maximum generated tokens per answer; defaults to `1536`, bounded to `128`–`4096`            |
+| `AI_REQUEST_TIMEOUT_MS`         | No       | Combined search and answer timeout in milliseconds; defaults to `30000`                    |
+| `AI_MAX_MESSAGE_CHARS`          | No       | Maximum student-question length; defaults to `1200`                                         |
+| `AI_MAX_CONTEXT_CHARS`          | No       | Maximum trusted page-context length; defaults to `6500`                                     |
+| `AI_RATE_LIMIT_REQUESTS`        | No       | Requests allowed per client IP, server instance, and window; defaults to `8`                |
+| `AI_RATE_LIMIT_WINDOW_MS`       | No       | Rate-limit window in milliseconds; defaults to 24 hours                                     |
 
 All `NEXT_PUBLIC_*` values are visible to browsers and are embedded at build
 time. Never place service-role keys, database passwords, or other private
 credentials in these variables. Environment files are ignored by Git and must
 not be committed.
 
-The PR Labs adapter uses the verified GPT-4o contract: `POST /gpt4`, a bounded
-`messages` body with `web_access: true`, and the response's `result` field. Web
-results are used for current public information, while medhaup-specific claims
-remain grounded in trusted server context. A custom bot and bot ID are not
-required. In production the AI trigger remains
-hidden unless both the feature flag and server-only RapidAPI key are configured.
-The in-memory AI rate limiter is per running server instance and resets when
-that instance restarts.
+The Gemini adapter calls Google's `generateContent` REST endpoint with a
+server-only `x-goog-api-key` header, separate system instructions, and bounded
+conversation history. English, Bengali, and common mixed-language indicators of
+current information trigger one Tavily Search REST request, including short
+follow-ups. Gemini's built-in Google Search tool is never enabled.
+
+Tavily uses `search_depth: "basic"` and `auto_parameters: false` for a predictable
+one-credit search, with at most five results. Queries stay under 400 characters;
+short follow-ups include the previous question, not the entire conversation or
+trusted site context. Result snippets are bounded to 1,200 characters each and
+passed to Gemini as untrusted reference data. The UI displays validated HTTPS
+source links returned by Tavily, not links invented by the model.
+Queries explicitly naming WBJEE/WBJEEB are restricted to `wbjeeb.nic.in` and
+`admissions.nic.in` to prioritize the responsible exam authority.
+
+Ordinary study questions skip Tavily. Search authentication, quota and network
+failures are surfaced without calling Gemini for an unverified current answer.
+Empty results explicitly instruct Gemini to say that no usable results were found.
+Search and answer generation share one timeout. There are no automatic retries,
+extra research/extraction calls, or fallback to Google's paid Search tool.
+medhaup-specific claims remain grounded in trusted server context.
+
+Create the key in [Google AI Studio](https://aistudio.google.com/apikey) and set
+`AI_FEATURE_ENABLED=true` to enable the assistant. API-key names and project
+names/numbers are metadata, not model IDs or credentials. Production also needs
+the server-only key in its deployment environment. Create a separate search key
+in [Tavily](https://app.tavily.com/) and set `TAVILY_API_KEY` locally and in the
+deployment environment (the spelling is `TAVILY`, not `TAVIFY`). Installing a
+Tavily editor skill or CLI alone does not configure the website's runtime.
+Restart the local server
+after updating environment files.
+
+The default is `gemini-3.5-flash-lite`; Google no longer makes 2.5 Flash-Lite
+available to new accounts. Gemini text and Tavily Search have independent quotas.
+Actual quotas depend on the Google project; check
+[AI Studio limits](https://ai.google.dev/gemini-api/docs/rate-limits) and
+[Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) before switching
+models or billing tiers. Tavily currently includes 1,000 free credits per month
+with no card required; basic searches cost one credit. This is a shared allowance
+for the website, not a per-student allowance. See
+[Tavily credits and pricing](https://docs.tavily.com/documentation/api-credits).
+Requests are not automatically retried or routed to paid models when a quota is
+exhausted. Provider retry delays are returned to the client, and provider error
+payloads and credentials are never logged.
+
+In production the AI trigger is hidden unless both the feature flag and Gemini
+configuration are present. The in-memory client-IP limiter remains separate
+from both providers' quotas and resets when its server instance restarts.
 
 The Google Play listing is configured in the admission experience. Web3Forms
 submission configuration is maintained separately in the admission and contact
@@ -297,9 +337,10 @@ npm run build
 | `npm run build`    | Create the optimized production build        |
 | `npm run start`    | Serve a completed production build           |
 
-An automated unit or end-to-end test suite is not currently configured. Lint,
-type-check, build, and focused browser verification are the required baseline
-until automated coverage is added.
+Run `node --test scripts/ai-gemini.test.mjs` for the Gemini adapter and route
+regression checks; they mock Gemini and Tavily and do not consume API quota. The existing
+campaign checks run with `node --test scripts/teachers-day.test.mjs`. Lint,
+type-check, build, and focused browser verification remain the release baseline.
 
 ## Deployment
 

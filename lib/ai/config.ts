@@ -5,9 +5,7 @@ const DEFAULT_MESSAGE_CHARS = 1_200;
 const DEFAULT_CONTEXT_CHARS = 6_500;
 const DEFAULT_RATE_LIMIT_REQUESTS = 8;
 const DEFAULT_RATE_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1_000;
-const DEFAULT_PRLABS_HOST = "chatgpt-42.p.rapidapi.com";
-const DEFAULT_PRLABS_CHAT_ENDPOINT =
-  "https://chatgpt-42.p.rapidapi.com/gpt4";
+const DEFAULT_GEMINI_MODEL = "gemini-3.5-flash-lite";
 
 function boundedInteger(
   value: string | undefined,
@@ -23,9 +21,10 @@ function boundedInteger(
 
 export type AIConfig = {
   enabled: boolean;
-  rapidApiKey?: string;
-  rapidApiHost: string;
-  chatEndpoint: string;
+  geminiApiKey?: string;
+  tavilyApiKey?: string;
+  geminiModel: string;
+  maxOutputTokens: number;
   timeoutMs: number;
   maxMessageChars: number;
   maxContextChars: number;
@@ -36,12 +35,15 @@ export type AIConfig = {
 export function getAIConfig(): AIConfig {
   return {
     enabled: process.env.AI_FEATURE_ENABLED === "true",
-    rapidApiKey: process.env.PRLABS_RAPIDAPI_KEY?.trim(),
-    rapidApiHost:
-      process.env.PRLABS_RAPIDAPI_HOST?.trim() || DEFAULT_PRLABS_HOST,
-    chatEndpoint:
-      process.env.PRLABS_CHAT_ENDPOINT?.trim() ||
-      DEFAULT_PRLABS_CHAT_ENDPOINT,
+    geminiApiKey: process.env.GEMINI_API_KEY?.trim(),
+    tavilyApiKey: process.env.TAVILY_API_KEY?.trim(),
+    geminiModel: process.env.GEMINI_MODEL?.trim() || DEFAULT_GEMINI_MODEL,
+    maxOutputTokens: boundedInteger(
+      process.env.AI_MAX_OUTPUT_TOKENS,
+      1_536,
+      128,
+      4_096,
+    ),
     timeoutMs: boundedInteger(
       process.env.AI_REQUEST_TIMEOUT_MS,
       DEFAULT_TIMEOUT_MS,
@@ -77,6 +79,10 @@ export function getAIConfig(): AIConfig {
 
 export function hasProviderEnvironment(config = getAIConfig()) {
   return Boolean(
-    config.rapidApiKey && config.rapidApiHost && config.chatEndpoint,
+    config.geminiApiKey && /^gemini-[a-z0-9.-]+$/.test(config.geminiModel),
   );
+}
+
+export function isGeminiReady(config = getAIConfig()) {
+  return config.enabled && hasProviderEnvironment(config);
 }

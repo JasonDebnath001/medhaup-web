@@ -4,9 +4,20 @@ export type AILanguage = (typeof AI_LANGUAGES)[number];
 
 export type AIMessageRole = "user" | "assistant";
 
+export type AIGrounding = {
+  sources: { title: string; uri: string }[];
+};
+
+export type AIWebSearchResult = {
+  query: string;
+  searchedAt: string;
+  sources: { title: string; uri: string; content: string }[];
+};
+
 export type AIChatMessage = {
   role: AIMessageRole;
   content: string;
+  grounding?: AIGrounding;
 };
 
 export type AIPageType =
@@ -48,12 +59,14 @@ export type AIErrorCode =
 export type AIChatSuccess = {
   ok: true;
   answer: string;
+  grounding?: AIGrounding;
   suggestions?: string[];
   requestId: string;
   meta: {
     pageType: AIPageType;
     language: AILanguage;
     guarded?: boolean;
+    retrievalUsed?: boolean;
   };
 };
 
@@ -73,8 +86,11 @@ export type AIProviderInput = {
   systemPrompt: string;
   message: string;
   history: AIChatMessage[];
+  useWebSearch: boolean;
+  webSearch?: AIWebSearchResult;
 };
 
 export type AIProviderOutput = {
   answer: string;
+  grounding?: AIGrounding;
 };

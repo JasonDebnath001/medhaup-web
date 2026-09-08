@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useId, useRef } from "react";
+import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "framer-motion";
 import { LoaderCircle, Send, X } from "lucide-react";
 import type { AIChatMessage, AILanguage } from "@/lib/ai/types";
 import AIErrorState, { type AIClientError } from "./AIErrorState";
@@ -11,6 +12,8 @@ import AIMessage from "./AIMessage";
 
 type AIPanelProps = {
   messages: AIChatMessage[];
+  revealingAnswer: AIChatMessage | null;
+  onRevealComplete: (message: AIChatMessage) => void;
   language: AILanguage;
   input: string;
   loading: boolean;
@@ -26,6 +29,8 @@ type AIPanelProps = {
 
 export default function AIPanel({
   messages,
+  revealingAnswer,
+  onRevealComplete,
   language,
   input,
   loading,
@@ -41,6 +46,11 @@ export default function AIPanel({
   const titleId = useId();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const followAnswerRef = useRef(true);
+  const previousMessageRef = useRef(messages.at(-1));
+  const reduceMotion = useReducedMotion();
+  const isPresent = useIsPresent();
 
   useEffect(() => {
     if (window.matchMedia("(min-width: 640px)").matches) {
@@ -49,11 +59,30 @@ export default function AIPanel({
   }, []);
 
   useEffect(() => {
+    const latestMessage = messages.at(-1);
+    if (latestMessage !== previousMessageRef.current && latestMessage?.role === "user") {
+      followAnswerRef.current = true;
+    }
+    previousMessageRef.current = latestMessage;
+    if (!followAnswerRef.current) return;
     scrollRef.current?.scrollTo({
       top: scrollRef.current.scrollHeight,
-      behavior: "smooth",
+      behavior: "auto",
     });
   }, [messages, loading, error]);
+
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+    const observer = new ResizeObserver(() => {
+      const scroller = scrollRef.current;
+      if (scroller && followAnswerRef.current) {
+        scroller.scrollTop = scroller.scrollHeight;
+      }
+    });
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -61,13 +90,28 @@ export default function AIPanel({
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.18 }}
+      inert={!isPresent}
       className="fixed inset-0 z-[80] bg-navy/20 backdrop-blur-[1px] sm:bg-navy/10"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <section
+      <motion.section
+        initial={reduceMotion ? false : { opacity: 0, y: 28, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{
+          opacity: 0,
+          y: reduceMotion ? 0 : 16,
+          scale: reduceMotion ? 1 : 0.98,
+          transition: { type: "tween", duration: reduceMotion ? 0 : 0.18, ease: "easeIn" },
+        }}
+        transition={{ type: "spring", stiffness: 420, damping: 36, mass: 0.85 }}
+        style={{ transformOrigin: "bottom right" }}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -87,48 +131,75 @@ export default function AIPanel({
                 Student help from medhaup
               </p>
             </div>
-            <button
+            <motion.button
+              whileHover={reduceMotion ? undefined : { scale: 1.06 }}
+              whileTap={reduceMotion ? undefined : { scale: 0.92 }}
               type="button"
               onClick={onClose}
               aria-label="Close medhaup AI"
               className="grid size-9 shrink-0 place-items-center rounded-full text-slate-500 transition hover:bg-navy/5 hover:text-navy focus-visible:outline-2 focus-visible:outline-orange"
             >
               <X aria-hidden="true" className="size-5" />
-            </button>
+            </motion.button>
           </div>
         </header>
 
         <div
           ref={scrollRef}
-          className="min-h-0 flex-1 space-y-5 overflow-y-auto px-4 py-5"
+          onScroll={(event) => {
+            const scroller = event.currentTarget;
+            followAnswerRef.current = scroller.scrollHeight - scroller.scrollTop - scroller.clientHeight < 64;
+          }}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5"
         >
-          {messages.length === 0 ? (
-            <div className="flex min-h-full flex-col items-center justify-center px-6 text-center">
-              <h3 className="font-heading text-xl font-extrabold text-navy">
-                কী জানতে চাও?
-              </h3>
-              <p className="mt-2 max-w-64 text-sm leading-6 text-slate-500">
-                Ask about exams, subjects, courses, or current updates.
-              </p>
-            </div>
-          ) : (
-            messages.map((message, index) => (
-              <AIMessage
-                key={`${message.role}-${index}-${message.content.slice(0, 16)}`}
-                message={message}
+          <div ref={contentRef} className="flex min-h-full flex-col gap-5">
+            {messages.length === 0 ? (
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.12, duration: 0.25 }}
+                className="flex flex-1 flex-col items-center justify-center px-6 text-center"
+              >
+                <h3 className="font-heading text-xl font-extrabold text-navy">
+                  কী জানতে চাও?
+                </h3>
+                <p className="mt-2 max-w-64 text-sm leading-6 text-slate-500">
+                  Ask about exams, subjects, courses, or current updates.
+                </p>
+              </motion.div>
+            ) : (
+              messages.map((message, index) => (
+                <AIMessage
+                  key={`${message.role}-${index}-${message.content.slice(0, 16)}`}
+                  message={message}
+                  animateAnswer={message === revealingAnswer}
+                  onRevealComplete={onRevealComplete}
+                />
+              ))
+            )}
+
+            <AnimatePresence initial={false}>
+              {loading ? (
+                <motion.div
+                  key="thinking"
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.15 }}
+                >
+                  <AILoading />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+
+            {error ? (
+              <AIErrorState
+                error={error}
+                onRetry={canRetry ? onRetry : undefined}
+                retryDisabled={loading}
               />
-            ))
-          )}
-
-          {loading ? <AILoading /> : null}
-
-          {error ? (
-            <AIErrorState
-              error={error}
-              onRetry={canRetry ? onRetry : undefined}
-              retryDisabled={loading}
-            />
-          ) : null}
+            ) : null}
+          </div>
         </div>
 
         <form
@@ -164,7 +235,9 @@ export default function AIPanel({
               placeholder="medhaup AI-কে যেকোনো প্রশ্ন করো…"
               className="max-h-28 min-h-10 flex-1 resize-none bg-transparent px-2.5 py-2 text-sm leading-5 text-slate-800 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed"
             />
-            <button
+            <motion.button
+              whileHover={reduceMotion || loading || !input.trim() ? undefined : { scale: 1.05 }}
+              whileTap={reduceMotion || loading || !input.trim() ? undefined : { scale: 0.92 }}
               type="submit"
               disabled={loading || !input.trim()}
               aria-label="Send question"
@@ -178,13 +251,13 @@ export default function AIPanel({
               ) : (
                 <Send aria-hidden="true" className="size-4" />
               )}
-            </button>
+            </motion.button>
           </div>
           <p className="mt-2 text-center text-[10px] leading-4 text-slate-400">
             Verify important exam updates with official notices.
           </p>
         </form>
-      </section>
-    </div>
+      </motion.section>
+    </motion.div>
   );
 }

@@ -3,13 +3,11 @@ import {
   isAIPagePath,
   normalizeAIPath,
 } from "@/lib/ai/context";
-import { getAIConfig, hasProviderEnvironment } from "@/lib/ai/config";
-import {
-  askPRLabs,
-  AIProviderError,
-  isPRLabsReady,
-  withProviderTimeout,
-} from "@/lib/ai/prlabs";
+import { getAIConfig, isGeminiReady } from "@/lib/ai/config";
+import { askGemini } from "@/lib/ai/gemini";
+import { searchTavily } from "@/lib/ai/tavily";
+import { buildWebSearchQuery, needsWebSearch } from "@/lib/ai/web-search";
+import { AIProviderError, withProviderTimeout } from "@/lib/ai/provider";
 import {
   buildProviderInput,
   getCounsellingGuardrailAnswer,
@@ -116,10 +114,17 @@ function providerStatus(code: AIErrorCode) {
   if (code === "PROVIDER_AUTH" || code === "NOT_CONFIGURED") return 503;
   if (code === "PROVIDER_TIMEOUT") return 504;
   if (code === "RATE_LIMITED") return 429;
+  if (code === "UNSAFE_REQUEST") return 422;
   return 502;
 }
 
-function publicProviderMessage(code: AIErrorCode) {
+function publicProviderMessage(code: AIErrorCode, searchFailed = false) {
+  if (searchFailed) {
+    return "Live web search is unavailable right now. You can still ask study questions or questions about medhaup courses.";
+  }
+  if (code === "UNSAFE_REQUEST") {
+    return "medhaup AI could not answer that question. Please try rephrasing it.";
+  }
   if (code === "PROVIDER_TIMEOUT") {
     return "medhaup AI took too long to respond. Please try again.";
   }
@@ -189,11 +194,7 @@ export async function POST(request: Request) {
     );
   }
 
-  if (
-    !config.enabled ||
-    !hasProviderEnvironment(config) ||
-    !isPRLabsReady(config)
-  ) {
+  if (!isGeminiReady(config)) {
     return errorResponse(
       requestId,
       "NOT_CONFIGURED",
@@ -267,15 +268,25 @@ export async function POST(request: Request) {
     );
   }
 
+  let requestingSearch = false;
   try {
-    const providerInput = buildProviderInput(
-      body.message,
-      body.language,
-      body.history,
-      pageContext,
-    );
+    const useWebSearch = needsWebSearch(body.message, body.history);
     const providerOutput = await withProviderTimeout(
-      (signal) => askPRLabs(providerInput, config, signal),
+      async (signal) => {
+        requestingSearch = useWebSearch;
+        const webSearch = useWebSearch
+          ? await searchTavily(buildWebSearchQuery(body.message, body.history), config, signal)
+          : undefined;
+        requestingSearch = false;
+        const providerInput = buildProviderInput(
+          body.message,
+          body.language,
+          body.history,
+          pageContext,
+          webSearch,
+        );
+        return askGemini(providerInput, config, signal);
+      },
       config.timeoutMs,
     );
     const answer = providerOutput.answer.trim();
@@ -289,10 +300,12 @@ export async function POST(request: Request) {
     const response: AIChatSuccess = {
       ok: true,
       answer: answer.slice(0, 6_000),
+      grounding: providerOutput.grounding,
       requestId,
       meta: {
         pageType: pageContext.pageType,
         language: body.language,
+        retrievalUsed: useWebSearch,
       },
     };
     return Response.json(response, {
@@ -309,12 +322,13 @@ export async function POST(request: Request) {
     console.warn("[ai] Provider request failed", {
       requestId,
       code: providerError.code,
+      stage: requestingSearch ? "search" : "answer",
       pageType: pageContext.pageType,
     });
     return errorResponse(
       requestId,
       providerError.code,
-      publicProviderMessage(providerError.code),
+      publicProviderMessage(providerError.code, requestingSearch),
       providerStatus(providerError.code),
       providerError.retryAfterSeconds,
     );

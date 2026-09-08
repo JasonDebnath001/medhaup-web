@@ -7,8 +7,7 @@ import AttributionCapture from "@/components/provider/AttributionCapture";
 import SiteChrome from "@/components/layout/SiteChrome";
 import { SiteProvider } from "@/components/provider/SiteProvider";
 import JsonLd from "@/components/seo/JsonLd";
-import { getAIConfig } from "@/lib/ai/config";
-import { isPRLabsReady } from "@/lib/ai/prlabs";
+import { getAIConfig, isGeminiReady } from "@/lib/ai/config";
 import { getSiteSettings } from "@/lib/data";
 import {
   DEFAULT_DESCRIPTION,
@@ -113,7 +112,7 @@ export default async function RootLayout({
   const aiConfig = getAIConfig();
   const aiEnabled =
     aiConfig.enabled &&
-    (isPRLabsReady(aiConfig) || process.env.NODE_ENV !== "production");
+    (isGeminiReady(aiConfig) || process.env.NODE_ENV !== "production");
 
   return (
     <html lang="en">

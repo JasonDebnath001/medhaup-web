@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { trackGAEvent } from "@/lib/analytics";
 import type {
@@ -53,12 +54,22 @@ export default function MedhaupAI({
   const [open, setOpen] = useState(false);
   const [language, setLanguage] = useState<AILanguage>("auto");
   const [messages, setMessages] = useState<AIChatMessage[]>([]);
+  const [revealingAnswer, setRevealingAnswer] = useState<AIChatMessage | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AIClientError | null>(null);
   const [lastAttempt, setLastAttempt] = useState<LastAttempt | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+
+  const closePanel = useCallback(() => {
+    setOpen(false);
+    setRevealingAnswer(null);
+  }, []);
+
+  const finishReveal = useCallback((message: AIChatMessage) => {
+    setRevealingAnswer((current) => current === message ? null : current);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -67,8 +78,7 @@ export default function MedhaupAI({
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setOpen(false);
-        requestAnimationFrame(() => triggerRef.current?.focus());
+        closePanel();
       }
     }
 
@@ -77,7 +87,7 @@ export default function MedhaupAI({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open]);
+  }, [open, closePanel]);
 
   useEffect(
     () => () => {
@@ -85,11 +95,6 @@ export default function MedhaupAI({
     },
     [],
   );
-
-  const closePanel = useCallback(() => {
-    setOpen(false);
-    requestAnimationFrame(() => triggerRef.current?.focus());
-  }, []);
 
   const sendQuestion = useCallback(
     async (
@@ -101,6 +106,7 @@ export default function MedhaupAI({
       if (!trimmed || trimmed.length > MAX_MESSAGE_CHARS) return;
 
       const history = (options?.history ?? messages).slice(-8);
+      setRevealingAnswer(null);
       const appendUser = options?.appendUser ?? true;
       if (appendUser)
         setMessages((current) => [
@@ -137,7 +143,11 @@ export default function MedhaupAI({
             message: trimmed,
             language,
             page: { path: descriptor.path },
-            history,
+            // Only conversation text belongs in subsequent prompts.
+            history: history.map(({ role, content }) => ({
+              role,
+              content: content.slice(0, 1_600),
+            })),
           }),
         });
         const payload: unknown = await response.json().catch(() => null);
@@ -156,16 +166,19 @@ export default function MedhaupAI({
           } satisfies AIClientError;
         }
 
-        setMessages((current) => [
-          ...current,
-          { role: "assistant", content: payload.answer },
-        ]);
+        const answer: AIChatMessage = {
+          role: "assistant",
+          content: payload.answer,
+          grounding: payload.grounding,
+        };
+        setMessages((current) => [...current, answer]);
+        setRevealingAnswer(answer);
         setLastAttempt(null);
         trackGAEvent("ai_response_success", {
           ai_mode: "page_help",
           content_type: descriptor.contentType,
           language,
-          retrieval_used: false,
+          retrieval_used: payload.meta.retrievalUsed ?? false,
           latency_bucket: latencyBucket(performance.now() - startedAt),
         });
       } catch (caught) {
@@ -173,19 +186,19 @@ export default function MedhaupAI({
         const candidate = caught as Partial<AIClientError>;
         const nextError = aborted
           ? fallbackError(
-              "PROVIDER_TIMEOUT",
-              "medhaup AI took too long to respond. Please try again.",
-            )
+            "PROVIDER_TIMEOUT",
+            "medhaup AI took too long to respond. Please try again.",
+          )
           : candidate.code && candidate.message
             ? {
-                code: candidate.code,
-                message: candidate.message,
-                retryAfterSeconds: candidate.retryAfterSeconds,
-              }
+              code: candidate.code,
+              message: candidate.message,
+              retryAfterSeconds: candidate.retryAfterSeconds,
+            }
             : fallbackError(
-                "PROVIDER_ERROR",
-                "medhaup AI could not answer right now. Please try again.",
-              );
+              "PROVIDER_ERROR",
+              "medhaup AI could not answer right now. Please try again.",
+            );
 
         setError(nextError);
         setInput(trimmed);
@@ -209,12 +222,13 @@ export default function MedhaupAI({
   if (!descriptor) return null;
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       {!open ? (
         <AITrigger
           ref={triggerRef}
           campaignVisible={campaignVisible}
           onClick={() => {
+            setRevealingAnswer(null);
             setOpen(true);
             trackGAEvent("ai_open", {
               content_type: descriptor.contentType,
@@ -224,36 +238,41 @@ export default function MedhaupAI({
         />
       ) : null}
 
-      {open ? (
-        <AIPanel
-          messages={messages}
-          language={language}
-          input={input}
-          loading={loading}
-          error={error}
-          canRetry={Boolean(lastAttempt)}
-          maxMessageChars={MAX_MESSAGE_CHARS}
-          onClose={closePanel}
-          onLanguageChange={(nextLanguage) => {
-            const previousLanguage = language;
-            setLanguage(nextLanguage);
-            trackGAEvent("ai_language_change", {
-              from_language: previousLanguage,
-              to_language: nextLanguage,
-            });
-          }}
-          onInputChange={setInput}
-          onSubmit={(question) => void sendQuestion(question)}
-          onRetry={() => {
-            if (lastAttempt) {
-              void sendQuestion(lastAttempt.message, {
-                appendUser: false,
-                history: lastAttempt.history,
+      <AnimatePresence onExitComplete={() => triggerRef.current?.focus()}>
+        {open ? (
+          <AIPanel
+            key="medhaup-chat"
+            messages={messages}
+            revealingAnswer={revealingAnswer}
+            onRevealComplete={finishReveal}
+            language={language}
+            input={input}
+            loading={loading}
+            error={error}
+            canRetry={Boolean(lastAttempt)}
+            maxMessageChars={MAX_MESSAGE_CHARS}
+            onClose={closePanel}
+            onLanguageChange={(nextLanguage) => {
+              const previousLanguage = language;
+              setLanguage(nextLanguage);
+              trackGAEvent("ai_language_change", {
+                from_language: previousLanguage,
+                to_language: nextLanguage,
               });
-            }
-          }}
-        />
-      ) : null}
-    </>
+            }}
+            onInputChange={setInput}
+            onSubmit={(question) => void sendQuestion(question)}
+            onRetry={() => {
+              if (lastAttempt) {
+                void sendQuestion(lastAttempt.message, {
+                  appendUser: false,
+                  history: lastAttempt.history,
+                });
+              }
+            }}
+          />
+        ) : null}
+      </AnimatePresence>
+    </MotionConfig>
   );
 }
