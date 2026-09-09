@@ -52,7 +52,7 @@ returns an empty result; content-driven pages then show their configured
 
 | Route                        | Purpose                                                                             |
 | ---------------------------- | ----------------------------------------------------------------------------------- |
-| `/`                          | Company homepage, course highlights, batches, campaign content, and calls to action |
+| `/`                          | Company homepage, course highlights, batches, and calls to action                   |
 | `/course`                    | Detailed ANM/GNM course information                                                 |
 | `/admission`                 | App-based admission and callback request flow                                       |
 | `/syllabus`                  | Subject breakdown and syllabus downloads                                            |
@@ -84,7 +84,6 @@ response headers.
 ```text
 app/                    Next.js routes, layouts, metadata, sitemap, and manifest
 components/
-  campaign/             Time-bound campaign presentation
   layout/               Navigation, footer, and shared site chrome
   provider/             Site settings, attribution, and analytics providers
   sections/             Page-level product and content sections
@@ -279,6 +278,16 @@ A standard publishing workflow is:
 5. Verify the public route. Allow up to 60 seconds for revalidated pages to
    refresh.
 
+For homepage question-paper downloads, open **Previous Year Papers** at
+`/admin/pyq`, choose **Add Paper**, enter the title, year, and language, and
+upload the **Question Paper PDF**. An **Answer Key PDF** is optional. Use
+**View uploaded PDF** to review each file, save the record, then switch its
+**DRAFT** badge to **LIVE**. The same published records appear below the hero
+on `/` and in the `/pyq` library. Unpublishing removes a paper from both views
+after revalidation. With no published records, the homepage shows an empty
+state rather than sample downloads. Uploads use the existing `files` bucket
+under `pyq/`; no new database table or bucket is required.
+
 Global phone, email, address, WhatsApp, and social-channel values are managed at
 `/admin/settings`. Code defaults are defined in `lib/settings.ts` and are used
 if the settings record cannot be loaded.
@@ -338,8 +347,7 @@ npm run build
 | `npm run start`    | Serve a completed production build           |
 
 Run `node --test scripts/ai-gemini.test.mjs` for the Gemini adapter and route
-regression checks; they mock Gemini and Tavily and do not consume API quota. The existing
-campaign checks run with `node --test scripts/teachers-day.test.mjs`. Lint,
+regression checks; they mock Gemini and Tavily and do not consume API quota. Lint,
 type-check, build, and focused browser verification remain the release baseline.
 
 ## Deployment

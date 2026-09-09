@@ -44,11 +44,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar({
-  campaignVisible = false,
-}: {
-  campaignVisible?: boolean;
-}) {
+export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
@@ -91,10 +87,7 @@ export default function Navbar({
 
   return (
     <header
-      className={clsx(
-        "fixed inset-x-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4",
-        campaignVisible ? "top-[var(--campaign-bar-height)]" : "top-0",
-      )}
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4"
     >
       <nav
         aria-label="Main navigation"
@@ -181,7 +174,7 @@ export default function Navbar({
             href="/admission"
             className="group flex items-center gap-1.5 rounded-full bg-orange px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-lg hover:shadow-orange/40 hover:ring-2 hover:ring-white/30 sm:px-5 sm:py-2.5"
           >
-            {campaignVisible ? "₹1,300 Offer" : "Take Admission"}
+            Take Admission
             <ArrowRight
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -218,9 +211,6 @@ export default function Navbar({
             {/* Slide-in panel */}
             <motion.div
               id="mobile-menu"
-              style={{
-                top: campaignVisible ? "var(--campaign-bar-height)" : 0,
-              }}
               ref={panelRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}

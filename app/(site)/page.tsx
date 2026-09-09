@@ -2,19 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import Hero from "@/components/sections/Hero";
+import PreviousYearPapers from "@/components/sections/PreviousYearPapers";
 import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import BlogHighlights from "@/components/sections/Bloghighlights";
-import { TeachersDayOffer } from "@/components/campaign/TeachersDayCampaign";
-import { getCampaignNow } from "@/lib/campaignServer";
-import {
-  getTeachersDayOfferSchema,
-  withTeachersDayMetadata,
-} from "@/lib/campaignSeo";
 import {
   getBatches,
   getPosts,
+  getPYQs,
   getSubjects,
   getSyllabusDownloads,
 } from "@/lib/data";
@@ -67,7 +63,7 @@ const BASE_KEYWORDS = [
   "Medha Up",
 ];
 
-const BASE_METADATA: Metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: { absolute: PAGE_TITLE },
@@ -147,10 +143,6 @@ const BASE_METADATA: Metadata = {
     "geo.placename": "West Bengal",
   },
 };
-
-export async function generateMetadata(): Promise<Metadata> {
-  return withTeachersDayMetadata(BASE_METADATA, await getCampaignNow());
-}
 
 /* -------------------------------------------------------------------------- */
 /*                                SEO CONTENT                                 */
@@ -436,25 +428,16 @@ const structuredData = {
 export const revalidate = 60;
 
 export default async function Home() {
-  const now = await getCampaignNow();
-  const [batches, subjects, downloads, posts] = await Promise.all([
+  const [batches, subjects, downloads, posts, papers] = await Promise.all([
     getBatches(),
     getSubjects(),
     getSyllabusDownloads(),
     getPosts(),
+    getPYQs(),
   ]);
 
   /* Latest three published posts for the homepage showcase */
   const latestPosts = posts.slice(0, 3);
-  const offer = getTeachersDayOfferSchema(now);
-  const pageStructuredData = {
-    ...structuredData,
-    "@graph": structuredData["@graph"].map((entity) =>
-      entity["@type"] === "Course" && offer
-        ? { ...entity, offers: offer }
-        : entity,
-    ),
-  };
 
   return (
     <>
@@ -465,7 +448,7 @@ export default async function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(pageStructuredData).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
 
@@ -475,8 +458,7 @@ export default async function Home() {
         {/* ------------------------------------------------------------------ */}
 
         <Hero downloads={downloads} />
-        {/* Request-time seed keeps the client clock hydration-stable. */}
-        <TeachersDayOffer />
+        <PreviousYearPapers papers={papers} />
         {/* No published batch → section disappears (admissions closed) */}
         {batches.length > 0 && <OngoingBatch batches={batches} />}
 

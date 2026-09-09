@@ -1,5 +1,6 @@
 import { FileText, Download, KeyRound, Sparkles } from "lucide-react";
 import { getPYQs } from "@/lib/data";
+import { getFileDownloadUrl } from "@/lib/downloads";
 import ComingSoon from "@/components/ui/ComingSoon";
 import JsonLd from "@/components/seo/JsonLd";
 import { absoluteUrl, createPageMetadata, createPageSchema } from "@/lib/seo";
@@ -118,7 +119,7 @@ export default async function PYQPage() {
 
               <div className="flex shrink-0 flex-col gap-2 sm:items-end">
                 <a
-                  href={p.paperUrl}
+                  href={getFileDownloadUrl(p.paperUrl)}
                   download
                   className="flex items-center justify-center gap-2 rounded-xl bg-orange px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
                 >
@@ -126,7 +127,7 @@ export default async function PYQPage() {
                 </a>
                 {p.answerKeyUrl && (
                   <a
-                    href={p.answerKeyUrl}
+                    href={getFileDownloadUrl(p.answerKeyUrl)}
                     download
                     className="flex items-center justify-center gap-2 rounded-xl border border-navy/15 px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-navy/5"
                   >

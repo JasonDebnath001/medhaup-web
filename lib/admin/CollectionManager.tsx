@@ -15,6 +15,7 @@ import {
 import clsx from "clsx";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import type { Collection, Field } from "@/lib/admin/collections";
+import { formatFileSize, validatePdfUpload } from "@/lib/admin/uploads";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>;
@@ -35,11 +36,12 @@ export default function CollectionManager({
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase
+    const { data, error: loadError } = await supabase
       .from(collection.table)
       .select("*")
       .order("created_at", { ascending: false });
     setRows(data ?? []);
+    if (loadError) setError(`Could not load items: ${loadError.message}`);
     setLoading(false);
   }, [collection.table, supabase]);
 
@@ -50,9 +52,10 @@ export default function CollectionManager({
       .from(collection.table)
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => {
+      .then(({ data, error: loadError }) => {
         if (!active) return;
         setRows(data ?? []);
+        if (loadError) setError(`Could not load items: ${loadError.message}`);
         setLoading(false);
       });
 
@@ -66,7 +69,8 @@ export default function CollectionManager({
 
     const previousOverflow = document.body.style.overflow;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setEditing(null);
+      if (event.key === "Escape" && !saving && uploading === null)
+        setEditing(null);
     };
 
     document.body.style.overflow = "hidden";
@@ -76,7 +80,7 @@ export default function CollectionManager({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", closeOnEscape);
     };
-  }, [editing]);
+  }, [editing, saving, uploading]);
 
   /* ---------- helpers ---------- */
   const openNew = () => {
@@ -85,11 +89,9 @@ export default function CollectionManager({
       blank[f.name] =
         f.type === "boolean"
           ? false
-          : f.type === "number"
-            ? ""
-            : f.type === "tags"
-              ? ""
-              : "";
+          : f.type === "select"
+            ? (f.options?.[0] ?? "")
+            : "";
     });
     setForm(blank);
     setEditing("new");
@@ -113,28 +115,37 @@ export default function CollectionManager({
     setForm((f) => ({ ...f, [name]: value }));
 
   const uploadFile = async (field: Field, file: File) => {
+    if (uploading !== null || saving || !field.bucket) return;
+    setError("");
     setUploading(field.name);
-    const path = `${collection.slug}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_")}`;
-    const { error } = await supabase.storage
-      .from(field.bucket!)
-      .upload(path, file);
-    if (error) {
-      setError(`Upload failed: ${error.message}`);
-    } else {
-      const { data } = supabase.storage.from(field.bucket!).getPublicUrl(path);
-      set(field.name, data.publicUrl);
-      // Auto-fill file_size if this collection has that field
-      if (collection.fields.some((f) => f.name === "file_size")) {
-        const mb = file.size / (1024 * 1024);
-        set(
-          "file_size",
-          mb >= 1
-            ? `${mb.toFixed(1)} MB`
-            : `${Math.round(file.size / 1024)} KB`,
+    try {
+      const isPdf = field.accept === "application/pdf";
+      if (isPdf) await validatePdfUpload(file);
+      const path = `${collection.slug}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_")}`;
+      const { error: uploadError } = await supabase.storage
+        .from(field.bucket)
+        .upload(
+          path,
+          file,
+          isPdf ? { contentType: "application/pdf" } : undefined,
         );
-      }
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from(field.bucket).getPublicUrl(path);
+      setForm((current) => ({
+        ...current,
+        [field.name]: data.publicUrl,
+        ...(field.fileSizeField
+          ? { [field.fileSizeField]: formatFileSize(file.size) }
+          : {}),
+      }));
+    } catch (uploadError) {
+      setError(
+        `Upload failed: ${uploadError instanceof Error ? uploadError.message : "Please try again."}`,
+      );
+    } finally {
+      setUploading(null);
     }
-    setUploading(null);
   };
 
   const slugify = (s: string) =>
@@ -146,6 +157,7 @@ export default function CollectionManager({
       .replace(/-+/g, "-");
 
   const save = async () => {
+    if (saving || uploading !== null) return;
     setError("");
     // Auto-generate blog slug from title if left empty
     const working = { ...form };
@@ -201,11 +213,16 @@ export default function CollectionManager({
   };
 
   const togglePublish = async (row: Row) => {
-    await supabase
+    setError("");
+    const { error: publishError } = await supabase
       .from(collection.table)
       .update({ published: !row.published })
       .eq("id", row.id);
-    load();
+    if (publishError) {
+      setError(`Could not change publishing status: ${publishError.message}`);
+      return;
+    }
+    await load();
   };
 
   /* Extract "bucket" + "path" from a Supabase public URL:
@@ -249,8 +266,8 @@ export default function CollectionManager({
             {collection.title}
           </h1>
           <p className="mt-1 text-sm text-navy/60">
-            Unpublished items are hidden from the website. Zero published items
-            = Coming Soon page.
+            {collection.description ??
+              "Unpublished items are hidden from the website. Zero published items = Coming Soon page."}
           </p>
         </div>
         <button
@@ -260,6 +277,12 @@ export default function CollectionManager({
           <Plus size={16} aria-hidden="true" /> Add {collection.singular}
         </button>
       </div>
+
+      {error && editing === null && (
+        <p role="alert" className="mt-4 text-sm font-medium text-red-600">
+          {error}
+        </p>
+      )}
 
       {/* List */}
       <div className="mt-6 overflow-hidden rounded-2xl border border-navy/10 bg-white shadow-sm">
@@ -410,6 +433,7 @@ export default function CollectionManager({
               <button
                 onClick={() => setEditing(null)}
                 aria-label="Close editor"
+                disabled={saving || uploading !== null}
                 className="grid h-11 w-11 place-items-center rounded-full text-navy transition-colors hover:bg-navy/5"
               >
                 <X size={18} aria-hidden="true" />
@@ -419,7 +443,10 @@ export default function CollectionManager({
             <div className="flex-1 space-y-5 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6">
               {collection.fields.map((f) => (
                 <div key={f.name}>
-                  <label className="text-xs font-semibold uppercase tracking-wide text-navy/60">
+                  <label
+                    htmlFor={`field-${f.name}`}
+                    className="text-xs font-semibold uppercase tracking-wide text-navy/60"
+                  >
                     {f.label}{" "}
                     {f.required && <span className="text-orange">*</span>}
                   </label>
@@ -428,6 +455,7 @@ export default function CollectionManager({
                     f.type === "number" ||
                     f.type === "date") && (
                     <input
+                      id={`field-${f.name}`}
                       type={
                         f.type === "number"
                           ? "number"
@@ -443,6 +471,7 @@ export default function CollectionManager({
 
                   {(f.type === "textarea" || f.type === "paragraphs") && (
                     <textarea
+                      id={`field-${f.name}`}
                       rows={f.type === "paragraphs" ? 10 : 3}
                       value={form[f.name] ?? ""}
                       onChange={(e) => set(f.name, e.target.value)}
@@ -452,6 +481,7 @@ export default function CollectionManager({
 
                   {f.type === "tags" && (
                     <input
+                      id={`field-${f.name}`}
                       value={form[f.name] ?? ""}
                       onChange={(e) => set(f.name, e.target.value)}
                       className="mt-1.5 min-h-11 w-full rounded-xl border border-navy/15 px-4 py-2.5 text-base text-navy outline-none focus:border-orange focus:ring-2 focus:ring-orange/20 sm:text-sm"
@@ -460,6 +490,7 @@ export default function CollectionManager({
 
                   {f.type === "select" && (
                     <select
+                      id={`field-${f.name}`}
                       value={form[f.name] ?? f.options?.[0]}
                       onChange={(e) => set(f.name, e.target.value)}
                       className="mt-1.5 min-h-11 w-full rounded-xl border border-navy/15 bg-white px-4 py-2.5 text-base text-navy outline-none focus:border-orange sm:text-sm"
@@ -474,6 +505,7 @@ export default function CollectionManager({
 
                   {f.type === "boolean" && (
                     <button
+                      id={`field-${f.name}`}
                       type="button"
                       onClick={() => set(f.name, !form[f.name])}
                       className={clsx(
@@ -501,7 +533,7 @@ export default function CollectionManager({
                     <div className="mt-1.5">
                       <label
                         className={clsx(
-                          "flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-center text-sm font-medium transition-colors",
+                          "flex min-h-14 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-4 text-center text-sm font-medium transition-colors focus-within:ring-2 focus-within:ring-orange/30",
                           form[f.name]
                             ? "border-green-300 bg-green-50 text-green-700"
                             : "border-navy/20 text-navy/60 hover:border-orange hover:text-orange",
@@ -522,15 +554,28 @@ export default function CollectionManager({
                           </>
                         )}
                         <input
+                          id={`field-${f.name}`}
                           type="file"
                           accept={f.accept}
-                          className="hidden"
+                          disabled={saving || uploading !== null}
+                          className="sr-only"
                           onChange={(e) => {
                             const file = e.target.files?.[0];
-                            if (file) uploadFile(f, file);
+                            e.target.value = "";
+                            if (file) void uploadFile(f, file);
                           }}
                         />
                       </label>
+                      {f.type === "file" && form[f.name] && (
+                        <a
+                          href={form[f.name]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-navy underline underline-offset-4"
+                        >
+                          View uploaded PDF
+                        </a>
+                      )}
                       {f.type === "image" && form[f.name] && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -551,7 +596,12 @@ export default function CollectionManager({
 
             <div className="border-t border-navy/10 px-4 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:px-6 sm:pb-4">
               {error && (
-                <p className="mb-3 text-sm font-medium text-red-600">{error}</p>
+                <p
+                  role="alert"
+                  className="mb-3 text-sm font-medium text-red-600"
+                >
+                  {error}
+                </p>
               )}
               <div className="grid grid-cols-2 gap-3">
                 <button
@@ -567,14 +617,15 @@ export default function CollectionManager({
                 </button>
                 <button
                   onClick={() => setEditing(null)}
+                  disabled={saving || uploading !== null}
                   className="min-h-12 rounded-xl border border-navy/15 px-4 py-3 font-semibold text-navy transition-colors hover:bg-navy/5"
                 >
                   Cancel
                 </button>
               </div>
               <p className="mt-2 text-xs text-navy/45">
-                Saved items start as DRAFT — press the status badge in the list
-                to make them LIVE.
+                New items start as DRAFT — press the status badge in the list to
+                make them LIVE.
               </p>
             </div>
           </div>

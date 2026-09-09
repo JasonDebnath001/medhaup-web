@@ -18,6 +18,7 @@ export type Field = {
   options?: string[]; // for select
   bucket?: "files" | "images";
   accept?: string; // file input accept
+  fileSizeField?: string; // column populated from this file's size
   help?: string;
 };
 
@@ -26,6 +27,7 @@ export type Collection = {
   table: string;
   title: string;
   singular: string;
+  description?: string;
   listCols: string[]; // columns shown in the list table
   fields: Field[];
   manager?: "success-photos";
@@ -106,6 +108,8 @@ export const COLLECTIONS: Collection[] = [
     table: "pyqs",
     title: "Previous Year Papers",
     singular: "Paper",
+    description:
+      "Upload a question paper and optional answer key, then save and switch DRAFT to LIVE. Live papers appear on the homepage and in the PYQ library; allow up to a minute for updates.",
     listCols: ["title", "year"],
     fields: [
       { name: "title", label: "Title", type: "text", required: true },
@@ -119,6 +123,8 @@ export const COLLECTIONS: Collection[] = [
         bucket: "files",
         accept: "application/pdf",
         required: true,
+        fileSizeField: "file_size",
+        help: "Upload the question paper as a PDF. Its size is filled in automatically.",
       },
       {
         name: "answer_key_url",
@@ -126,10 +132,11 @@ export const COLLECTIONS: Collection[] = [
         type: "file",
         bucket: "files",
         accept: "application/pdf",
+        help: "Optional. Students can download this alongside the question paper.",
       },
       {
         name: "file_size",
-        label: "File size (auto-filled on upload)",
+        label: "Question paper size (auto-filled on upload)",
         type: "text",
       },
       { name: "is_new", label: "Show NEW badge", type: "boolean" },
@@ -204,6 +211,7 @@ export const COLLECTIONS: Collection[] = [
         bucket: "files",
         accept: "application/pdf",
         required: true,
+        fileSizeField: "file_size",
       },
       { name: "file_size", label: "File size (auto-filled)", type: "text" },
       { name: "is_new", label: "Show NEW badge", type: "boolean" },
@@ -261,6 +269,7 @@ export const COLLECTIONS: Collection[] = [
         bucket: "files",
         accept: "application/pdf",
         required: true,
+        fileSizeField: "file_size",
       },
       { name: "file_size", label: "File size (auto-filled)", type: "text" },
       { name: "is_new", label: "Show NEW badge", type: "boolean" },

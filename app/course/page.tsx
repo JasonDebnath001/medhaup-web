@@ -1,9 +1,4 @@
 import type { Metadata } from "next";
-import { getCampaignNow } from "@/lib/campaignServer";
-import {
-  getTeachersDayOfferSchema,
-  withTeachersDayMetadata,
-} from "@/lib/campaignSeo";
 import Link from "next/link";
 import CourseHero from "@/components/sections/course/CourseHero";
 import WhatsInside from "@/components/sections/course/WhatsInside";
@@ -108,7 +103,7 @@ const RESOURCE_LINKS = [
   },
 ] as const;
 
-const baseMetadata: Metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: { absolute: SEO_TITLE },
@@ -516,30 +511,13 @@ function CourseFaq() {
   );
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return withTeachersDayMetadata(
-    baseMetadata,
-    await getCampaignNow(),
-    "ANM GNM Course",
-  );
-}
-
-export default async function CoursePage() {
-  const offer = getTeachersDayOfferSchema(await getCampaignNow());
-  const pageSchema = {
-    ...structuredData,
-    "@graph": structuredData["@graph"].map((entity) =>
-      entity["@type"] === "Course" && offer
-        ? { ...entity, offers: offer }
-        : entity,
-    ),
-  };
+export default function CoursePage() {
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(pageSchema).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
 

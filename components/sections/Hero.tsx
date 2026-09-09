@@ -6,7 +6,6 @@ import { motion, type Variants } from "framer-motion";
 import { ArrowRight, Users, CalendarCheck } from "lucide-react";
 import SyllabusDownloadButton from "@/components/ui/SyllabusDownloadButton";
 import type { SyllabusDownload } from "@/lib/data";
-import { useTeachersDayCampaign } from "@/components/campaign/CampaignProvider";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -23,8 +22,6 @@ const STATS = [
 ];
 
 export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
-  const { phase } = useTeachersDayCampaign();
-  const celebrating = phase === "live";
   return (
     <section className="relative overflow-hidden bg-cream pt-32 pb-20 sm:pt-40 sm:pb-28">
       {/* ---- Background layers ---- */}
@@ -60,9 +57,7 @@ export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
             className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-white px-4 py-1.5 text-xs font-semibold tracking-wide text-navy shadow-sm"
           >
             <span className="h-2 w-2 animate-pulse rounded-full bg-orange" />
-            {celebrating
-              ? "HAPPY TEACHERS’ DAY · 5–6 SEPTEMBER"
-              : "WBJEEB ANM/GNM PREPARATION"}
+            WBJEEB ANM/GNM PREPARATION
           </motion.div>
 
           {/* Headline */}
@@ -73,7 +68,7 @@ export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
             custom={1}
             className="font-heading mt-6 text-4xl font-extrabold leading-[1.12] tracking-tight text-navy sm:text-5xl lg:text-[3.4rem]"
           >
-            {celebrating ? "Inspired by teachers. Ready for " : "Crack "}
+            Crack{" "}
             <span className="relative inline-block text-orange">
               ANM/GNM 2027
               <svg
@@ -92,7 +87,7 @@ export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
                 />
               </svg>
             </span>
-            {celebrating ? "." : " with medhaup"}
+            {" with medhaup"}
           </motion.h1>
 
           {/* Subheadline */}
@@ -116,10 +111,10 @@ export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
             className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
             <Link
-              href={celebrating ? "/#teachers-day-offer" : "/admission"}
+              href="/admission"
               className="group flex w-full items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl hover:shadow-orange/40 sm:w-auto"
             >
-              {celebrating ? "Explore the ₹1,300 special" : "Take Admission"}
+              Take Admission
               <ArrowRight
                 size={18}
                 className="transition-transform duration-200 group-hover:translate-x-1"
@@ -169,16 +164,6 @@ export default function Hero({ downloads }: { downloads: SyllabusDownload[] }) {
             className="absolute -right-6 -top-6 -z-10 h-36 w-36 rounded-full border-[10px] border-orange/25"
           />
 
-          {celebrating && (
-            <div className="absolute -bottom-5 left-4 right-4 z-10 rounded-xl border border-navy/15 bg-cream px-5 py-4 text-center text-navy shadow-lg">
-              <p className="font-heading text-sm font-bold">
-                A teacher’s belief. A student’s bright future.
-              </p>
-              <p className="mt-1 text-xs" lang="bn">
-                শিক্ষক দিবসের শুভেচ্ছা — medhaup-এর পক্ষ থেকে
-              </p>
-            </div>
-          )}
           <div className="overflow-hidden rounded-[2rem] border border-navy/10 shadow-2xl shadow-navy/20">
             <Image
               src="/arushi.png"

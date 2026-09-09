@@ -11,7 +11,6 @@ import {
   FaWhatsapp,
 } from "react-icons/fa6";
 import { useSite } from "@/components/provider/SiteProvider";
-import { useTeachersDayCampaign } from "@/components/campaign/CampaignProvider";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
@@ -33,8 +32,6 @@ const RESOURCE_LINKS = [
 ];
 
 export default function Footer() {
-  const { phase } = useTeachersDayCampaign();
-  const celebrating = phase === "live";
   const SITE = useSite();
   const year = new Date().getFullYear();
 
@@ -79,16 +76,14 @@ export default function Footer() {
               <span className="text-orange">nursing journey?</span>
             </h2>
             <p className="mt-2 text-white/60">
-              {celebrating
-                ? "With gratitude to our teachers. Teachers’ Day special: ₹1,300, through Sunday, 6 September."
-                : "Seats are limited per batch — reserve yours today."}
+              Seats are limited per batch — reserve yours today.
             </p>
           </div>
           <Link
             href="/admission"
             className="group flex shrink-0 items-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/25 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl"
           >
-            {celebrating ? "Teachers’ Day Admission" : "Take Admission"}
+            Take Admission
             <ArrowRight
               size={18}
               className="transition-transform duration-200 group-hover:translate-x-1"

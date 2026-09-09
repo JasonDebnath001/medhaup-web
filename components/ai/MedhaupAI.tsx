@@ -44,11 +44,7 @@ function fallbackError(code: AIErrorCode, message: string): AIClientError {
   return { code, message };
 }
 
-export default function MedhaupAI({
-  campaignVisible,
-}: {
-  campaignVisible: boolean;
-}) {
+export default function MedhaupAI() {
   const pathname = usePathname();
   const descriptor = getAIPageDescriptor(pathname);
   const [open, setOpen] = useState(false);
@@ -226,7 +222,6 @@ export default function MedhaupAI({
       {!open ? (
         <AITrigger
           ref={triggerRef}
-          campaignVisible={campaignVisible}
           onClick={() => {
             setRevealingAnswer(null);
             setOpen(true);

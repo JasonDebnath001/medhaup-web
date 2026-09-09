@@ -1,8 +1,3 @@
-import { getCampaignNow } from "@/lib/campaignServer";
-import {
-  getTeachersDayOfferSchema,
-  withTeachersDayMetadata,
-} from "@/lib/campaignSeo";
 import { getBatches } from "@/lib/data";
 import AdmissionPageContent from "@/components/sections/admission/AdmissionPageContent";
 import JsonLd from "@/components/seo/JsonLd";
@@ -14,7 +9,7 @@ const title = "ANM/GNM 2027 Course Admission";
 const description =
   "Apply for medhaup's 12-month ANM/GNM 2027 online course. Get Bengali and English live classes, recordings, notes, mock tests, PYQs and EMI support.";
 
-const baseMetadata = createPageMetadata({
+export const metadata = createPageMetadata({
   title,
   description,
   path: "/admission",
@@ -25,16 +20,7 @@ const baseMetadata = createPageMetadata({
   ],
 });
 
-export async function generateMetadata() {
-  return withTeachersDayMetadata(
-    baseMetadata,
-    await getCampaignNow(),
-    "ANM GNM Admission",
-  );
-}
-
 export default async function AdmissionPage() {
-  const offer = getTeachersDayOfferSchema(await getCampaignNow());
   const batches = await getBatches();
   const batch = batches[0] ?? null;
   const schema = createPageSchema({
@@ -51,7 +37,6 @@ export default async function AdmissionPage() {
       "@id": "https://medhaup.com/course#course",
       name: "ANM GNM 2027 Online Course",
       provider: { "@id": "https://medhaup.com/#organization" },
-      ...(offer ? { offers: offer } : {}),
       hasCourseInstance: {
         "@type": "CourseInstance",
         name: batch?.name ?? "medhaup ANM GNM 2027 Online Batch",
