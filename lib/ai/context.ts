@@ -4,6 +4,7 @@ import {
   getBatches,
   getDailyCA,
   getMonthlyCA,
+  getNorcetResources,
   getPostBySlug,
   getPosts,
   getPYQs,
@@ -13,6 +14,11 @@ import {
 } from "@/lib/data";
 import type { TrustedPageContext } from "@/lib/ai/types";
 import { COURSE_SUBJECTS, getTrustedCourseFacts } from "@/lib/courseFacts";
+import {
+  NORCET_PATH,
+  getTrustedNorcetExamFacts,
+  getTrustedNorcetStatusFacts,
+} from "@/lib/norcet";
 
 const BLOG_PATH = /^\/blogs\/([a-z0-9]+(?:-[a-z0-9]+)*)$/;
 
@@ -69,6 +75,7 @@ async function buildTrustedStudentEssentials() {
     lines: [
       "TRUSTED MEDHAUP STUDENT ESSENTIALS:",
       ...getTrustedCourseFacts(),
+      ...getTrustedNorcetStatusFacts(),
       ...subjectFacts,
       ...(batchFacts.length
         ? batchFacts
@@ -104,7 +111,8 @@ export function isAIPagePath(path: string) {
     path === "/syllabus" ||
     path === "/current-affairs" ||
     path === "/resources" ||
-    path === "/course"
+    path === "/course" ||
+    path === NORCET_PATH
   );
 }
 
@@ -270,6 +278,34 @@ export async function buildTrustedPageContext(
             (resource) =>
               `${resource.title} (${resource.category}, ${resource.language}): ${resource.description}.`,
           ),
+        ],
+        maxChars,
+      ),
+    };
+  }
+
+  if (path === NORCET_PATH) {
+    const resources = (await getNorcetResources()).slice(0, 12);
+    return {
+      path,
+      pageType: "norcet",
+      title: "NORCET Preparation (Coming Soon)",
+      subject: "AIIMS NORCET Nursing Officer recruitment exam",
+      content: joinBounded(
+        [
+          ...studentEssentials.lines,
+          "CURRENT NORCET PAGE CONTEXT:",
+          ...getTrustedNorcetExamFacts(),
+          ...(resources.length
+            ? resources.map(
+                (resource) =>
+                  `Published free NORCET resource: ${resource.title} (${resource.category}, ${resource.stage}${resource.subject ? `, ${resource.subject}` : ""}, ${resource.language}): ${resource.description}`,
+              )
+            : [
+                "No free NORCET study material has been published yet; the page shows a coming-soon block and the waitlist instead.",
+              ]),
+          "The page has a free NORCET waitlist form asking for name, WhatsApp number and nursing qualification. Joining is free and does not enrol the student in anything.",
+          "Do not state any NORCET course fee, batch date, timing, teacher or seat count: none has been published.",
         ],
         maxChars,
       ),

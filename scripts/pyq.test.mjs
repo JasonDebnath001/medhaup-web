@@ -166,6 +166,7 @@ test("homepage passes its fetched papers to the section immediately after the he
       "OngoingBatch",
       "SubjectSyllabus",
       "WhyMedhaup",
+      "NorcetTeaser",
       "Bloghighlights",
     ].map((name) => [`@/components/sections/${name}`, () => null]),
   );

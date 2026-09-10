@@ -42,14 +42,14 @@ export const COURSE_SUBJECTS = [
 export function getTrustedCourseFacts() {
   return [
     "medhaup's current listed program is a 12-month, 100% online preparation course for the WBJEEB ANM(R) and GNM Common Entrance Test in West Bengal, targeting the 2027 cycle.",
-    "medhaup currently offers only WBJEEB ANM(R) and GNM entrance preparation. It does not currently offer NEET, JEE, or courses for other entrance examinations. The assistant may still answer general questions about those exams while making this course distinction clear when relevant.",
+    "medhaup's live course today is WBJEEB ANM(R) and GNM entrance preparation. Its NORCET (AIIMS Nursing Officer) course is announced as coming soon and has not launched. medhaup does not offer NEET, JEE, or courses for other entrance examinations. The assistant may still answer general questions about those exams while making this course distinction clear when relevant.",
     "Teaching and learning support are available in Bengali and English.",
     getTrustedCoursePricingContext(),
     "One enrolment includes live interactive classes, recordings of every class, bilingual chapter-wise notes, exam-pattern mock tests, previous-year-question solutions, and doubt support throughout the course.",
     "If a student misses a live class, the listed course includes a recording to rewatch during the course period.",
     "Admission can be started from /admission through the medhaup app or by requesting a callback. App users pay inside the app. The website itself does not collect payment. Callback requests are normally answered by call or WhatsApp within 24 hours, and the fee is confirmed before payment.",
     "Arushi is identified on medhaup as the founder and lead instructor with more than eight years of teaching experience and a particular focus on explaining Biology. Do not infer any other teacher details.",
-    "Useful medhaup routes are /course for full course details, /admission for enrolment, /syllabus for the subject breakdown, /pyq for previous-year papers, /current-affairs for current-affairs material, /resources for free materials, and /blogs for preparation articles.",
+    "Useful medhaup routes are /course for full ANM/GNM course details, /admission for enrolment, /norcet for the NORCET exam guide and waitlist, /syllabus for the subject breakdown, /pyq for previous-year papers, /current-affairs for current-affairs material, /resources for free materials, and /blogs for preparation articles.",
     "medhaup is an independent preparation platform, not WBJEEB. Current eligibility, exam dates, paper rules, applications, and counselling rules must be verified from the official WBJEEB ANM/GNM page: https://wbjeeb.nic.in/anm-gnm/.",
     "The question distribution shown by medhaup is approximate and must be checked against the current official WBJEEB bulletin.",
   ];

@@ -28,7 +28,8 @@ export type AIPageType =
   | "syllabus"
   | "current_affairs"
   | "study_resources"
-  | "course";
+  | "course"
+  | "norcet";
 
 export type TrustedPageContext = {
   path: string;

@@ -15,6 +15,7 @@ import { useSite } from "@/components/provider/SiteProvider";
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "ANM/GNM Course", href: "/course" },
+  { label: "NORCET · Coming Soon", href: "/norcet" },
   { label: "Store", href: "/store" },
   { label: "Blogs", href: "/blogs" },
   { label: "Success Wall", href: "/wall-of-success" },
@@ -105,8 +106,9 @@ export default function Footer() {
             />
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-            West Bengal&apos;s focused preparation platform for the WBJEE
-            ANM/GNM exam — taught in Bengali and English.
+            West Bengal&apos;s focused preparation platform for nursing exams:
+            WBJEE ANM/GNM today, NORCET coming soon — taught in Bengali and
+            English.
           </p>
           {socials.length > 0 && (
             <ul className="mt-5 flex gap-3">

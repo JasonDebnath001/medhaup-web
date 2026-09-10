@@ -37,8 +37,8 @@ const PROBLEMS = [
 const VALUES = [
   {
     icon: Target,
-    title: "One exam only",
-    desc: "We prepare students for the ANM/GNM exam. Nothing else. Every class, note and mock exists for this one paper.",
+    title: "Nursing exams only",
+    desc: "We prepare students for nursing exams and nothing else — ANM/GNM today, NORCET next. Every class, note and mock exists for the paper it serves.",
   },
   {
     icon: Languages,
@@ -100,8 +100,9 @@ export default function AboutPageContent() {
             transition={{ duration: 0.55, delay: 0.16 }}
             className="mx-auto mt-4 max-w-xl text-navy/65 sm:text-lg"
           >
-            medhaup is a new platform with a single focus: the WBJEEB ANM/GNM
-            exam. New name — but the teaching behind it is anything but new.
+            medhaup is a new platform with a single focus: nursing exams,
+            starting with WBJEEB ANM/GNM. New name — but the teaching behind it
+            is anything but new.
           </motion.p>
         </div>
       </section>
@@ -312,10 +313,16 @@ export default function AboutPageContent() {
             <Sparkles size={20} className="shrink-0 text-orange" />
             <p className="text-sm text-navy/70 sm:text-base">
               <span className="font-bold text-navy">
-                Starting with ANM/GNM.
+                Starting with ANM/GNM. NORCET is next.
               </span>{" "}
-              More West Bengal exams are on the roadmap — one at a time, done
-              properly.
+              Our AIIMS Nursing Officer course is coming soon —{" "}
+              <Link
+                href="/norcet#waitlist"
+                className="font-semibold text-orange underline decoration-orange/40 underline-offset-2 hover:text-orange-dark"
+              >
+                join the waitlist
+              </Link>
+              . More exams after that, one at a time, done properly.
             </p>
           </motion.div>
         </div>

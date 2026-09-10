@@ -5,10 +5,11 @@
 # medhaup Web Platform
 
 The official web platform for **medhaup**, an education company focused on
-WBJEEB ANM(R) and GNM entrance preparation in West Bengal. The platform brings
-together course discovery, admissions, bilingual learning resources, content
-publishing, student-success stories, and marketing measurement in one
-responsive application.
+nursing exam preparation in West Bengal: the WBJEEB ANM(R) and GNM entrance
+course today, and a NORCET (AIIMS Nursing Officer) course announced as coming
+soon. The platform brings together course discovery, admissions, bilingual
+learning resources, content publishing, student-success stories, and marketing
+measurement in one responsive application.
 
 **Production:** [medhaup.com](https://medhaup.com)
 
@@ -54,6 +55,7 @@ returns an empty result; content-driven pages then show their configured
 | ---------------------------- | ----------------------------------------------------------------------------------- |
 | `/`                          | Company homepage, course highlights, batches, and calls to action                   |
 | `/course`                    | Detailed ANM/GNM course information                                                 |
+| `/norcet`                    | NORCET exam pattern, subjects, syllabus, eligibility, free resources and waitlist   |
 | `/admission`                 | App-based admission and callback request flow                                       |
 | `/syllabus`                  | Subject breakdown and syllabus downloads                                            |
 | `/pyq`                       | Previous-year question papers and answer keys                                       |
@@ -180,7 +182,13 @@ trusted site context. Result snippets are bounded to 1,200 characters each and
 passed to Gemini as untrusted reference data. The UI displays validated HTTPS
 source links returned by Tavily, not links invented by the model.
 Queries explicitly naming WBJEE/WBJEEB are restricted to `wbjeeb.nic.in` and
-`admissions.nic.in` to prioritize the responsible exam authority.
+`admissions.nic.in`, and queries naming NORCET to `aiimsexams.ac.in` and
+`aiims.edu`, to prioritize the responsible exam authority.
+
+The assistant's trusted context tells it on every page that the NORCET course
+is coming soon with no published fee, batch or teacher, and the `/norcet` page
+context adds the exam pattern, syllabus, eligibility and any live NORCET
+resources so it can answer NORCET questions without inventing details.
 
 Ordinary study questions skip Tavily. Search authentication, quota and network
 failures are surfaced without calling Gemini for an unverified current answer.
@@ -237,15 +245,16 @@ The application expects the following tables:
 - `syllabus_subjects`
 - `syllabus_downloads`
 - `batches`
+- `norcet_resources`
 - `site_settings`
 
 It also expects public `images` and `files` storage buckets. Their policies must
 allow published assets to be read publicly and restrict create, update, and
 delete operations to authorized administrators.
 
-The checked-in migration currently provisions the `admins` and
-`success_photos` tables and their row-level security policies. It does **not**
-contain the complete production schema or seed data. A fresh local Supabase
+The checked-in migrations currently provision the `admins`, `success_photos`
+and `norcet_resources` tables and their row-level security policies. They do
+**not** contain the complete production schema or seed data. A fresh local Supabase
 instance therefore cannot reproduce the entire application from migrations
 alone; use an approved provisioned project until full schema migrations are
 available.
@@ -287,6 +296,24 @@ on `/` and in the `/pyq` library. Unpublishing removes a paper from both views
 after revalidation. With no published records, the homepage shows an empty
 state rather than sample downloads. Uploads use the existing `files` bucket
 under `pyq/`; no new database table or bucket is required.
+
+NORCET study material is managed at `/admin/norcet-resources` (**NORCET —
+Resources**). Choose a category (Syllabus, Previous Year Papers, Notes, Mock
+Tests, Guides), the exam stage, an optional subject, and upload the PDF; the
+file size is filled in automatically. Switch the record from **DRAFT** to
+**LIVE** to show it in the resources grid on `/norcet`. A live **Syllabus**
+item also powers the syllabus download button on that page. With no live
+records the page shows a "resources coming soon" block that points to the
+waitlist; the rest of the NORCET page (exam pattern, subjects, syllabus,
+eligibility, FAQs) is code-managed in `lib/norcet.ts`, as is the course launch
+state (`NORCET_COURSE.status`). Uploads use the existing `files` bucket under
+`norcet-resources/`. Run the checked-in migration
+`supabase/migrations/202609100001_create_norcet_resources.sql` on the project
+before using the collection.
+
+The NORCET waitlist form on `/norcet` submits to Web3Forms with
+`form_type=norcet_waitlist` and emits a `generate_lead` event with
+`lead_type=norcet_waitlist`; no database table is involved.
 
 Global phone, email, address, WhatsApp, and social-channel values are managed at
 `/admin/settings`. Code defaults are defined in `lib/settings.ts` and are used
@@ -347,7 +374,9 @@ npm run build
 | `npm run start`    | Serve a completed production build           |
 
 Run `node --test scripts/ai-gemini.test.mjs` for the Gemini adapter and route
-regression checks; they mock Gemini and Tavily and do not consume API quota. Lint,
+regression checks, and `node --test scripts/norcet.test.mjs` for the NORCET
+data, AI context, admin collection and section rendering checks; they mock
+Gemini, Tavily and Supabase and do not consume API quota. Lint,
 type-check, build, and focused browser verification remain the release baseline.
 
 ## Deployment

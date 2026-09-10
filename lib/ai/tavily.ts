@@ -67,7 +67,9 @@ export async function searchTavily(
         auto_parameters: false,
         ...(/\bwbjeeb?\b/i.test(boundedQuery)
           ? { include_domains: ["wbjeeb.nic.in", "admissions.nic.in"] }
-          : {}),
+          : /\bnorcet\b/i.test(boundedQuery)
+            ? { include_domains: ["aiimsexams.ac.in", "aiims.edu"] }
+            : {}),
         max_results: MAX_RESULTS,
         include_answer: false,
         include_raw_content: false,

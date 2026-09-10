@@ -76,12 +76,13 @@ export default function WhyMedhaUp() {
             Why medhaup
           </span>
           <h2 className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl">
-            Built only for <span className="text-orange">ANM/GNM</span> —
-            nothing else
+            Built only for <span className="text-orange">nursing exams</span>{" "}
+            — nothing else
           </h2>
           <p className="mt-4 text-navy/65">
-            Generic coaching spreads you thin. We prepare you for exactly one
-            paper — its subjects, its marking scheme, its language.
+            Generic coaching spreads you thin. We prepare you for one nursing
+            paper at a time — its subjects, its marking scheme, its language.
+            ANM/GNM today, NORCET next.
           </p>
         </motion.div>
 

@@ -18,4 +18,16 @@ body {
   --color-orange: #fe7b30;
   --color-orange-dark: #e5691f;
   --color-cream: #faf9f7;
+
+  /* NORCET accent — used only on NORCET surfaces (pulse line, stage
+     markers, "coming soon" state). Primary CTAs stay orange. */
+  --color-teal: #14b8a6;
+  --color-teal-dark: #0f766e;
+
+  --animate-norcet-marquee: norcet-marquee 48s linear infinite;
+  @keyframes norcet-marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }

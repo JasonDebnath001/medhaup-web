@@ -11,15 +11,24 @@ import clsx from "clsx";
 // Structured as an array of objects with optional `children` —
 // items with `children` render as a hover dropdown on desktop
 // and an indented sub-list in the mobile menu.
+type NavChild = { label: string; href: string; badge?: string };
+
 type NavItem = {
   label: string;
   href: string;
-  children?: { label: string; href: string }[];
+  children?: NavChild[];
 };
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "ANM/GNM Course", href: "/course" },
+  {
+    label: "Courses",
+    href: "/course",
+    children: [
+      { label: "ANM/GNM Course", href: "/course" },
+      { label: "NORCET", href: "/norcet", badge: "Soon" },
+    ],
+  },
   {
     label: "Study Material",
     href: "/resources",
@@ -150,13 +159,18 @@ export default function Navbar() {
                           <Link
                             href={child.href}
                             className={clsx(
-                              "block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
+                              "flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
                               pathname === child.href
                                 ? "bg-orange/10 text-orange"
                                 : "text-navy/75 hover:bg-navy/5 hover:text-navy",
                             )}
                           >
                             {child.label}
+                            {child.badge && (
+                              <span className="rounded-full bg-teal/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-dark">
+                                {child.badge}
+                              </span>
+                            )}
                           </Link>
                         </li>
                       ))}
@@ -268,13 +282,18 @@ export default function Navbar() {
                               <Link
                                 href={child.href}
                                 className={clsx(
-                                  "block rounded-lg px-3 py-2 text-sm transition-colors",
+                                  "flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                                   pathname === child.href
                                     ? "font-semibold text-orange"
                                     : "text-navy/60 hover:text-navy",
                                 )}
                               >
                                 {child.label}
+                                {child.badge && (
+                                  <span className="rounded-full bg-teal/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-dark">
+                                    {child.badge}
+                                  </span>
+                                )}
                               </Link>
                             </li>
                           ))}

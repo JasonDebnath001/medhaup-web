@@ -17,6 +17,8 @@ export const DEFAULT_KEYWORDS = [
   "ANM GNM previous year question papers",
   "ANM GNM study material",
   "Bengali ANM GNM coaching",
+  "NORCET preparation",
+  "NORCET coaching West Bengal",
   "medhaup",
 ];
 
@@ -203,6 +205,7 @@ export const siteSchema = {
       knowsAbout: [
         "WBJEEB ANM(R) & GNM Common Entrance Test",
         "ANM and GNM nursing entrance preparation",
+        "AIIMS NORCET Nursing Officer recruitment exam",
         "Life Science",
         "Physical Science",
         "Mathematics",

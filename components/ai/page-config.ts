@@ -214,6 +214,38 @@ export function getAIPageDescriptor(pathname: string): AIPageDescriptor | null {
         },
       ],
     },
+    "/norcet": {
+      pageType: "norcet",
+      contentType: "norcet_page",
+      title: "NORCET Preparation",
+      eyebrow: "Exploring NORCET",
+      suggestions: [
+        {
+          id: "norcet_overview",
+          label: "NORCET কী?",
+          prompt:
+            "NORCET exam কী, কে conduct করে এবং কাদের জন্য, এই page-এর trusted information অনুযায়ী সংক্ষেপে বলো।",
+        },
+        {
+          id: "norcet_pattern",
+          label: "Exam pattern বোঝাও",
+          prompt:
+            "NORCET-এর Stage I ও Stage II pattern, marking এবং negative marking এই page-এর trusted information অনুযায়ী explain করো।",
+        },
+        {
+          id: "norcet_eligibility",
+          label: "আমি eligible?",
+          prompt:
+            "GNM এবং B.Sc Nursing students-এর জন্য NORCET eligibility এই page-এর trusted information অনুযায়ী বলো।",
+        },
+        {
+          id: "norcet_course_status",
+          label: "medhaup course কবে?",
+          prompt:
+            "medhaup-এর NORCET course-এর current status, কী কী থাকার plan আছে এবং waitlist সম্পর্কে trusted information অনুযায়ী বলো।",
+        },
+      ],
+    },
     "/course": {
       pageType: "course",
       contentType: "course_page",

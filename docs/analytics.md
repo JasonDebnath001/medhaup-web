@@ -30,7 +30,7 @@ The website emits these funnel events when `NEXT_PUBLIC_GA_ID` is configured:
 | `phone_click`        | A visitor taps a `tel:` link                                        |
 | `enroll_click`       | A visitor clicks an internal link to `/admission`                   |
 | `app_download_click` | A visitor opens a real Google Play or Apple App Store listing       |
-| `generate_lead`      | An admission or contact form is accepted successfully               |
+| `generate_lead`      | An admission, contact or NORCET waitlist form is accepted successfully |
 | `begin_checkout`     | A visitor starts a product order through WhatsApp                   |
 | `purchase`           | Available through `trackPurchase`; call only after verified payment |
 
@@ -52,6 +52,11 @@ this website. The app must use the same GA4/Firebase property and emit
 `begin_checkout` when its checkout starts and `purchase` only after payment is
 confirmed. A purchase should include a unique `transaction_id`, `currency`,
 `value`, and `items` so revenue is deduplicated and reported correctly.
+
+NORCET waitlist submissions on `/norcet` send `generate_lead` with
+`lead_type=norcet_waitlist`, `course=norcet` and the selected `qualification`.
+Tag NORCET campaign links with `utm_campaign=norcet-waitlist` so waitlist
+leads can be separated from ANM/GNM admission leads in Explorations.
 
 To analyze the custom parameters (`placement`, `lead_type`, `app_store`,
 `checkout_type`, `utm_source`, `utm_medium`, `utm_campaign`, and `utm_content`)

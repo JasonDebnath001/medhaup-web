@@ -139,6 +139,26 @@ export type Batch = {
   seatsTotal: number;
 };
 
+export type NorcetResourceCategory =
+  | "Syllabus"
+  | "Previous Year Papers"
+  | "Notes"
+  | "Mock Tests"
+  | "Guides";
+
+export type NorcetResource = {
+  id: string;
+  title: string;
+  category: NorcetResourceCategory;
+  stage: "Both stages" | "Stage I" | "Stage II";
+  subject: string;
+  description: string;
+  language: string;
+  fileUrl: string;
+  fileSize: string;
+  isNew: boolean;
+};
+
 const isValidPublicSlug = (slug: string) =>
   slug.length > 0 &&
   slug.length <= 160 &&
@@ -188,6 +208,8 @@ export const getSubjects = () =>
   fetchPublished<SubjectSyllabus>("syllabus_subjects", "questions");
 export const getSyllabusDownloads = () =>
   fetchPublished<SyllabusDownload>("syllabus_downloads", "created_at", true);
+export const getNorcetResources = () =>
+  fetchPublished<NorcetResource>("norcet_resources", "created_at");
 export const getBatches = async () => {
   const batches = await fetchPublished<Batch>("batches", "created_at");
   return batches.map((batch) =>

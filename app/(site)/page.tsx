@@ -6,6 +6,7 @@ import PreviousYearPapers from "@/components/sections/PreviousYearPapers";
 import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
+import NorcetTeaser from "@/components/sections/NorcetTeaser";
 import BlogHighlights from "@/components/sections/Bloghighlights";
 import {
   getBatches,
@@ -59,6 +60,10 @@ const BASE_KEYWORDS = [
   "ANM GNM English coaching",
   "nursing entrance coaching West Bengal",
   "nursing entrance preparation West Bengal",
+  "NORCET",
+  "NORCET preparation",
+  "NORCET coaching West Bengal",
+  "AIIMS Nursing Officer exam preparation",
   "medhaup",
   "Medha Up",
 ];
@@ -156,6 +161,12 @@ const SEO_LINKS = [
       "Explore MedhaUp's focused preparation program for the WBJEEB ANM(R) & GNM entrance examination.",
   },
   {
+    href: "/norcet",
+    title: "NORCET Preparation (Coming Soon)",
+    description:
+      "AIIMS Nursing Officer exam pattern, subjects and full syllabus, with medhaup's NORCET course launching soon. Join the free waitlist.",
+  },
+  {
     href: "/syllabus",
     title: "ANM GNM Syllabus",
     description:
@@ -196,7 +207,7 @@ const FAQS = [
   {
     question: "Which entrance exam does medhaup focus on?",
     answer:
-      "medhaup focuses on the ANM(R) & GNM Common Entrance Test conducted by the West Bengal Joint Entrance Examinations Board for nursing admissions in West Bengal.",
+      "medhaup focuses on the ANM(R) & GNM Common Entrance Test conducted by the West Bengal Joint Entrance Examinations Board for nursing admissions in West Bengal. A NORCET preparation course for the AIIMS Nursing Officer recruitment exam is coming soon.",
   },
   {
     question: "Is medhaup preparing students for ANM GNM 2027?",
@@ -212,6 +223,11 @@ const FAQS = [
     question: "Which subjects are covered for ANM GNM preparation?",
     answer:
       "Preparation covers the major ANM and GNM entrance subjects including Life Science, Physical Science, Mathematics, Basic English, General Knowledge and Logical Reasoning.",
+  },
+  {
+    question: "Does medhaup offer NORCET preparation?",
+    answer:
+      "A medhaup NORCET course for the AIIMS Nursing Officer Recruitment Common Eligibility Test is being built and is coming soon. It has not launched yet, so no fee or batch date is published. The NORCET page already explains the exam pattern, subjects and syllabus, and GNM or B.Sc Nursing students can join the free waitlist to hear first.",
   },
   {
     question: "Can I get ANM GNM syllabus and previous year questions?",
@@ -272,6 +288,7 @@ const structuredData = {
         "WBJEEB ANM(R) & GNM Common Entrance Test",
         "ANM Nursing Entrance Examination",
         "GNM Nursing Entrance Examination",
+        "AIIMS NORCET Nursing Officer Recruitment Exam",
         "Life Science",
         "Physical Science",
         "Mathematics",
@@ -463,6 +480,9 @@ export default async function Home() {
         {batches.length > 0 && <OngoingBatch batches={batches} />}
 
         <WhyMedhaUp />
+
+        {/* NORCET announcement: coming soon, routes interest to the waitlist */}
+        <NorcetTeaser />
 
         {subjects.length > 0 && <SubjectSyllabus subjects={subjects} />}
 
