@@ -7,6 +7,8 @@ import OngoingBatch from "@/components/sections/OngoingBatch";
 import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import NorcetTeaser from "@/components/sections/NorcetTeaser";
+import GnmTeaser from "@/components/sections/GnmTeaser";
+import DPharmacyTeaser from "@/components/sections/DPharmacyTeaser";
 import BlogHighlights from "@/components/sections/Bloghighlights";
 import {
   getBatches,
@@ -483,6 +485,8 @@ export default async function Home() {
 
         {/* NORCET announcement: coming soon, routes interest to the waitlist */}
         <NorcetTeaser />
+        <GnmTeaser />
+        <DPharmacyTeaser />
 
         {subjects.length > 0 && <SubjectSyllabus subjects={subjects} />}
 

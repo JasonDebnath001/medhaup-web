@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 import clsx from "clsx";
+import { DPHARMACY_PATH } from "@/lib/dpharmacy";
 
 // Structured as an array of objects with optional `children` —
 // items with `children` render as a hover dropdown on desktop
@@ -26,6 +27,8 @@ const NAV_ITEMS: NavItem[] = [
     href: "/course",
     children: [
       { label: "ANM/GNM Course", href: "/course" },
+      { label: "GNM 1st, 2nd & 3rd Year", href: "/gnm", badge: "Soon" },
+      { label: "D.Pharmacy 1st & 2nd Year", href: "/d-pharmacy", badge: "Soon" },
       { label: "NORCET", href: "/norcet", badge: "Soon" },
     ],
   },
@@ -55,6 +58,7 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const isPharmacyPage = pathname === DPHARMACY_PATH;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -153,7 +157,12 @@ export default function Navbar() {
                 {/* Dropdown (desktop, hover/focus) */}
                 {item.children && (
                   <div className="invisible absolute left-1/2 top-full z-20 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <ul className="min-w-52 rounded-2xl border border-navy/10 bg-white p-2 shadow-xl shadow-navy/15">
+                    <ul
+                      className={clsx(
+                        "min-w-52 rounded-2xl border border-navy/10 bg-white p-2 shadow-xl shadow-navy/15",
+                        item.href === "/course" && "w-80",
+                      )}
+                    >
                       {item.children.map((child) => (
                         <li key={child.href}>
                           <Link
@@ -185,10 +194,13 @@ export default function Navbar() {
         {/* Right side: CTA always visible + hamburger on mobile */}
         <div className="flex items-center gap-2">
           <Link
-            href="/admission"
+            href={
+              isPharmacyPage ? `${DPHARMACY_PATH}#launch-updates` : "/admission"
+            }
+            onClick={() => setMobileOpenPath(null)}
             className="group flex items-center gap-1.5 rounded-full bg-orange px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-lg hover:shadow-orange/40 hover:ring-2 hover:ring-white/30 sm:px-5 sm:py-2.5"
           >
-            Take Admission
+            {isPharmacyPage ? "Get updates" : "Take Admission"}
             <ArrowRight
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -306,10 +318,16 @@ export default function Navbar() {
 
               <div className="border-t border-navy/10 p-4">
                 <Link
-                  href="/admission"
+                  href={
+                    isPharmacyPage
+                      ? `${DPHARMACY_PATH}#launch-updates`
+                      : "/admission"
+                  }
+                  onClick={() => setMobileOpenPath(null)}
                   className="flex items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 font-semibold text-white shadow-md shadow-orange/30 transition-colors hover:bg-orange-dark"
                 >
-                  Take Admission <ArrowRight size={17} />
+                  {isPharmacyPage ? "Get launch updates" : "Take Admission"}{" "}
+                  <ArrowRight size={17} />
                 </Link>
               </div>
             </motion.div>

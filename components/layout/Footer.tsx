@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Mail, MapPin } from "lucide-react";
 import {
@@ -11,10 +12,13 @@ import {
   FaWhatsapp,
 } from "react-icons/fa6";
 import { useSite } from "@/components/provider/SiteProvider";
+import { DPHARMACY_PATH } from "@/lib/dpharmacy";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "ANM/GNM Course", href: "/course" },
+  { label: "D.Pharmacy Years 1–2 · Coming Soon", href: "/d-pharmacy" },
+  { label: "GNM Years 1–3 · Coming Soon", href: "/gnm" },
   { label: "NORCET · Coming Soon", href: "/norcet" },
   { label: "Store", href: "/store" },
   { label: "Blogs", href: "/blogs" },
@@ -34,6 +38,7 @@ const RESOURCE_LINKS = [
 
 export default function Footer() {
   const SITE = useSite();
+  const isPharmacyPage = usePathname() === DPHARMACY_PATH;
   const year = new Date().getFullYear();
 
   // Only render socials that have URLs set in the admin panel
@@ -73,18 +78,26 @@ export default function Footer() {
         >
           <div>
             <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
-              Ready to start your{" "}
-              <span className="text-orange">nursing journey?</span>
+              {isPharmacyPage ? "Ready for your " : "Ready to start your "}
+              <span className="text-orange">
+                {isPharmacyPage
+                  ? "next chapter in pharmacy?"
+                  : "nursing journey?"}
+              </span>
             </h2>
             <p className="mt-2 text-white/60">
-              Seats are limited per batch — reserve yours today.
+              {isPharmacyPage
+                ? "D.Pharmacy is coming soon. Ask for updates about your year."
+                : "Seats are limited per batch — reserve yours today."}
             </p>
           </div>
           <Link
-            href="/admission"
+            href={
+              isPharmacyPage ? `${DPHARMACY_PATH}#launch-updates` : "/admission"
+            }
             className="group flex shrink-0 items-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/25 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl"
           >
-            Take Admission
+            {isPharmacyPage ? "Get launch updates" : "Take Admission"}
             <ArrowRight
               size={18}
               className="transition-transform duration-200 group-hover:translate-x-1"
