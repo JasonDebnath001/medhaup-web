@@ -8,6 +8,9 @@ import SubjectSyllabus from "@/components/sections/SubjectSyllabus";
 import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import NorcetTeaser from "@/components/sections/NorcetTeaser";
 import GnmTeaser from "@/components/sections/GnmTeaser";
+import AnmTeaser from "@/components/sections/AnmTeaser";
+import JenpasTeaser from "@/components/sections/JenpasTeaser";
+import NursingEntranceTeaser from "@/components/sections/NursingEntranceTeaser";
 import DPharmacyTeaser from "@/components/sections/DPharmacyTeaser";
 import BlogHighlights from "@/components/sections/Bloghighlights";
 import {
@@ -485,6 +488,9 @@ export default async function Home() {
 
         {/* NORCET announcement: coming soon, routes interest to the waitlist */}
         <NorcetTeaser />
+        <JenpasTeaser />
+        <NursingEntranceTeaser />
+        <AnmTeaser />
         <GnmTeaser />
         <DPharmacyTeaser />
 

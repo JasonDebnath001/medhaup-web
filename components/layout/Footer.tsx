@@ -13,10 +13,19 @@ import {
 } from "react-icons/fa6";
 import { useSite } from "@/components/provider/SiteProvider";
 import { DPHARMACY_PATH } from "@/lib/dpharmacy";
+import { ANM_PATH } from "@/lib/anm";
+import { JENPAS_PATH } from "@/lib/jenpas";
+import { NURSING_ENTRANCE_COURSES } from "@/lib/nursing-entrance-catalog";
 
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
-  { label: "ANM/GNM Course", href: "/course" },
+  { label: "ANM/GNM Entrance Course", href: "/course" },
+  { label: "JENPAS(UG) · Coming Soon", href: JENPAS_PATH },
+  ...NURSING_ENTRANCE_COURSES.map((course) => ({
+    label: `${course.name} · Coming Soon`,
+    href: course.path,
+  })),
+  { label: "ANM Years 1–2 · Coming Soon", href: ANM_PATH },
   { label: "D.Pharmacy Years 1–2 · Coming Soon", href: "/d-pharmacy" },
   { label: "GNM Years 1–3 · Coming Soon", href: "/gnm" },
   { label: "NORCET · Coming Soon", href: "/norcet" },
@@ -38,7 +47,26 @@ const RESOURCE_LINKS = [
 
 export default function Footer() {
   const SITE = useSite();
-  const isPharmacyPage = usePathname() === DPHARMACY_PATH;
+  const pathname = usePathname();
+  const nursingEntranceCourse = NURSING_ENTRANCE_COURSES.find(
+    (course) => course.path === pathname,
+  );
+  const upcomingCourse =
+    pathname === DPHARMACY_PATH
+      ? { name: "D.Pharmacy", heading: "next chapter in pharmacy?" }
+      : pathname === ANM_PATH
+        ? { name: "ANM", heading: "next chapter in nursing?" }
+        : pathname === JENPAS_PATH
+          ? {
+              name: "JENPAS(UG) preparation",
+              heading: "next step in healthcare?",
+            }
+          : nursingEntranceCourse
+            ? {
+                name: `${nursingEntranceCourse.name} preparation`,
+                heading: "next chapter in nursing?",
+              }
+            : null;
   const year = new Date().getFullYear();
 
   // Only render socials that have URLs set in the admin panel
@@ -78,26 +106,22 @@ export default function Footer() {
         >
           <div>
             <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
-              {isPharmacyPage ? "Ready for your " : "Ready to start your "}
+              {upcomingCourse ? "Ready for your " : "Ready to start your "}
               <span className="text-orange">
-                {isPharmacyPage
-                  ? "next chapter in pharmacy?"
-                  : "nursing journey?"}
+                {upcomingCourse?.heading ?? "nursing journey?"}
               </span>
             </h2>
             <p className="mt-2 text-white/60">
-              {isPharmacyPage
-                ? "D.Pharmacy is coming soon. Ask for updates about your year."
+              {upcomingCourse
+                ? `${upcomingCourse.name} is coming soon. Ask for course launch updates.`
                 : "Seats are limited per batch — reserve yours today."}
             </p>
           </div>
           <Link
-            href={
-              isPharmacyPage ? `${DPHARMACY_PATH}#launch-updates` : "/admission"
-            }
+            href={upcomingCourse ? `${pathname}#launch-updates` : "/admission"}
             className="group flex shrink-0 items-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/25 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl"
           >
-            {isPharmacyPage ? "Get launch updates" : "Take Admission"}
+            {upcomingCourse ? "Get launch updates" : "Take Admission"}
             <ArrowRight
               size={18}
               className="transition-transform duration-200 group-hover:translate-x-1"

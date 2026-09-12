@@ -8,6 +8,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 import clsx from "clsx";
 import { DPHARMACY_PATH } from "@/lib/dpharmacy";
+import { ANM_PATH } from "@/lib/anm";
+import { JENPAS_PATH } from "@/lib/jenpas";
+import { JEPBN_PATH, JEMSCN_PATH } from "@/lib/nursing-entrance-catalog";
 
 // Structured as an array of objects with optional `children` —
 // items with `children` render as a hover dropdown on desktop
@@ -26,9 +29,17 @@ const NAV_ITEMS: NavItem[] = [
     label: "Courses",
     href: "/course",
     children: [
-      { label: "ANM/GNM Course", href: "/course" },
+      { label: "ANM/GNM Entrance Course", href: "/course" },
+      { label: "JENPAS(UG)", href: JENPAS_PATH, badge: "Soon" },
+      { label: "JEPBN · Post Basic Nursing", href: JEPBN_PATH, badge: "Soon" },
+      { label: "JEMScN · M.Sc. Nursing", href: JEMSCN_PATH, badge: "Soon" },
+      { label: "ANM 1st & 2nd Year", href: ANM_PATH, badge: "Soon" },
       { label: "GNM 1st, 2nd & 3rd Year", href: "/gnm", badge: "Soon" },
-      { label: "D.Pharmacy 1st & 2nd Year", href: "/d-pharmacy", badge: "Soon" },
+      {
+        label: "D.Pharmacy 1st & 2nd Year",
+        href: "/d-pharmacy",
+        badge: "Soon",
+      },
       { label: "NORCET", href: "/norcet", badge: "Soon" },
     ],
   },
@@ -58,7 +69,14 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isPharmacyPage = pathname === DPHARMACY_PATH;
+  const launchUpdatesHref =
+    pathname === DPHARMACY_PATH ||
+    pathname === ANM_PATH ||
+    pathname === JENPAS_PATH ||
+    pathname === JEPBN_PATH ||
+    pathname === JEMSCN_PATH
+      ? `${pathname}#launch-updates`
+      : null;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -99,9 +117,7 @@ export default function Navbar() {
   };
 
   return (
-    <header
-      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4"
-    >
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4">
       <nav
         aria-label="Main navigation"
         className={clsx(
@@ -159,7 +175,7 @@ export default function Navbar() {
                   <div className="invisible absolute left-1/2 top-full z-20 -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                     <ul
                       className={clsx(
-                        "min-w-52 rounded-2xl border border-navy/10 bg-white p-2 shadow-xl shadow-navy/15",
+                        "max-h-[calc(100dvh-7rem)] min-w-52 overflow-y-auto rounded-2xl border border-navy/10 bg-white p-2 shadow-xl shadow-navy/15",
                         item.href === "/course" && "w-80",
                       )}
                     >
@@ -194,13 +210,11 @@ export default function Navbar() {
         {/* Right side: CTA always visible + hamburger on mobile */}
         <div className="flex items-center gap-2">
           <Link
-            href={
-              isPharmacyPage ? `${DPHARMACY_PATH}#launch-updates` : "/admission"
-            }
+            href={launchUpdatesHref ?? "/admission"}
             onClick={() => setMobileOpenPath(null)}
             className="group flex items-center gap-1.5 rounded-full bg-orange px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-lg hover:shadow-orange/40 hover:ring-2 hover:ring-white/30 sm:px-5 sm:py-2.5"
           >
-            {isPharmacyPage ? "Get updates" : "Take Admission"}
+            {launchUpdatesHref ? "Get updates" : "Take Admission"}
             <ArrowRight
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -318,15 +332,11 @@ export default function Navbar() {
 
               <div className="border-t border-navy/10 p-4">
                 <Link
-                  href={
-                    isPharmacyPage
-                      ? `${DPHARMACY_PATH}#launch-updates`
-                      : "/admission"
-                  }
+                  href={launchUpdatesHref ?? "/admission"}
                   onClick={() => setMobileOpenPath(null)}
                   className="flex items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 font-semibold text-white shadow-md shadow-orange/30 transition-colors hover:bg-orange-dark"
                 >
-                  {isPharmacyPage ? "Get launch updates" : "Take Admission"}{" "}
+                  {launchUpdatesHref ? "Get launch updates" : "Take Admission"}{" "}
                   <ArrowRight size={17} />
                 </Link>
               </div>
