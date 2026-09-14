@@ -16,7 +16,7 @@ export default function NursingEntranceTeaser() {
       <div className="mx-auto max-w-6xl">
         <motion.div {...reveal()} className="max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-dark">
-            Two new courses · Coming soon
+            Nursing entrance preparation
           </p>
           <h2
             id="nursing-entrance-teaser-heading"
@@ -41,7 +41,7 @@ export default function NursingEntranceTeaser() {
                 <span
                   className={`rounded-full px-3 py-2 text-xs font-bold text-navy ${index === 0 ? "bg-[#e5f0fb]" : "bg-[#fff0e4]"}`}
                 >
-                  Coming soon
+                  {course.degree}
                 </span>
                 <GraduationCap
                   size={27}

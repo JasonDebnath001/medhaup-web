@@ -152,7 +152,7 @@ export default function JenpasAdmissionGuide() {
           <p className="mt-6 border-t border-white/15 pt-4 text-xs leading-6 text-white/60">
             A rank alone does not guarantee a seat. Admission depends on
             eligibility, choices, seat availability and document verification.
-            medhaup launch updates concern the preparation course; examination
+            medhaup enrolment details concern the preparation course; examination
             applications are handled by WBJEEB.
           </p>
         </motion.div>

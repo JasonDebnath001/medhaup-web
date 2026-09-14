@@ -4,7 +4,7 @@ import { ANM_DESCRIPTION, ANM_FAQS, ANM_NAME, ANM_PATH } from "@/lib/anm";
 import { createPageMetadata, createPageSchema, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: `${ANM_NAME} | Coming Soon`,
+  title: `${ANM_NAME}`,
   description: ANM_DESCRIPTION,
   path: ANM_PATH,
   keywords: [
@@ -18,7 +18,7 @@ export const metadata = createPageMetadata({
     "medhaup nursing course",
   ],
   image: "/anm/opengraph-image",
-  imageAlt: "ANM 1st and 2nd year course coming soon to medhaup",
+  imageAlt: "ANM 1st and 2nd year course available at medhaup",
 });
 
 export default function AnmPage() {

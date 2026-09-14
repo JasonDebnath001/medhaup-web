@@ -4,7 +4,7 @@ import { GNM_DESCRIPTION, GNM_FAQS, GNM_NAME, GNM_PATH } from "@/lib/gnm";
 import { createPageMetadata, createPageSchema, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: `${GNM_NAME} | Coming Soon`,
+  title: `${GNM_NAME}`,
   description: GNM_DESCRIPTION,
   path: GNM_PATH,
   keywords: [
@@ -18,7 +18,7 @@ export const metadata = createPageMetadata({
     "GNM 3rd year internship",
   ],
   image: "/gnm/opengraph-image",
-  imageAlt: "GNM 1st, 2nd and 3rd year courses coming soon to medhaup",
+  imageAlt: "GNM 1st, 2nd and 3rd year courses available at medhaup",
 });
 
 export default function GnmPage() {

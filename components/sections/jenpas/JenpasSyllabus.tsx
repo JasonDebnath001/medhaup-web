@@ -227,8 +227,8 @@ export default function JenpasSyllabus() {
                     : "Revisit Class 10 physical science and mathematics. Prepare general knowledge, English and reasoning at the Class 12 level."}
                 </p>
                 <p className="mt-4 border-t border-white/15 pt-4 text-xs leading-6 text-white/60">
-                  The medhaup teaching plan, class format and study materials
-                  will be announced when the course launches.
+                  Contact our team for the medhaup teaching plan, class format
+                  and study materials.
                 </p>
                 <a
                   href="#exam-pattern"

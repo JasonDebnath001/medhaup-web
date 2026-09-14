@@ -17,7 +17,7 @@ export default function JenpasTeaser() {
         <motion.div {...reveal()}>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-dark">
             <GraduationCap size={18} aria-hidden="true" />
-            New course · Coming soon
+            JENPAS(UG) preparation
           </span>
           <h2
             id="jenpas-teaser-heading"
@@ -30,7 +30,7 @@ export default function JenpasTeaser() {
           <p className="mt-4 max-w-xl text-sm leading-7 text-navy/65">
             A new course for undergraduate nursing, allied health and hospital
             administration aspirants. Explore both papers, subjects and the exam
-            pattern, then request launch updates.
+            pattern, then request enrolment details.
           </p>
         </motion.div>
         <motion.div {...reveal(0.12)} className="lg:min-w-64">

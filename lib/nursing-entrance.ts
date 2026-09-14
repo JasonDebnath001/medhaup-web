@@ -191,22 +191,22 @@ const CLINICAL_SUBJECTS = [
 ];
 const CDN =
   "https://cdnbbsr.s3waas.gov.in/s3d2a27e83d429f0dcae6b937cf440aeb1/uploads/2026/03/";
-const LAUNCH_FAQ = {
-  question: "When will the medhaup course launch?",
+const ENROLMENT_FAQ = {
+  question: "How can I enrol, and what are the fees?",
   answer:
-    "The course is coming soon. Launch date, fees, batch timings, teaching language, class format and study materials will be announced later. Request updates on WhatsApp; no payment is required.",
+    "Contact our team on WhatsApp for current fees, batch timings, class details and enrolment steps.",
 };
 const REFERENCE_FAQ = {
   question: "Which examination year does this guide follow?",
   answer:
-    "The linked WBJEEB 2026 bulletin is the reference for this guide. Check the official bulletin and notices for your examination year before applying. The medhaup course launch date is separate from the entrance examination schedule.",
+    "The linked WBJEEB 2026 bulletin is the reference for this guide. Check the official bulletin and notices for your examination year before applying. Course enrolment is separate from the entrance examination schedule.",
 };
 
 export const JEPBN_COURSE: NursingEntranceCourse = {
   ...NURSING_ENTRANCE_COURSES[0],
   fullName: "Joint Entrance Test for Post Basic Nursing",
   description:
-    "JEPBN preparation is coming soon to medhaup. Explore GNM-based subjects, the entrance exam pattern, eligibility and official WBJEEB resources.",
+    "JEPBN preparation is available at medhaup. Explore GNM-based subjects, the entrance exam pattern, eligibility and official WBJEEB resources.",
   heroLine: "Your GNM foundation. Your next step.",
   referenceYear: 2026,
   syllabusLevel: "GNM",
@@ -287,7 +287,7 @@ export const JEPBN_COURSE: NursingEntranceCourse = {
     {
       question: "What will this preparation course help me work towards?",
       answer:
-        "The upcoming medhaup course is for JEPBN aspirants targeting Post Basic B.Sc. Nursing admission in West Bengal. It is entrance preparation; the degree is offered by the admitting nursing institution.",
+        "The medhaup course is for JEPBN aspirants targeting Post Basic B.Sc. Nursing admission in West Bengal. It is entrance preparation; the degree is offered by the admitting nursing institution.",
     },
     {
       question: "What should I revise for JEPBN?",
@@ -297,14 +297,14 @@ export const JEPBN_COURSE: NursingEntranceCourse = {
     {
       question: "Can I request updates while I am studying GNM?",
       answer:
-        "Yes. You can ask about the upcoming preparation course while studying. A launch-update request does not confirm eligibility for the entrance examination or admission; read the qualification and registration requirements before applying.",
+        "Yes. You can ask about the preparation course while studying. A course enquiry does not confirm eligibility for the entrance examination or admission; read the qualification and registration requirements before applying.",
     },
     {
       question: "Is JEPBN the same as JENPAS(UG)?",
       answer:
         "They are separate examinations. JEPBN is the Post Basic Nursing pathway for GNM-qualified applicants; JENPAS(UG) covers undergraduate nursing and allied health entry. Use the page and official bulletin that match your intended degree.",
     },
-    LAUNCH_FAQ,
+    ENROLMENT_FAQ,
     REFERENCE_FAQ,
   ],
 };
@@ -313,7 +313,7 @@ export const JEMSCN_COURSE: NursingEntranceCourse = {
   ...NURSING_ENTRANCE_COURSES[1],
   fullName: "Joint Entrance for Master of Science in Nursing",
   description:
-    "JEMScN preparation is coming soon to medhaup. Explore nursing subjects, the MSc Nursing entrance exam pattern, eligibility and official WBJEEB resources.",
+    "JEMScN preparation is available at medhaup. Explore nursing subjects, the MSc Nursing entrance exam pattern, eligibility and official WBJEEB resources.",
   heroLine: "Build on your degree. Prepare for more.",
   referenceYear: 2026,
   syllabusLevel: "B.Sc. / Post Basic B.Sc. Nursing",
@@ -404,7 +404,7 @@ export const JEMSCN_COURSE: NursingEntranceCourse = {
   ],
   faqs: [
     {
-      question: "Who is the upcoming JEMScN course for?",
+      question: "Who is the JEMScN course for?",
       answer:
         "It is for nursing graduates preparing for WBJEEB's M.Sc. Nursing entrance examination. medhaup offers entrance preparation; admission and the degree remain with the respective institutions.",
     },
@@ -423,7 +423,7 @@ export const JEMSCN_COURSE: NursingEntranceCourse = {
       answer:
         "Use the experience table for your employment category and qualification route, and read the linked bulletin section. Keep supporting documents ready; a request for medhaup course updates is not an eligibility assessment.",
     },
-    LAUNCH_FAQ,
+    ENROLMENT_FAQ,
     REFERENCE_FAQ,
   ],
 };

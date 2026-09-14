@@ -1,7 +1,7 @@
 export const GNM_PATH = "/gnm";
 export const GNM_NAME = "GNM 1st, 2nd & 3rd Year Course";
 export const GNM_DESCRIPTION =
-  "Explore GNM 1st, 2nd and 3rd year subjects, syllabus PDFs, practical training and the first-year 500-mark exam pattern. medhaup's course is coming soon.";
+  "Explore GNM 1st, 2nd and 3rd year subjects, syllabus PDFs, practical training and the first-year 500-mark exam pattern.";
 
 export const GNM_YEARS = [
   {
@@ -37,7 +37,7 @@ export const GNM_FAQS = [
   {
     question: "Who is this course for?",
     answer:
-      "This upcoming course is for students studying General Nursing and Midwifery (GNM) in their 1st, 2nd or 3rd year. Choose your year when asking for launch updates.",
+      "This course is for students studying General Nursing and Midwifery (GNM) in their 1st, 2nd or 3rd year. Choose your year when asking for enrolment details.",
   },
   {
     question: "Is this the ANM/GNM entrance preparation course?",
@@ -45,14 +45,14 @@ export const GNM_FAQS = [
       "This course is for students already studying GNM. medhaup's ANM/GNM entrance preparation is a separate course, available on the ANM/GNM Course page.",
   },
   {
-    question: "When will the course launch, and what will it cost?",
+    question: "How can I enrol, and what are the fees?",
     answer:
-      "The course is coming soon. The launch date, fees and batch timings have not been announced yet. You can contact our team on WhatsApp to request updates for your year.",
+      "Contact our team on WhatsApp for current fees, batch timings, class details and enrolment steps.",
   },
   {
     question: "Can I download the subjects and syllabus for my year?",
     answer:
-      "Yes. Subject-list and detailed syllabus PDFs are available for all three years in the syllabus section on this page. The first-year exam-pattern PDF is also available. medhaup's course launch date, class format, language, fees and batch timings will be announced separately.",
+      "Yes. Subject-list and detailed syllabus PDFs are available for all three years in the syllabus section on this page. The first-year exam-pattern PDF is also available. Contact our team for course fees, class format, language and batch timings.",
   },
   {
     question: "How are the GNM first-year 500 marks divided?",

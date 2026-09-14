@@ -132,8 +132,8 @@ export default function AnmSyllabus() {
             clinical experience in the INC two-year ANM curriculum.
           </p>
           <p className="mt-3 text-xs leading-6 text-navy/60">
-            These are academic syllabus hours. medhaup class timings and study
-            materials will be announced with the course.
+            These are academic syllabus hours. Contact our team for medhaup
+            class timings and study materials.
           </p>
         </motion.div>
         <div

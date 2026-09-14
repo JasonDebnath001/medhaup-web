@@ -116,8 +116,7 @@ export default function GnmSyllabus() {
             content and clinical activities.
           </p>
           <p className="mt-3 text-xs leading-6 text-navy/60">
-            Hours refer to the academic syllabus. medhaup batch timings are
-            coming soon.
+            Hours refer to the academic syllabus. contact our team for medhaup batch timings.
           </p>
         </motion.div>
 

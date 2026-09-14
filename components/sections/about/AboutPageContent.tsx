@@ -315,12 +315,12 @@ export default function AboutPageContent() {
               <span className="font-bold text-navy">
                 Starting with ANM/GNM. NORCET is next.
               </span>{" "}
-              Our AIIMS Nursing Officer course is coming soon —{" "}
+              Explore our AIIMS Nursing Officer course —{" "}
               <Link
-                href="/norcet#waitlist"
+                href="/norcet#enrolment"
                 className="font-semibold text-orange underline decoration-orange/40 underline-offset-2 hover:text-orange-dark"
               >
-                join the waitlist
+                enrol in the course
               </Link>
               . More exams after that, one at a time, done properly.
             </p>

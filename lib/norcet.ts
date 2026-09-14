@@ -25,15 +25,13 @@ export const NORCET = {
   westBengalInstitute: "AIIMS Kalyani",
 } as const;
 
-/* Course launch state. Flip to "live" (and wire fees/batches) when
-   the NORCET batch actually opens. Until then every surface says
-   "coming soon" and routes interest to the waitlist. */
+/* Course availability and enrolment links shared across the site. */
 export const NORCET_COURSE = {
-  status: "coming_soon",
-  badge: "Coming Soon",
+  status: "live",
+  badge: "NORCET Preparation",
   name: "medhaup NORCET Course",
-  campaign: "norcet-waitlist",
-  waitlistAnchor: "#waitlist",
+  campaign: "norcet-enrolment",
+  enrolmentAnchor: "#enrolment",
   tagline: "Built for GNM and B.Sc Nursing students who want AIIMS.",
 } as const;
 
@@ -544,7 +542,7 @@ export const NORCET_FAQS = [
   {
     question: "Can a GNM student appear for NORCET?",
     answer:
-      "Yes, with a GNM diploma, nursing council registration and two years of experience in a hospital with at least 50 beds. Many GNM graduates use the experience period to prepare, which is exactly the phase medhaup's NORCET course is being built for.",
+      "Yes, with a GNM diploma, nursing council registration and two years of experience in a hospital with at least 50 beds. Many GNM graduates use the experience period to prepare, which is exactly the phase medhaup's NORCET course supports.",
   },
   {
     question: "What is the salary of a Nursing Officer through NORCET?",
@@ -552,9 +550,9 @@ export const NORCET_FAQS = [
       "The Nursing Officer post is Group B at Pay Level 7 of the 7th CPC pay matrix, with a basic pay range of ₹44,900 to ₹1,42,400 plus applicable allowances. The exact gross salary depends on the institute, city and allowances at the time of joining.",
   },
   {
-    question: "When is medhaup's NORCET course launching?",
+    question: "How can I enrol in medhaup's NORCET course?",
     answer:
-      "The course is being built and has not launched yet. Fees, batch dates and the class schedule will be announced at launch. Students who join the free waitlist on this page hear first and get the earliest access to NORCET study material as it is uploaded.",
+      "Send an enquiry using the form on this page or contact us on WhatsApp for current fees, batch dates, class timings and enrolment steps.",
   },
   {
     question: "Is medhaup connected to AIIMS?",
@@ -581,7 +579,7 @@ export const NORCET_SEO_KEYWORDS = [
 /** Short lines added to every medhaup AI context. */
 export function getTrustedNorcetStatusFacts() {
   return [
-    `medhaup has announced a NORCET (${NORCET.fullName}, conducted by ${NORCET.conductedBy}) preparation course as COMING SOON at ${NORCET_PATH}. It has NOT launched: no fee, batch date, class timing, teacher or enrolment is published yet, so never invent any of these. Interested students can join the free NORCET waitlist on ${NORCET_PATH} to be informed first.`,
+    `medhaup's NORCET (${NORCET.fullName}, conducted by ${NORCET.conductedBy}) preparation course is offered at ${NORCET_PATH}. Send a course enquiry at ${NORCET_PATH}#enrolment. Ask the team for current fees, batch dates and class timings; never invent these details or reuse ANM/GNM pricing.`,
     `The ${NORCET_PATH} page explains the NORCET exam pattern, subjects, syllabus and eligibility, and lists any free NORCET study material medhaup has published.`,
   ];
 }

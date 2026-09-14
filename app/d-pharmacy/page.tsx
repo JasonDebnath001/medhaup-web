@@ -9,7 +9,7 @@ import {
 import { createPageMetadata, createPageSchema, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: `${DPHARMACY_NAME} | Coming Soon`,
+  title: `${DPHARMACY_NAME}`,
   description: DPHARMACY_DESCRIPTION,
   path: DPHARMACY_PATH,
   keywords: [
@@ -23,7 +23,7 @@ export const metadata = createPageMetadata({
     "medhaup pharmacy course",
   ],
   image: "/d-pharmacy/opengraph-image",
-  imageAlt: "D.Pharmacy 1st and 2nd year course coming soon to medhaup",
+  imageAlt: "D.Pharmacy 1st and 2nd year course available at medhaup",
 });
 
 export default function DPharmacyPage() {

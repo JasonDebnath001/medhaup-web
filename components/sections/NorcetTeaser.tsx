@@ -62,22 +62,22 @@ export default function NorcetTeaser() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75 motion-reduce:animate-none" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-teal" />
             </span>
-            Next on medhaup · {NORCET_COURSE.badge}
+            {NORCET_COURSE.badge}
           </span>
 
           <h2
             id="norcet-teaser-heading"
             className="font-heading mt-5 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-[2.75rem]"
           >
-            NORCET, the AIIMS Nursing Officer exam,{" "}
-            <span className="text-orange">is coming to medhaup</span>
+            Prepare for the AIIMS Nursing Officer exam{" "}
+            <span className="text-orange">with medhaup.</span>
           </h2>
 
           <p className="mt-4 max-w-xl leading-relaxed text-white/70">
             Finished GNM or B.Sc Nursing? NORCET is the door to a permanent
-            Nursing Officer post at AIIMS, including {NORCET.westBengalInstitute}{" "}
-            in West Bengal. We are building the course. The exam guide is
-            already live.
+            Nursing Officer post at AIIMS, including{" "}
+            {NORCET.westBengalInstitute} in West Bengal. Explore the subjects,
+            syllabus and preparation course with medhaup.
           </p>
 
           <ul className="mt-6 flex flex-wrap gap-2.5">
@@ -104,10 +104,10 @@ export default function NorcetTeaser() {
               />
             </Link>
             <Link
-              href={`${NORCET_PATH}${NORCET_COURSE.waitlistAnchor}`}
+              href={`${NORCET_PATH}${NORCET_COURSE.enrolmentAnchor}`}
               className="flex items-center justify-center gap-2 rounded-full border-2 border-white/25 px-7 py-3.5 font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white/10"
             >
-              Join the free waitlist
+              Enrol now
             </Link>
           </div>
         </motion.div>
@@ -138,8 +138,7 @@ export default function NorcetTeaser() {
             ))}
           </ul>
           <p className="mt-5 border-t border-white/10 pt-4 text-xs text-white/50">
-            Fees and batch dates will be announced at launch. Waitlist members
-            hear first.
+            Contact our team for current fees and batch dates.
           </p>
         </motion.div>
       </div>

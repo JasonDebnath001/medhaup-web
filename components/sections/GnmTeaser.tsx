@@ -17,7 +17,7 @@ export default function GnmTeaser() {
         <motion.div {...reveal()}>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-dark">
             <GraduationCap size={18} aria-hidden="true" />
-            New course · Coming soon
+            GNM studies
           </span>
           <h2
             id="gnm-teaser-heading"
@@ -29,7 +29,7 @@ export default function GnmTeaser() {
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-7 text-navy/65">
             A new course for GNM 1st, 2nd and 3rd year students. Explore the
-            subjects, download your syllabus and ask for launch updates.
+            subjects, download your syllabus and ask for enrolment details.
           </p>
         </motion.div>
         <motion.div {...reveal(0.12)} className="lg:min-w-64">

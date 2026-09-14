@@ -18,7 +18,7 @@ export default function DPharmacyTeaser() {
         <motion.div {...reveal()}>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-dark">
             <Pill size={18} aria-hidden="true" />
-            New course · Coming soon
+            D.Pharmacy studies
           </span>
           <h2
             id="dpharmacy-teaser-heading"
@@ -30,7 +30,7 @@ export default function DPharmacyTeaser() {
           <p className="mt-4 max-w-xl text-sm leading-7 text-navy/65">
             A new course for Diploma in Pharmacy 1st and 2nd year students.
             Explore year-wise subjects, the syllabus and exam pattern, and ask
-            for launch updates.
+            for enrolment details.
           </p>
         </motion.div>
         <motion.div {...reveal(0.12)} className="lg:min-w-64">

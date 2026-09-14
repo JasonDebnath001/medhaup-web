@@ -1,7 +1,7 @@
 export const JENPAS_PATH = "/jenpas-ug";
 export const JENPAS_NAME = "JENPAS(UG) Preparation Course";
 export const JENPAS_DESCRIPTION =
-  "Prepare for JENPAS(UG) with medhaup. Explore Paper I and II subjects, syllabus, marking rules and WBJEEB references. Course coming soon.";
+  "Prepare for JENPAS(UG) with medhaup. Explore Paper I and II subjects, syllabus, marking rules and WBJEEB references.";
 export const JENPAS_REFERENCE_YEAR = 2026;
 
 export const JENPAS_SOURCES = {
@@ -235,7 +235,7 @@ export const JENPAS_FAQS = [
   {
     question: "What is this course for?",
     answer:
-      "This upcoming medhaup course is for students preparing for WBJEEB’s JENPAS(UG) entrance examination for undergraduate nursing, allied health sciences and hospital administration courses in West Bengal.",
+      "This medhaup course is for students preparing for WBJEEB’s JENPAS(UG) entrance examination for undergraduate nursing, allied health sciences and hospital administration courses in West Bengal.",
   },
   {
     question: "Which paper should I prepare for?",
@@ -253,9 +253,9 @@ export const JENPAS_FAQS = [
       "Each paper in the WBJEEB 2026 scheme has 100 multiple-choice questions for 115 marks, to be answered in 90 minutes on an OMR sheet. Category 1 has negative marking of one-quarter mark per wrong answer. Category 2 has two-mark questions and permits partial credit when only correct options are selected.",
   },
   {
-    question: "When will the course launch, and what will it cost?",
+    question: "How can I enrol, and what are the fees?",
     answer:
-      "The medhaup course is coming soon and enrolment is not open yet. Its launch date, fees, batch timings, teaching language, class format and study materials will be announced later. You can request updates for Paper I, Paper II or both on WhatsApp without making a payment.",
+      "Contact our team on WhatsApp for current fees, batch timings, class details and enrolment steps.",
   },
   {
     question: "Which examination year does this guide follow?",

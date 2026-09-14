@@ -3,7 +3,7 @@ import NursingEntranceOg from "@/components/seo/NursingEntranceOg";
 import { NURSING_ENTRANCE_COURSES } from "@/lib/nursing-entrance-catalog";
 
 export const alt =
-  "JEPBN Post Basic B.Sc. Nursing entrance preparation coming soon to medhaup";
+  "JEPBN Post Basic B.Sc. Nursing entrance preparation available at medhaup";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

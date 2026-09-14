@@ -6,8 +6,7 @@
 
 The official web platform for **medhaup**, an education company focused on
 nursing exam preparation in West Bengal: the WBJEEB ANM(R) and GNM entrance
-course today, and a NORCET (AIIMS Nursing Officer) course announced as coming
-soon. The platform brings together course discovery, admissions, bilingual
+course, plus NORCET, RRB Nursing, JENPAS(UG), JEPBN, JEMScN and year-wise ANM, GNM and D.Pharmacy courses. The platform brings together course discovery, admissions, bilingual
 learning resources, content publishing, student-success stories, and marketing
 measurement in one responsive application.
 
@@ -55,7 +54,7 @@ returns an empty result; content-driven pages then show their configured
 | ---------------------------- | ----------------------------------------------------------------------------------- |
 | `/`                          | Company homepage, course highlights, batches, and calls to action                   |
 | `/course`                    | Detailed ANM/GNM course information                                                 |
-| `/norcet`                    | NORCET exam pattern, subjects, syllabus, eligibility, free resources and waitlist   |
+| `/norcet`                    | NORCET exam pattern, subjects, syllabus, eligibility, free resources and enrolment enquiries   |
 | `/admission`                 | App-based admission and callback request flow                                       |
 | `/syllabus`                  | Subject breakdown and syllabus downloads                                            |
 | `/pyq`                       | Previous-year question papers and answer keys                                       |
@@ -186,7 +185,7 @@ Queries explicitly naming WBJEE/WBJEEB are restricted to `wbjeeb.nic.in` and
 `aiims.edu`, to prioritize the responsible exam authority.
 
 The assistant's trusted context tells it on every page that the NORCET course
-is coming soon with no published fee, batch or teacher, and the `/norcet` page
+has course fees and batch details available from the team, and the `/norcet` page
 context adds the exam pattern, syllabus, eligibility and any live NORCET
 resources so it can answer NORCET questions without inventing details.
 
@@ -303,17 +302,16 @@ Tests, Guides), the exam stage, an optional subject, and upload the PDF; the
 file size is filled in automatically. Switch the record from **DRAFT** to
 **LIVE** to show it in the resources grid on `/norcet`. A live **Syllabus**
 item also powers the syllabus download button on that page. With no live
-records the page shows a "resources coming soon" block that points to the
-waitlist; the rest of the NORCET page (exam pattern, subjects, syllabus,
-eligibility, FAQs) is code-managed in `lib/norcet.ts`, as is the course launch
+records the page shows a resource enquiry block with an enrolment link; the rest of the NORCET page (exam pattern, subjects, syllabus,
+eligibility, FAQs) is code-managed in `lib/norcet.ts`, as is the course availability
 state (`NORCET_COURSE.status`). Uploads use the existing `files` bucket under
 `norcet-resources/`. Run the checked-in migration
 `supabase/migrations/202609100001_create_norcet_resources.sql` on the project
 before using the collection.
 
-The NORCET waitlist form on `/norcet` submits to Web3Forms with
-`form_type=norcet_waitlist` and emits a `generate_lead` event with
-`lead_type=norcet_waitlist`; no database table is involved.
+The NORCET enrolment enquiry form on `/norcet` submits to Web3Forms with
+`form_type=norcet_enrolment` and emits a `generate_lead` event with
+`lead_type=norcet_enrolment`; no database table is involved.
 
 Global phone, email, address, WhatsApp, and social-channel values are managed at
 `/admin/settings`. Code defaults are defined in `lib/settings.ts` and are used

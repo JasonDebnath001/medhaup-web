@@ -36,7 +36,7 @@ export default function NursingEntranceOg({
             letterSpacing: 3,
           }}
         >
-          COMING SOON
+          ENTRANCE PREPARATION
         </span>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -51,7 +51,7 @@ export default function NursingEntranceOg({
         </span>
       </div>
       <div style={{ display: "flex", gap: 16 }}>
-        {["Subjects & syllabus", "Exam pattern", "Launch updates"].map(
+        {["Subjects & syllabus", "Exam pattern", "Official resources"].map(
           (label, index) => (
             <div
               key={label}

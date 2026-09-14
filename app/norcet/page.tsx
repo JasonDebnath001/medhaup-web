@@ -7,7 +7,7 @@ import NorcetSyllabus from "@/components/sections/norcet/NorcetSyllabus";
 import NorcetEligibility from "@/components/sections/norcet/NorcetEligibility";
 import NorcetCoursePlan from "@/components/sections/norcet/NorcetCoursePlan";
 import NorcetResources from "@/components/sections/norcet/NorcetResources";
-import NorcetWaitlist from "@/components/sections/norcet/NorcetWaitlist";
+import NorcetEnrollment from "@/components/sections/norcet/NorcetEnrollment";
 import NorcetFaq from "@/components/sections/norcet/NorcetFaq";
 import JsonLd from "@/components/seo/JsonLd";
 import { getNorcetResources } from "@/lib/data";
@@ -30,7 +30,7 @@ export const revalidate = 60;
 
 const title = "NORCET Syllabus, Exam Pattern & Subjects | medhaup";
 const description =
-  "Everything about AIIMS NORCET: the two-stage exam pattern, marking scheme, subject-wise weightage, full syllabus and eligibility. medhaup's Bengali + English NORCET course is coming soon. Join the free waitlist.";
+  "Everything about AIIMS NORCET: the two-stage exam pattern, marking scheme, subject-wise weightage, full syllabus and eligibility. Prepare with medhaup in Bengali and English.";
 
 export const metadata: Metadata = createPageMetadata({
   title,
@@ -67,7 +67,7 @@ export default async function NorcetPage() {
       ],
       url: pageUrl,
       description:
-        "A Bengali + English preparation course for the AIIMS NORCET Nursing Officer recruitment exam, launching soon on medhaup.",
+        "A Bengali + English preparation course for the AIIMS NORCET Nursing Officer recruitment exam, on medhaup.",
       provider: { "@id": `${SITE_URL}/#organization` },
       availableLanguage: ["Bengali", "English"],
       inLanguage: ["bn-IN", "en-IN"],
@@ -110,7 +110,7 @@ export default async function NorcetPage() {
       <NorcetEligibility />
       <NorcetCoursePlan />
       <NorcetResources resources={resources} />
-      <NorcetWaitlist />
+      <NorcetEnrollment />
       <NorcetFaq />
     </main>
   );

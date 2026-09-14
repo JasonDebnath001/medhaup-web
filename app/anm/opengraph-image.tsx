@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { ANM_YEARS } from "@/lib/anm";
 
-export const alt = "ANM 1st and 2nd year course coming soon to medhaup";
+export const alt = "ANM 1st and 2nd year course available at medhaup";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -37,7 +37,7 @@ export default function Image() {
             letterSpacing: 3,
           }}
         >
-          COMING SOON
+          ANM YEAR-WISE COURSE
         </span>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

@@ -18,19 +18,18 @@ export default function AnmTeaser() {
         <motion.div {...reveal()}>
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-dark">
             <HeartPulse size={18} aria-hidden="true" />
-            New course · Coming soon
+            ANM studies
           </span>
           <h2
             id="anm-teaser-heading"
             className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl"
           >
             ANM 1st &amp; 2nd year.
-            <br /> Coming soon to medhaup.
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-7 text-navy/65">
-            A new course for Auxiliary Nursing and Midwifery 1st and 2nd year
+            A course for Auxiliary Nursing and Midwifery 1st and 2nd year
             students. Explore year-wise subjects, the syllabus and exam pattern,
-            and ask for launch updates.
+            and ask for enrolment details.
           </p>
         </motion.div>
         <motion.div {...reveal(0.12)} className="lg:min-w-64">

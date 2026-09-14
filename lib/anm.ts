@@ -1,7 +1,7 @@
 export const ANM_PATH = "/anm";
 export const ANM_NAME = "ANM 1st & 2nd Year Course";
 export const ANM_DESCRIPTION =
-  "Explore ANM 1st and 2nd year subjects, syllabus, exam marks and the six-month internship. medhaup's course for enrolled ANM students is coming soon.";
+  "Explore ANM 1st and 2nd year subjects, syllabus, exam marks and the six-month internship. Study with medhaup alongside your ANM classes.";
 
 export const ANM_YEARS = [
   {
@@ -30,7 +30,7 @@ export const ANM_FAQS = [
   {
     question: "Who is the ANM year-wise course for?",
     answer:
-      "This upcoming medhaup course is for students already studying Auxiliary Nursing and Midwifery (ANM) in their 1st or 2nd year. Choose your year when requesting launch updates.",
+      "This medhaup course is for students already studying Auxiliary Nursing and Midwifery (ANM) in their 1st or 2nd year. Choose your year when enquiring about enrolment.",
   },
   {
     question: "Is this the ANM/GNM entrance preparation course?",
@@ -38,9 +38,9 @@ export const ANM_FAQS = [
       "The year-wise ANM course supports students already enrolled in ANM. medhaup’s ANM/GNM entrance preparation is a separate programme, available on the entrance course page.",
   },
   {
-    question: "When will the course launch, and what are the fees?",
+    question: "How can I enrol, and what are the fees?",
     answer:
-      "The course is coming soon. Enrolment is not open yet. The launch date, fees, batch timings, class format, teaching language and medhaup study materials will be announced later. No payment is needed to request updates on WhatsApp.",
+      "Contact our team on WhatsApp for current fees, batch timings, class details and enrolment steps.",
   },
   {
     question: "Which subjects are taught in each year?",

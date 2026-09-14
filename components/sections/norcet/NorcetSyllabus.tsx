@@ -72,11 +72,11 @@ export default function NorcetSyllabus({ syllabusDownload }: Props) {
             </a>
           ) : (
             <a
-              href={NORCET_COURSE.waitlistAnchor}
+              href={NORCET_COURSE.enrolmentAnchor}
               className="group inline-flex shrink-0 items-center gap-2.5 rounded-full border border-teal/40 bg-teal/10 px-5 py-3 text-sm font-semibold text-teal-dark transition-colors hover:bg-teal/15"
             >
               <Hourglass size={16} />
-              Syllabus PDF coming soon. Waitlist gets it first
+              Ask our team for the syllabus PDF
               <ArrowRight
                 size={15}
                 className="transition-transform duration-200 group-hover:translate-x-0.5"

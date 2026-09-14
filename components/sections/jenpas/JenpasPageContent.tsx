@@ -20,7 +20,7 @@ import {
 import JenpasSyllabus from "./JenpasSyllabus";
 import JenpasExamPattern from "./JenpasExamPattern";
 import JenpasAdmissionGuide from "./JenpasAdmissionGuide";
-import JenpasLaunchUpdates from "./JenpasLaunchUpdates";
+import JenpasEnrollment from "./JenpasEnrollment";
 
 export default function JenpasPageContent() {
   const { enter, reveal, reduceMotion } = useCourseMotion();
@@ -61,7 +61,7 @@ export default function JenpasPageContent() {
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-orange"
                 />
-                New preparation course · Coming soon
+                JENPAS(UG) Preparation
               </span>
               <h1
                 id="jenpas-heading"
@@ -73,7 +73,7 @@ export default function JenpasPageContent() {
                 </span>
               </h1>
               <p className="mt-6 max-w-lg text-base leading-7 text-white/75">
-                A new medhaup course for WBJEEB&apos;s undergraduate nursing and
+                Join medhaup for WBJEEB&apos;s undergraduate nursing and
                 allied health entrance examination. Explore the papers, subjects
                 and syllabus as you plan your preparation.
               </p>
@@ -81,10 +81,10 @@ export default function JenpasPageContent() {
                 <motion.a
                   whileHover={reduceMotion ? undefined : { y: -2 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  href="#launch-updates"
+                  href="#enrolment"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 font-bold text-navy transition-colors hover:bg-orange-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
-                  Get launch updates
+                  Enrol now
                   <ArrowRight size={18} aria-hidden="true" />
                 </motion.a>
                 <a
@@ -96,8 +96,7 @@ export default function JenpasPageContent() {
                 </a>
               </div>
               <p className="mt-5 text-xs leading-6 text-white/60">
-                medhaup launch date, fees and batch details will be announced
-                soon.
+                Contact our team for current fees, batch timings and enrolment.
               </p>
             </motion.div>
             <motion.aside
@@ -295,7 +294,7 @@ export default function JenpasPageContent() {
               A few things to know.
             </h2>
             <p className="mt-4 text-sm leading-7 text-navy/65">
-              About the exam and medhaup&apos;s upcoming preparation course.
+              About the exam and medhaup&apos;s preparation course.
             </p>
           </motion.div>
           <div className="divide-y divide-navy/10 border-y border-navy/10">
@@ -321,7 +320,7 @@ export default function JenpasPageContent() {
           </div>
         </div>
       </section>
-      <JenpasLaunchUpdates />
+      <JenpasEnrollment />
     </>
   );
 }

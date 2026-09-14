@@ -9,6 +9,7 @@ import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 import clsx from "clsx";
 import { DPHARMACY_PATH } from "@/lib/dpharmacy";
 import { ANM_PATH } from "@/lib/anm";
+import { RRB_PATH } from "@/lib/rrb";
 import { JENPAS_PATH } from "@/lib/jenpas";
 import { JEPBN_PATH, JEMSCN_PATH } from "@/lib/nursing-entrance-catalog";
 
@@ -30,17 +31,17 @@ const NAV_ITEMS: NavItem[] = [
     href: "/course",
     children: [
       { label: "ANM/GNM Entrance Course", href: "/course" },
-      { label: "JENPAS(UG)", href: JENPAS_PATH, badge: "Soon" },
-      { label: "JEPBN · Post Basic Nursing", href: JEPBN_PATH, badge: "Soon" },
-      { label: "JEMScN · M.Sc. Nursing", href: JEMSCN_PATH, badge: "Soon" },
-      { label: "ANM 1st & 2nd Year", href: ANM_PATH, badge: "Soon" },
-      { label: "GNM 1st, 2nd & 3rd Year", href: "/gnm", badge: "Soon" },
+      { label: "JENPAS(UG)", href: JENPAS_PATH },
+      { label: "JEPBN · Post Basic Nursing", href: JEPBN_PATH },
+      { label: "JEMScN · M.Sc. Nursing", href: JEMSCN_PATH },
+      { label: "ANM 1st & 2nd Year", href: ANM_PATH },
+      { label: "GNM 1st, 2nd & 3rd Year", href: "/gnm" },
       {
         label: "D.Pharmacy 1st & 2nd Year",
         href: "/d-pharmacy",
-        badge: "Soon",
       },
-      { label: "NORCET", href: "/norcet", badge: "Soon" },
+      { label: "NORCET", href: "/norcet" },
+      { label: "RRB Nursing", href: RRB_PATH },
     ],
   },
   {
@@ -69,13 +70,16 @@ const NAV_ITEMS: NavItem[] = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const launchUpdatesHref =
+  const enrolmentHref =
     pathname === DPHARMACY_PATH ||
     pathname === ANM_PATH ||
     pathname === JENPAS_PATH ||
     pathname === JEPBN_PATH ||
-    pathname === JEMSCN_PATH
-      ? `${pathname}#launch-updates`
+    pathname === JEMSCN_PATH ||
+    pathname === "/gnm" ||
+    pathname === "/norcet" ||
+    pathname === RRB_PATH
+      ? `${pathname}#enrolment`
       : null;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
@@ -210,11 +214,11 @@ export default function Navbar() {
         {/* Right side: CTA always visible + hamburger on mobile */}
         <div className="flex items-center gap-2">
           <Link
-            href={launchUpdatesHref ?? "/admission"}
+            href={enrolmentHref ?? "/admission"}
             onClick={() => setMobileOpenPath(null)}
             className="group flex items-center gap-1.5 rounded-full bg-orange px-4 py-2 text-sm font-semibold text-white shadow-md shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-lg hover:shadow-orange/40 hover:ring-2 hover:ring-white/30 sm:px-5 sm:py-2.5"
           >
-            {launchUpdatesHref ? "Get updates" : "Take Admission"}
+            {enrolmentHref ? "Course enquiry" : "Take Admission"}
             <ArrowRight
               size={16}
               className="transition-transform duration-200 group-hover:translate-x-0.5"
@@ -332,11 +336,11 @@ export default function Navbar() {
 
               <div className="border-t border-navy/10 p-4">
                 <Link
-                  href={launchUpdatesHref ?? "/admission"}
+                  href={enrolmentHref ?? "/admission"}
                   onClick={() => setMobileOpenPath(null)}
                   className="flex items-center justify-center gap-2 rounded-xl bg-orange px-4 py-3 font-semibold text-white shadow-md shadow-orange/30 transition-colors hover:bg-orange-dark"
                 >
-                  {launchUpdatesHref ? "Get launch updates" : "Take Admission"}{" "}
+                  {enrolmentHref ? "Course enquiry" : "Take Admission"}{" "}
                   <ArrowRight size={17} />
                 </Link>
               </div>

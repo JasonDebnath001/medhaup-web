@@ -27,7 +27,7 @@ const CATEGORY_ORDER: NorcetResourceCategory[] = [
 function EmptyState() {
   const SITE = useSite();
   const notifyUrl = `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
-    "Hi, please let me know when NORCET study material goes live on medhaup.",
+    "Hi, I am preparing for NORCET. Please share the available study materials.",
   )}`;
 
   return (
@@ -47,19 +47,18 @@ function EmptyState() {
       </span>
       <h3 className="font-heading relative mt-5 text-2xl font-extrabold text-navy sm:text-3xl">
         NORCET study material{" "}
-        <span className="text-orange">lands here first</span>
+        <span className="text-orange">and study support</span>
       </h3>
       <p className="relative mx-auto mt-3 max-w-lg text-navy/65">
-        Syllabus PDFs, previous papers, subject notes and mock tests are being
-        prepared. As each one is ready it appears on this page, and the waitlist
-        hears the same day.
+        No free downloads are listed here yet. Explore the syllabus above
+        or contact our team for the study materials available with the course.
       </p>
       <div className="relative mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a
-          href={NORCET_COURSE.waitlistAnchor}
+          href={NORCET_COURSE.enrolmentAnchor}
           className="group flex w-full items-center justify-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange/25 transition-all hover:bg-orange-dark sm:w-auto"
         >
-          Join the waitlist
+          Send enrolment enquiry
           <ArrowRight
             size={16}
             className="transition-transform duration-200 group-hover:translate-x-1"
@@ -72,7 +71,7 @@ function EmptyState() {
           className="flex w-full items-center justify-center gap-2 rounded-full border border-navy/15 bg-white px-6 py-3 text-sm font-semibold text-navy transition-colors hover:border-teal hover:text-teal-dark sm:w-auto"
         >
           <MessageCircle size={16} />
-          Notify me on WhatsApp
+          Ask about study materials
         </a>
       </div>
     </motion.div>

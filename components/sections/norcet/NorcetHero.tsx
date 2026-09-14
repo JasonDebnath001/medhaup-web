@@ -126,8 +126,8 @@ export default function NorcetHero() {
           >
             AIIMS runs NORCET to recruit Nursing Officers across its institutes,
             including {NORCET.westBengalInstitute}, right here in West Bengal.
-            Our NORCET course is being built. The exam pattern, subjects and
-            syllabus are below, so your preparation does not wait for us.
+            Explore the exam pattern, subjects and
+            syllabus below, and enrol to start preparing with medhaup.
           </motion.p>
 
           <motion.div
@@ -138,10 +138,10 @@ export default function NorcetHero() {
             className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start"
           >
             <a
-              href={NORCET_COURSE.waitlistAnchor}
+              href={NORCET_COURSE.enrolmentAnchor}
               className="group flex w-full items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl hover:shadow-orange/40 sm:w-auto"
             >
-              Join the free waitlist
+              Enrol now
               <ArrowRight
                 size={18}
                 className="transition-transform duration-200 group-hover:translate-x-1"

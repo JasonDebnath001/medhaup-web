@@ -48,6 +48,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       images: [`${SITE_URL}/arushi.png`],
     },
     {
+      url: `${SITE_URL}/rrb-nursing`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${SITE_URL}/norcet`,
       changeFrequency: "weekly",
       priority: 0.9,

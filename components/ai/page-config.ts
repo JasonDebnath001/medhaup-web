@@ -214,6 +214,32 @@ export function getAIPageDescriptor(pathname: string): AIPageDescriptor | null {
         },
       ],
     },
+    "/rrb-nursing": {
+      pageType: "course",
+      contentType: "course_page",
+      title: "RRB Nursing Preparation",
+      eyebrow: "Exploring RRB Nursing",
+      suggestions: [
+        {
+          id: "rrb_pattern",
+          label: "Exam pattern",
+          prompt:
+            "Explain the RRB Nursing Superintendent CBT pattern and marking scheme using this page's trusted information.",
+        },
+        {
+          id: "rrb_syllabus",
+          label: "Subjects & syllabus",
+          prompt:
+            "Summarise the RRB Nursing syllabus and subjects from this page's trusted information.",
+        },
+        {
+          id: "rrb_enrolment",
+          label: "How to enrol",
+          prompt:
+            "How can I enquire about enrolling in medhaup's RRB Nursing course? Use trusted course information and do not invent fees.",
+        },
+      ],
+    },
     "/norcet": {
       pageType: "norcet",
       contentType: "norcet_page",
@@ -240,9 +266,9 @@ export function getAIPageDescriptor(pathname: string): AIPageDescriptor | null {
         },
         {
           id: "norcet_course_status",
-          label: "medhaup course কবে?",
+          label: "Course-এ ভর্তি হব কীভাবে?",
           prompt:
-            "medhaup-এর NORCET course-এর current status, কী কী থাকার plan আছে এবং waitlist সম্পর্কে trusted information অনুযায়ী বলো।",
+            "medhaup-এর NORCET course এবং enrolment enquiry সম্পর্কে trusted information অনুযায়ী বলো।",
         },
       ],
     },

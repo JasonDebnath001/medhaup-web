@@ -20,6 +20,8 @@ import {
   getTrustedNorcetStatusFacts,
 } from "@/lib/norcet";
 
+import { RRB_PATH, RRB_NAME, getTrustedRrbFacts } from "@/lib/rrb";
+
 const BLOG_PATH = /^\/blogs\/([a-z0-9]+(?:-[a-z0-9]+)*)$/;
 
 function cleanText(value: unknown) {
@@ -112,7 +114,8 @@ export function isAIPagePath(path: string) {
     path === "/current-affairs" ||
     path === "/resources" ||
     path === "/course" ||
-    path === NORCET_PATH
+    path === NORCET_PATH ||
+    path === RRB_PATH
   );
 }
 
@@ -284,28 +287,45 @@ export async function buildTrustedPageContext(
     };
   }
 
+  if (path === RRB_PATH) {
+    return {
+      path,
+      pageType: "course",
+      title: RRB_NAME,
+      subject: "RRB Nursing Superintendent recruitment examination",
+      content: joinBounded(
+        [
+          "CURRENT RRB NURSING PAGE CONTEXT:",
+          ...getTrustedRrbFacts(),
+          ...studentEssentials.lines,
+        ],
+        maxChars,
+      ),
+    };
+  }
+
   if (path === NORCET_PATH) {
     const resources = (await getNorcetResources()).slice(0, 12);
     return {
       path,
       pageType: "norcet",
-      title: "NORCET Preparation (Coming Soon)",
+      title: "NORCET Preparation",
       subject: "AIIMS NORCET Nursing Officer recruitment exam",
       content: joinBounded(
         [
           ...studentEssentials.lines,
           "CURRENT NORCET PAGE CONTEXT:",
-          ...getTrustedNorcetExamFacts(),
+          "The page has a NORCET enrolment enquiry form asking for name, WhatsApp number and nursing qualification. Sending an enquiry does not collect payment or confirm enrolment.",
+          "Do not state any NORCET course fee, batch date, timing, teacher or seat count without a published source. Ask the team for current details.",
           ...(resources.length
             ? resources.map(
                 (resource) =>
                   `Published free NORCET resource: ${resource.title} (${resource.category}, ${resource.stage}${resource.subject ? `, ${resource.subject}` : ""}, ${resource.language}): ${resource.description}`,
               )
             : [
-                "No free NORCET study material has been published yet; the page shows a coming-soon block and the waitlist instead.",
+                "No free NORCET study material has been published yet; the page offers a resource enquiry and course enrolment instead.",
               ]),
-          "The page has a free NORCET waitlist form asking for name, WhatsApp number and nursing qualification. Joining is free and does not enrol the student in anything.",
-          "Do not state any NORCET course fee, batch date, timing, teacher or seat count: none has been published.",
+          ...getTrustedNorcetExamFacts(),
         ],
         maxChars,
       ),

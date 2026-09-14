@@ -15,7 +15,7 @@ import { useCourseMotion } from "@/components/ui/useCourseMotion";
 import { NURSING_ENTRANCE_COURSES } from "@/lib/nursing-entrance-catalog";
 import type { NursingEntranceCourse } from "@/lib/nursing-entrance";
 import NursingEntranceSyllabus from "./NursingEntranceSyllabus";
-import NursingEntranceLaunchUpdates from "./NursingEntranceLaunchUpdates";
+import NursingEntranceEnrollment from "./NursingEntranceEnrollment";
 
 const sourceLinkClass =
   "inline-flex items-center gap-1.5 rounded-sm text-xs font-bold text-orange-dark underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange";
@@ -94,7 +94,7 @@ export default function NursingEntrancePageContent({
                   aria-hidden="true"
                   className="h-2 w-2 shrink-0 rounded-full bg-orange"
                 />
-                New preparation course · Coming soon
+                Entrance preparation
               </span>
               <h1
                 id={`${course.id}-heading`}
@@ -117,10 +117,10 @@ export default function NursingEntrancePageContent({
                 <motion.a
                   whileHover={reduceMotion ? undefined : { y: -2 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  href="#launch-updates"
+                  href="#enrolment"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 font-bold text-navy transition-colors hover:bg-orange-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
-                  Get launch updates
+                  Enrol now
                   <ArrowRight size={18} aria-hidden="true" />
                 </motion.a>
                 <a
@@ -132,7 +132,7 @@ export default function NursingEntrancePageContent({
                 </a>
               </div>
               <p className="mt-5 text-xs leading-6 text-white/60">
-                Launch date, fees and batch details will be announced soon.
+                Contact our team for current fees, batch timings and enrolment.
               </p>
             </motion.div>
             <motion.aside
@@ -483,7 +483,7 @@ export default function NursingEntrancePageContent({
             <p className="mt-3 text-sm leading-7 text-navy/70">
               Apply for the exam through WBJEEB, appear for the test, then
               follow the notified counselling and document-verification process.
-              A rank does not guarantee a seat. medhaup launch updates are for
+              A rank does not guarantee a seat. medhaup enrolment details are for
               the preparation course; they are separate from examination
               applications and college admission.
             </p>
@@ -564,7 +564,7 @@ export default function NursingEntrancePageContent({
               Before your next step.
             </h2>
             <p className="mt-4 text-sm leading-7 text-navy/65">
-              About {course.name} and the upcoming medhaup course.
+              About {course.name} and the medhaup course.
             </p>
             <Link
               href={related.path}
@@ -600,7 +600,7 @@ export default function NursingEntrancePageContent({
           </div>
         </div>
       </section>
-      <NursingEntranceLaunchUpdates course={course} />
+      <NursingEntranceEnrollment course={course} />
     </>
   );
 }

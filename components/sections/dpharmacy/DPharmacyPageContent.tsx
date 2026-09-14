@@ -15,7 +15,7 @@ import { useCourseMotion } from "@/components/ui/useCourseMotion";
 import { DPHARMACY_FAQS, DPHARMACY_YEARS } from "@/lib/dpharmacy";
 import { DPHARMACY_CURRICULUM } from "@/lib/dpharmacy-syllabus";
 import DPharmacyExamPattern from "./DPharmacyExamPattern";
-import DPharmacyLaunchUpdates from "./DPharmacyLaunchUpdates";
+import DPharmacyEnrollment from "./DPharmacyEnrollment";
 import DPharmacySyllabus from "./DPharmacySyllabus";
 import DPharmacyTraining from "./DPharmacyTraining";
 
@@ -62,7 +62,7 @@ export default function DPharmacyPageContent() {
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-orange"
                 />
-                A new course. Coming soon.
+                D.Pharmacy · 1st & 2nd year
               </span>
               <h1
                 id="dpharmacy-heading"
@@ -77,19 +77,18 @@ export default function DPharmacyPageContent() {
                 Your next chapter in pharmacy.
               </p>
               <p className="mt-4 max-w-lg text-base leading-7 text-white/75">
-                We&apos;re preparing a new medhaup course for students already
-                pursuing their Diploma in Pharmacy. Explore both years&apos;
-                subjects, syllabus and exam pattern while we get ready to
-                launch.
+                Join medhaup for your Diploma in Pharmacy studies. Explore both
+                years&apos; subjects, syllabus and exam pattern, and choose
+                the course for your year.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <motion.a
                   whileHover={reduceMotion ? undefined : { y: -2 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  href="#launch-updates"
+                  href="#enrolment"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 font-bold text-navy transition-colors hover:bg-orange-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
-                  Get launch updates <ArrowRight size={18} aria-hidden="true" />
+                  Enrol now <ArrowRight size={18} aria-hidden="true" />
                 </motion.a>
                 <a
                   href="#syllabus"
@@ -100,7 +99,7 @@ export default function DPharmacyPageContent() {
                 </a>
               </div>
               <p className="mt-5 text-xs leading-5 text-white/60">
-                Course launch, fees and batch details will be announced soon.
+                Contact our team for current fees, batch timings and enrolment.
               </p>
             </motion.div>
 
@@ -137,11 +136,6 @@ export default function DPharmacyPageContent() {
                     <span className="min-w-0 flex-1">
                       <span className="font-heading block text-base font-extrabold sm:text-lg">
                         D.Pharmacy {year.label}
-                      </span>
-                      <span
-                        className={`mt-1 block text-xs font-semibold ${year.accent}`}
-                      >
-                        Coming soon
                       </span>
                     </span>
                     <ArrowRight
@@ -224,9 +218,6 @@ export default function DPharmacyPageContent() {
                     >
                       <Icon size={23} aria-hidden="true" />
                     </span>
-                    <span className="rounded-full bg-cream px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-navy/65">
-                      Coming soon
-                    </span>
                   </div>
                   <p className={`mt-6 text-sm font-bold ${year.accent}`}>
                     D.Pharmacy {year.label}
@@ -257,7 +248,7 @@ export default function DPharmacyPageContent() {
                     {curriculum.subjects.length} theory papers · 5 practical
                     papers
                     <span className="block">
-                      medhaup batch details coming soon.
+                      Contact our team for current batch details.
                     </span>
                   </p>
                 </motion.article>
@@ -279,7 +270,7 @@ export default function DPharmacyPageContent() {
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[0.7fr_1fr] lg:gap-16">
           <motion.div {...reveal()}>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-dark">
-              Before we launch
+              Before you enrol
             </p>
             <h2
               id="dpharmacy-faq-heading"
@@ -289,7 +280,7 @@ export default function DPharmacyPageContent() {
               <br className="hidden lg:block" /> to know.
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-7 text-navy/65">
-              Quick answers about the upcoming D.Pharmacy course.
+              Quick answers about the D.Pharmacy course.
             </p>
           </motion.div>
           <div className="divide-y divide-navy/10 border-y border-navy/10">
@@ -315,7 +306,7 @@ export default function DPharmacyPageContent() {
           </div>
         </div>
       </section>
-      <DPharmacyLaunchUpdates />
+      <DPharmacyEnrollment />
     </>
   );
 }

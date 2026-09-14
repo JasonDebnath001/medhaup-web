@@ -137,8 +137,8 @@ export default function DPharmacySyllabus() {
             India&apos;s ER-2020 curriculum.
           </p>
           <p className="mt-3 text-xs leading-6 text-navy/60">
-            Hours are academic curriculum requirements. medhaup class timings
-            and study materials will be announced at launch.
+            Hours are academic curriculum requirements. Contact our team for
+            medhaup class timings and study materials.
           </p>
         </motion.div>
 

@@ -9,7 +9,7 @@ import {
 import { createPageMetadata, createPageSchema, SITE_URL } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
-  title: `${JENPAS_NAME} | Coming Soon`,
+  title: `${JENPAS_NAME}`,
   description: JENPAS_DESCRIPTION,
   path: JENPAS_PATH,
   keywords: [
@@ -23,7 +23,7 @@ export const metadata = createPageMetadata({
     "medhaup JENPAS course",
   ],
   image: "/jenpas-ug/opengraph-image",
-  imageAlt: "JENPAS(UG) preparation course coming soon to medhaup",
+  imageAlt: "JENPAS(UG) preparation course available at medhaup",
 });
 
 export default function JenpasPage() {

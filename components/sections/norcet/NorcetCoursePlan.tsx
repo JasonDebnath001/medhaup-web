@@ -36,15 +36,15 @@ const WHY = [
   },
   {
     icon: Target,
-    title: "Nursing exams only",
+    title: "Focused healthcare preparation",
     detail:
-      "medhaup teaches nursing papers and nothing else. NORCET gets the same single-minded treatment the ANM/GNM course gets.",
+      "Build your nursing knowledge with focused preparation for the NORCET examination.",
   },
   {
     icon: IndianRupee,
-    title: "Priced for students, announced at launch",
+    title: "Course fees and batch options",
     detail:
-      "No fee has been fixed yet. Expect the medhaup approach: honest, affordable and the same content for everyone.",
+      "Contact our team for current course fees, available batches and enrolment steps.",
   },
 ];
 
@@ -81,19 +81,18 @@ export default function NorcetCoursePlan() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-teal/40 bg-teal/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-teal">
             <Hammer size={13} />
-            What we&apos;re building
+            Your NORCET preparation
           </span>
           <h2
             id="norcet-course-heading"
             className="font-heading mt-4 text-3xl font-extrabold sm:text-4xl"
           >
             The {NORCET_COURSE.name},{" "}
-            <span className="text-orange">in the making</span>
+            <span className="text-orange">designed for your goal</span>
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-white/65">
-            {NORCET_COURSE.tagline} Here is what the course is being designed
-            around. Fees, batch dates and the class schedule will be announced
-            at launch, and waitlist members hear first.
+            {NORCET_COURSE.tagline} Explore the course below, then contact our team for current fees,
+            batch dates and the class schedule.
           </p>
         </motion.div>
 
@@ -155,18 +154,17 @@ export default function NorcetCoursePlan() {
           className="mt-10 text-center"
         >
           <a
-            href={NORCET_COURSE.waitlistAnchor}
+            href={NORCET_COURSE.enrolmentAnchor}
             className="group inline-flex items-center justify-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/30 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl"
           >
-            Reserve my spot on the waitlist
+            Enrol in the course
             <ArrowRight
               size={18}
               className="transition-transform duration-200 group-hover:translate-x-1"
             />
           </a>
           <p className="mt-3 text-xs text-white/45">
-            Free. No payment, no commitment. We message you when the course
-            opens.
+            Ask our team about current fees and batch timings.
           </p>
         </motion.div>
       </div>

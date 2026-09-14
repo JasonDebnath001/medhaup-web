@@ -107,7 +107,7 @@ export default function Image() {
                 background: "#14b8a6",
               }}
             />
-            Coming soon
+            NORCET PREPARATION
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>

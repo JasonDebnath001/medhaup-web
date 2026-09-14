@@ -34,31 +34,31 @@ const QUALIFICATIONS = [
 const PERKS = [
   {
     icon: BellRing,
-    title: "Launch date and fee, first",
-    detail: "You hear before the website does. No searching, no missing it.",
+    title: "Current fees and batch timings",
+    detail:
+      "Our team will help you choose a batch and explain the enrolment steps.",
   },
   {
     icon: Sparkles,
-    title: "Earliest access to material",
+    title: "Course and study materials",
     detail:
-      "Syllabus PDFs, notes and mocks reach the waitlist the day they are ready.",
+      "Ask about classes, notes, mock tests and support for your preparation.",
   },
   {
     icon: ShieldCheck,
-    title: "Updates only, no spam",
-    detail:
-      "A handful of messages about NORCET and nothing else. One reply stops them.",
+    title: "Help with your questions",
+    detail: "Tell us your nursing background and what you need help with.",
   },
 ];
 
 type Status = "idle" | "sending" | "success" | "error";
 
-export default function NorcetWaitlist() {
+export default function NorcetEnrollment() {
   const SITE = useSite();
   const [status, setStatus] = useState<Status>("idle");
 
-  const waitlistWhatsAppUrl = `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
-    "Hi, I joined the NORCET waitlist on medhaup. Please add me to the launch updates.",
+  const enrolmentWhatsAppUrl = `https://wa.me/${SITE.whatsapp.number}?text=${encodeURIComponent(
+    "Hi medhaup! I would like to enrol in the NORCET course. Please share current fees, batch timings and enrolment steps.",
   )}`;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -68,8 +68,8 @@ export default function NorcetWaitlist() {
     const form = e.currentTarget;
     const data = new FormData(form);
     data.append("access_key", WEB3FORMS_ACCESS_KEY);
-    data.append("from_name", "medhaup NORCET Waitlist");
-    data.append("form_type", "norcet_waitlist");
+    data.append("from_name", "medhaup NORCET Enrolment");
+    data.append("form_type", "norcet_enrolment");
     data.append("course", NORCET_COURSE.name);
     appendAttributionToFormData(data);
 
@@ -81,7 +81,7 @@ export default function NorcetWaitlist() {
       const json = await res.json();
       if (json.success) {
         trackGAEvent("generate_lead", {
-          lead_type: "norcet_waitlist",
+          lead_type: "norcet_enrolment",
           course: "norcet",
           qualification: String(data.get("qualification") ?? ""),
         });
@@ -97,9 +97,9 @@ export default function NorcetWaitlist() {
 
   return (
     <section
-      id="waitlist"
+      id="enrolment"
       className="scroll-mt-24 bg-cream py-20 sm:py-24"
-      aria-labelledby="norcet-waitlist-heading"
+      aria-labelledby="norcet-enrolment-heading"
     >
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
         {/* Copy */}
@@ -114,19 +114,18 @@ export default function NorcetWaitlist() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal opacity-75 motion-reduce:animate-none" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-teal" />
             </span>
-            Free waitlist
+            Course enquiry
           </span>
           <h2
-            id="norcet-waitlist-heading"
+            id="norcet-enrolment-heading"
             className="font-heading mt-4 text-3xl font-extrabold leading-tight text-navy sm:text-4xl"
           >
-            Be first in line{" "}
-            <span className="text-orange">when NORCET opens</span>
+            Start your preparation{" "}
+            <span className="text-orange">with medhaup</span>
           </h2>
           <p className="mt-4 text-navy/65">
-            Thirty seconds now saves you from finding out about the batch after
-            it fills. Tell us who you are and we will message you the moment
-            there is something worth knowing.
+            Share your details and our team will help you with current fees,
+            batch timings and how to enrol.
           </p>
 
           <ul className="mt-8 space-y-5">
@@ -175,16 +174,15 @@ export default function NorcetWaitlist() {
                 <CheckCircle2 size={32} />
               </span>
               <h3 className="font-heading mt-5 text-2xl font-extrabold text-navy">
-                You&apos;re on the list
+                Your enquiry is received
               </h3>
               <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-navy/65">
-                We will message you on WhatsApp when the course opens and
-                whenever new NORCET material is published. Want the updates on
-                WhatsApp itself? Say hi and we will save your number.
+                Our team will contact you about the NORCET course, current fees
+                and batch options. You can also speak with us on WhatsApp.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a
-                  href={waitlistWhatsAppUrl}
+                  href={enrolmentWhatsAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110"
@@ -204,10 +202,10 @@ export default function NorcetWaitlist() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <h3 className="font-heading text-xl font-extrabold text-navy">
-                Join the NORCET waitlist
+                Enrol in NORCET
               </h3>
               <p className="text-sm text-navy/60">
-                No payment, no commitment. Just first news.
+                Ask about the course. No payment is collected by this form.
               </p>
 
               <input
@@ -303,7 +301,7 @@ export default function NorcetWaitlist() {
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                   Something went wrong. Try again, or{" "}
                   <a
-                    href={waitlistWhatsAppUrl}
+                    href={enrolmentWhatsAppUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-semibold underline underline-offset-2"
@@ -322,15 +320,25 @@ export default function NorcetWaitlist() {
                 {status === "sending" ? (
                   <>
                     <Loader2 className="h-[18px] w-[18px] animate-spin" />
-                    Adding you…
+                    Sending enquiry…
                   </>
                 ) : (
                   <>
                     <Send className="h-[17px] w-[17px]" />
-                    Join the waitlist
+                    Send enrolment enquiry
                   </>
                 )}
               </button>
+
+              <a
+                href={enrolmentWhatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-sm text-sm font-semibold text-navy underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+              >
+                <MessageCircle size={17} aria-hidden="true" />
+                Enquire on WhatsApp
+              </a>
 
               <p className="text-center text-xs text-navy/50">
                 Already preparing for ANM/GNM?{" "}
@@ -338,7 +346,7 @@ export default function NorcetWaitlist() {
                   href="/course"
                   className="font-semibold text-navy underline decoration-navy/30 underline-offset-2 hover:text-orange"
                 >
-                  That course is live now
+                  Explore the ANM/GNM course
                 </Link>
                 .
               </p>

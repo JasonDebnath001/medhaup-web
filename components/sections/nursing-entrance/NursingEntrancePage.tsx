@@ -5,7 +5,7 @@ import NursingEntrancePageContent from "./NursingEntrancePageContent";
 
 export function nursingEntranceMetadata(course: NursingEntranceCourse) {
   return createPageMetadata({
-    title: `${course.name} Preparation Course | Coming Soon`,
+    title: `${course.name} Preparation Course`,
     description: course.description,
     path: course.path,
     keywords: [
@@ -18,7 +18,7 @@ export function nursingEntranceMetadata(course: NursingEntranceCourse) {
       `medhaup ${course.name} course`,
     ],
     image: `${course.path}/opengraph-image`,
-    imageAlt: `${course.name} preparation for ${course.degree} entrance coming soon to medhaup`,
+    imageAlt: `${course.name} preparation for ${course.degree} entrance available at medhaup`,
   });
 }
 

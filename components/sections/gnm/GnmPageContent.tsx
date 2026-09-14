@@ -13,7 +13,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import { GNM_FAQS, GNM_YEARS, GNM_SUBJECT_OVERVIEW } from "@/lib/gnm";
-import GnmLaunchUpdates from "./GnmLaunchUpdates";
+import GnmEnrollment from "./GnmEnrollment";
 import GnmSyllabus from "./GnmSyllabus";
 import GnmExamPattern from "./GnmExamPattern";
 import { useGnmMotion } from "./useGnmMotion";
@@ -79,7 +79,7 @@ export default function GnmPageContent() {
                   aria-hidden="true"
                   className="h-2 w-2 rounded-full bg-orange"
                 />
-                A new course. Coming soon.
+                GNM · 1st, 2nd & 3rd year
               </span>
               <h1
                 id="gnm-heading"
@@ -94,16 +94,16 @@ export default function GnmPageContent() {
               </p>
               <p className="mt-4 max-w-lg text-base leading-7 text-white/75">
                 You&apos;ve started your nursing journey. Now, take the next
-                step with medhaup. Our course is coming soon. Explore your
-                subjects, syllabus and first-year exam pattern while we prepare
-                the launch.
+                step with medhaup. Explore your
+                subjects, syllabus and first-year exam pattern, and choose the
+                course for your year.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href="#launch-updates"
+                  href="#enrolment"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 font-bold text-navy transition-colors hover:bg-orange-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
-                  Get launch updates <ArrowRight size={18} aria-hidden="true" />
+                  Enrol now <ArrowRight size={18} aria-hidden="true" />
                 </a>
                 <a
                   href="#your-year"
@@ -168,11 +168,6 @@ export default function GnmPageContent() {
                         <p className="font-heading mt-1 text-xl font-extrabold">
                           GNM {year.label}
                         </p>
-                        <p
-                          className={`mt-1 text-xs font-semibold ${style.accent}`}
-                        >
-                          Coming soon
-                        </p>
                       </div>
                       <ArrowRight
                         size={18}
@@ -229,9 +224,6 @@ export default function GnmPageContent() {
                     >
                       <style.icon size={23} aria-hidden="true" />
                     </span>
-                    <span className="rounded-full bg-cream px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-navy/65">
-                      Coming soon
-                    </span>
                   </div>
                   <p className={`mt-7 text-sm font-bold ${style.accent}`}>
                     GNM {year.label}
@@ -266,7 +258,7 @@ export default function GnmPageContent() {
                     ))}
                   </div>
                   <p className="mt-auto pt-5 text-xs leading-6 text-navy/60">
-                    Course launch and batch details coming soon.
+                    Contact our team for batch details and enrolment.
                   </p>
                 </motion.article>
               );
@@ -313,7 +305,7 @@ export default function GnmPageContent() {
               <br className="hidden lg:block" /> next chapter.
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-7 text-navy/65">
-              What to know about the upcoming GNM course.
+              What to know about the GNM course.
             </p>
           </motion.div>
           <div className="divide-y divide-navy/10 border-y border-navy/10">
@@ -339,7 +331,7 @@ export default function GnmPageContent() {
           </div>
         </div>
       </section>
-      <GnmLaunchUpdates />
+      <GnmEnrollment />
     </>
   );
 }

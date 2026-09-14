@@ -133,17 +133,17 @@ test("NORCET exam data is internally consistent and safe to publish", () => {
 
   assert.ok(NORCET.officialUrl.startsWith("https://"));
   assert.ok(NORCET_FAQS.length >= 8);
-  assert.equal(NORCET_COURSE.status, "coming_soon");
-  // Nothing on the site may promise a price before launch.
+  assert.equal(NORCET_COURSE.status, "live");
+  // Do not invent an unpublished course price.
   const serialized = JSON.stringify(norcet);
   assert.doesNotMatch(serialized, /course fee is ₹|fee: ₹\d/i);
 });
 
-test("trusted status facts say coming soon and never invent a fee or batch", () => {
+test("trusted course facts direct enquiries to current fee and batch details", () => {
   const status = norcet.getTrustedNorcetStatusFacts().join(" ");
-  assert.match(status, /COMING SOON/);
-  assert.match(status, /waitlist/);
-  assert.match(status, /no fee, batch date/);
+  assert.match(status, /is offered at \/norcet/);
+  assert.match(status, /Send a course enquiry/);
+  assert.match(status, /never invent these details/);
   const exam = norcet.getTrustedNorcetExamFacts().join("\n");
   assert.match(exam, /Stage I \(Preliminary\): 100 MCQs/);
   assert.match(exam, /Stage II \(Mains\): 100 MCQs/);
@@ -152,7 +152,7 @@ test("trusted status facts say coming soon and never invent a fee or batch", () 
   assert.match(exam, /not AIIMS/);
 });
 
-test("medhaup AI treats /norcet as a trusted page with resources and coming-soon facts", async () => {
+test("medhaup AI treats /norcet as a trusted page with resources and course enquiry facts", async () => {
   const load = createLoader(dataOverrides([sampleResource]));
   const { buildTrustedPageContext, isAIPagePath } = load("lib/ai/context.ts");
 
@@ -162,7 +162,7 @@ test("medhaup AI treats /norcet as a trusted page with resources and coming-soon
   const context = await buildTrustedPageContext("/norcet", 12_000);
   assert.equal(context.pageType, "norcet");
   assert.match(context.title, /NORCET/);
-  assert.match(context.content, /COMING SOON at \/norcet/);
+  assert.match(context.content, /is offered at \/norcet/);
   assert.match(context.content, /CURRENT NORCET PAGE CONTEXT/);
   assert.match(context.content, /NORCET Stage I \(Preliminary\)/);
   assert.match(context.content, /Published free NORCET resource: NORCET Stage I syllabus checklist/);
@@ -171,20 +171,20 @@ test("medhaup AI treats /norcet as a trusted page with resources and coming-soon
   // Every other page still learns the NORCET status through the essentials.
   const home = await buildTrustedPageContext("/", 6_500);
   assert.equal(home.pageType, "homepage");
-  assert.match(home.content, /NORCET .* COMING SOON at \/norcet/);
+  assert.match(home.content, /NORCET .*is offered at \/norcet/);
 
   const withoutResources = createLoader(dataOverrides([]))("lib/ai/context.ts");
   const empty = await withoutResources.buildTrustedPageContext("/norcet", 12_000);
   assert.match(empty.content, /No free NORCET study material has been published yet/);
 });
 
-test("prompt rules route NORCET course questions to the waitlist, not an invented fee", () => {
+test("prompt rules route course questions to enrolment without reusing another course fee", () => {
   const { buildProviderInput } = createLoader()("lib/ai/prompts.ts");
   const page = {
     path: "/norcet",
     pageType: "norcet",
-    title: "NORCET Preparation (Coming Soon)",
-    content: "NORCET course coming soon.",
+    title: "NORCET Preparation",
+    content: "NORCET preparation course.",
   };
   const input = buildProviderInput(
     "Is there a NORCET course on medhaup?",
@@ -193,8 +193,8 @@ test("prompt rules route NORCET course questions to the waitlist, not an invente
     page,
   );
   assert.equal(input.useWebSearch, false);
-  assert.match(input.systemPrompt, /NORCET course is coming soon/);
-  assert.match(input.systemPrompt, /free waitlist at \/norcet/);
+  assert.match(input.systemPrompt, /Use the medhaup course catalog in the trusted course facts/);
+  assert.match(input.systemPrompt, /relevant course page and its enrolment enquiry/);
   assert.match(input.systemPrompt, /Page type: norcet/);
 });
 
@@ -262,7 +262,7 @@ test("admin panel exposes a NORCET resources collection that feeds the public fe
   assert.match(migration, /enable row level security/);
 });
 
-test("exam pattern and resources sections render both stages and the waitlist empty state", () => {
+test("exam pattern and resources sections render both stages and the resource enquiry empty state", () => {
   const load = createLoader();
   const { default: NorcetPattern } = load(
     "components/sections/norcet/NorcetPattern.tsx",
@@ -280,8 +280,8 @@ test("exam pattern and resources sections render both stages and the waitlist em
   const empty = renderToStaticMarkup(
     createElement(NorcetResources, { resources: [] }),
   );
-  assert.match(empty, /lands here first/);
-  assert.match(empty, /href="#waitlist"/);
+  assert.match(empty, /and study support/);
+  assert.match(empty, /href="#enrolment"/);
   assert.match(empty, /wa\.me\//);
 
   const listed = renderToStaticMarkup(
@@ -290,5 +290,5 @@ test("exam pattern and resources sections render both stages and the waitlist em
   assert.match(listed, /NORCET Stage I syllabus checklist/);
   assert.match(listed, /download=""/);
   assert.match(listed, /download=/);
-  assert.doesNotMatch(listed, /lands here first/);
+  assert.doesNotMatch(listed, /and study support/);
 });

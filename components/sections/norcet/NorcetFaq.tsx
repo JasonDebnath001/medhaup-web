@@ -48,10 +48,10 @@ export default function NorcetFaq() {
 
         <div className="mt-10 text-center">
           <a
-            href={NORCET_COURSE.waitlistAnchor}
+            href={NORCET_COURSE.enrolmentAnchor}
             className="inline-flex items-center justify-center rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/25 transition-all hover:bg-orange-dark hover:shadow-xl"
           >
-            Join the NORCET waitlist
+            Enrol in NORCET
           </a>
         </div>
       </div>

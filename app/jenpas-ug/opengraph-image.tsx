@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { JENPAS_PAPERS } from "@/lib/jenpas";
 
 export const alt =
-  "JENPAS(UG) Paper I and Paper II preparation coming soon to medhaup";
+  "JENPAS(UG) Paper I and Paper II preparation available at medhaup";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -38,7 +38,7 @@ export default function Image() {
             letterSpacing: 3,
           }}
         >
-          COMING SOON
+          JENPAS(UG) PREPARATION
         </span>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

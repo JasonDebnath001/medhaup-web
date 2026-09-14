@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { GNM_YEARS } from "@/lib/gnm";
 
-export const alt = "GNM 1st, 2nd and 3rd year courses coming soon to medhaup";
+export const alt = "GNM 1st, 2nd and 3rd year courses available at medhaup";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -37,7 +37,7 @@ export default function Image() {
             letterSpacing: 3,
           }}
         >
-          COMING SOON
+          GNM YEAR-WISE COURSE
         </span>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>

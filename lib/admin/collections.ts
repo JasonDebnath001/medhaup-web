@@ -333,7 +333,7 @@ export const COLLECTIONS: Collection[] = [
     title: "NORCET — Resources",
     singular: "NORCET Resource",
     description:
-      "Free NORCET study material shown on /norcet. Upload the PDF, save, then switch DRAFT to LIVE. Until at least one item is live the page shows a 'resources coming soon' block with the waitlist. A live item in the Syllabus category also powers the syllabus download button.",
+      "Free NORCET study material shown on /norcet. Upload the PDF, save, then switch DRAFT to LIVE. Until at least one item is live the page shows a resource enquiry block with an enrolment link. A live item in the Syllabus category also powers the syllabus download button.",
     listCols: ["title", "category", "stage"],
     fields: [
       { name: "title", label: "Title", type: "text", required: true },

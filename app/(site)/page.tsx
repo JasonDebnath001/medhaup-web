@@ -9,6 +9,7 @@ import WhyMedhaUp from "@/components/sections/WhyMedhaup";
 import NorcetTeaser from "@/components/sections/NorcetTeaser";
 import GnmTeaser from "@/components/sections/GnmTeaser";
 import AnmTeaser from "@/components/sections/AnmTeaser";
+import RrbTeaser from "@/components/sections/RrbTeaser";
 import JenpasTeaser from "@/components/sections/JenpasTeaser";
 import NursingEntranceTeaser from "@/components/sections/NursingEntranceTeaser";
 import DPharmacyTeaser from "@/components/sections/DPharmacyTeaser";
@@ -167,9 +168,9 @@ const SEO_LINKS = [
   },
   {
     href: "/norcet",
-    title: "NORCET Preparation (Coming Soon)",
+    title: "NORCET Preparation",
     description:
-      "AIIMS Nursing Officer exam pattern, subjects and full syllabus, with medhaup's NORCET course launching soon. Join the free waitlist.",
+      "Prepare for the AIIMS Nursing Officer exam with medhaup. Explore subjects, syllabus and exam pattern.",
   },
   {
     href: "/syllabus",
@@ -212,7 +213,7 @@ const FAQS = [
   {
     question: "Which entrance exam does medhaup focus on?",
     answer:
-      "medhaup focuses on the ANM(R) & GNM Common Entrance Test conducted by the West Bengal Joint Entrance Examinations Board for nursing admissions in West Bengal. A NORCET preparation course for the AIIMS Nursing Officer recruitment exam is coming soon.",
+      "medhaup offers courses for ANM/GNM entrance, JENPAS(UG), JEPBN, JEMScN, NORCET and RRB Nursing, plus year-wise ANM, GNM and D.Pharmacy courses. Explore the course pages for subjects, syllabus and enrolment enquiries.",
   },
   {
     question: "Is medhaup preparing students for ANM GNM 2027?",
@@ -232,7 +233,7 @@ const FAQS = [
   {
     question: "Does medhaup offer NORCET preparation?",
     answer:
-      "A medhaup NORCET course for the AIIMS Nursing Officer Recruitment Common Eligibility Test is being built and is coming soon. It has not launched yet, so no fee or batch date is published. The NORCET page already explains the exam pattern, subjects and syllabus, and GNM or B.Sc Nursing students can join the free waitlist to hear first.",
+      "GNM and B.Sc Nursing students can explore the exam pattern, subjects and syllabus on the NORCET page and send an enrolment enquiry for current fees and batch timings.",
   },
   {
     question: "Can I get ANM GNM syllabus and previous year questions?",
@@ -486,8 +487,9 @@ export default async function Home() {
 
         <WhyMedhaUp />
 
-        {/* NORCET announcement: coming soon, routes interest to the waitlist */}
+        {/* Nursing recruitment and entrance courses */}
         <NorcetTeaser />
+        <RrbTeaser />
         <JenpasTeaser />
         <NursingEntranceTeaser />
         <AnmTeaser />

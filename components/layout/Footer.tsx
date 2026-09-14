@@ -20,15 +20,16 @@ import { NURSING_ENTRANCE_COURSES } from "@/lib/nursing-entrance-catalog";
 const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "ANM/GNM Entrance Course", href: "/course" },
-  { label: "JENPAS(UG) · Coming Soon", href: JENPAS_PATH },
+  { label: "JENPAS(UG)", href: JENPAS_PATH },
   ...NURSING_ENTRANCE_COURSES.map((course) => ({
-    label: `${course.name} · Coming Soon`,
+    label: `${course.name}`,
     href: course.path,
   })),
-  { label: "ANM Years 1–2 · Coming Soon", href: ANM_PATH },
-  { label: "D.Pharmacy Years 1–2 · Coming Soon", href: "/d-pharmacy" },
-  { label: "GNM Years 1–3 · Coming Soon", href: "/gnm" },
-  { label: "NORCET · Coming Soon", href: "/norcet" },
+  { label: "ANM Years 1–2", href: ANM_PATH },
+  { label: "D.Pharmacy Years 1–2", href: "/d-pharmacy" },
+  { label: "GNM Years 1–3", href: "/gnm" },
+  { label: "NORCET", href: "/norcet" },
+  { label: "RRB Nursing", href: "/rrb-nursing" },
   { label: "Store", href: "/store" },
   { label: "Blogs", href: "/blogs" },
   { label: "Success Wall", href: "/wall-of-success" },
@@ -51,7 +52,7 @@ export default function Footer() {
   const nursingEntranceCourse = NURSING_ENTRANCE_COURSES.find(
     (course) => course.path === pathname,
   );
-  const upcomingCourse =
+  const activeCourse =
     pathname === DPHARMACY_PATH
       ? { name: "D.Pharmacy", heading: "next chapter in pharmacy?" }
       : pathname === ANM_PATH
@@ -66,7 +67,17 @@ export default function Footer() {
                 name: `${nursingEntranceCourse.name} preparation`,
                 heading: "next chapter in nursing?",
               }
-            : null;
+            : ["/gnm", "/norcet", "/rrb-nursing"].includes(pathname)
+              ? {
+                  name:
+                    pathname === "/gnm"
+                      ? "GNM"
+                      : pathname === "/norcet"
+                        ? "NORCET"
+                        : "RRB Nursing",
+                  heading: "next chapter in nursing?",
+                }
+              : null;
   const year = new Date().getFullYear();
 
   // Only render socials that have URLs set in the admin panel
@@ -106,22 +117,22 @@ export default function Footer() {
         >
           <div>
             <h2 className="font-heading text-2xl font-extrabold sm:text-3xl">
-              {upcomingCourse ? "Ready for your " : "Ready to start your "}
+              {activeCourse ? "Ready for your " : "Ready to start your "}
               <span className="text-orange">
-                {upcomingCourse?.heading ?? "nursing journey?"}
+                {activeCourse?.heading ?? "nursing journey?"}
               </span>
             </h2>
             <p className="mt-2 text-white/60">
-              {upcomingCourse
-                ? `${upcomingCourse.name} is coming soon. Ask for course launch updates.`
+              {activeCourse
+                ? `Explore ${activeCourse.name} with medhaup. Ask our team for course details.`
                 : "Seats are limited per batch — reserve yours today."}
             </p>
           </div>
           <Link
-            href={upcomingCourse ? `${pathname}#launch-updates` : "/admission"}
+            href={activeCourse ? `${pathname}#enrolment` : "/admission"}
             className="group flex shrink-0 items-center gap-2 rounded-full bg-orange px-7 py-3.5 font-semibold text-white shadow-lg shadow-orange/25 transition-all duration-200 hover:bg-orange-dark hover:shadow-xl"
           >
-            {upcomingCourse ? "Get launch updates" : "Take Admission"}
+            {activeCourse ? "Course enquiry" : "Take Admission"}
             <ArrowRight
               size={18}
               className="transition-transform duration-200 group-hover:translate-x-1"
@@ -144,8 +155,8 @@ export default function Footer() {
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
             West Bengal&apos;s focused preparation platform for nursing exams:
-            WBJEE ANM/GNM today, NORCET coming soon — taught in Bengali and
-            English.
+            entrance preparation, year-wise nursing and pharmacy studies, NORCET
+            and RRB Nursing.
           </p>
           {socials.length > 0 && (
             <ul className="mt-5 flex gap-3">
