@@ -121,11 +121,13 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-[top] duration-300 sm:px-4 sm:pt-4">
+    // The zero-height sticky header follows the notice in normal flow while
+    // preserving the space already reserved for navigation by each page hero.
+    <header className="sticky top-0 z-50 h-0 px-3 sm:px-4">
       <nav
         aria-label="Main navigation"
         className={clsx(
-          "mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 transition-all duration-300 sm:px-5",
+          "relative top-3 mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 transition-all duration-300 sm:top-4 sm:px-5",
           scrolled
             ? "border-white/10 bg-navy/95 shadow-lg shadow-navy/30 backdrop-blur-md"
             : "border-transparent bg-navy",

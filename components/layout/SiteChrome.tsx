@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import ServiceNotice from "@/components/layout/ServiceNotice";
 import MedhaupAI from "@/components/ai/MedhaupAI";
 
 export default function SiteChrome({
@@ -18,6 +19,7 @@ export default function SiteChrome({
 
   return (
     <div>
+      <ServiceNotice />
       <Navbar />
       {children}
       <Footer />
